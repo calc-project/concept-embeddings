@@ -94,6 +94,10 @@ class SDNE(torch.nn.Module):
 
         return reconstructed, embedding
 
+    @torch.no_grad()
+    def embed(self, x):
+        return self.encoder(x)
+
 ############################################################################################
 # for now, just spell out the training routine linearly; refactor into wrapper class later #
 ############################################################################################
@@ -143,4 +147,26 @@ plt.ylabel('Loss')
 # plotting the last 100 values
 plt.plot(losses)
 plt.show()
+
+
+#####################################
+# EXPORT TRAINED EMBEDDINGS TO FILE #
+#####################################
+
+concept_to_id = {}
+id_to_concept = {}
+
+with open("clics-concept-ids.tsv") as f:
+    for row in f:
+        if not row:
+            continue
+        id, concept = row.strip().split("\t")
+        id = int(id)
+        concept_to_id[concept] = id
+        id_to_concept[id] = concept
+
+with open("clics-embeddings.tsv", "w") as f:
+    for concept, id in concept_to_id.items():
+        embed = model.embed(graph[id])
+        f.write(concept + "\t" + str(embed.detach().tolist()) + "\n")
 
