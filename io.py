@@ -22,14 +22,21 @@ def write_network_files(edgelist_file="clics-edgelist.tsv", id_dict_file="clics-
         # skip over unconnected nodes
         if not clist.concepts[idx].attributes["linked_concepts"]:
             continue
+
+        # get full colexifications
+        colex = [(node["NAME"], node["FullFams"]) for node in clist.concepts[idx].attributes["linked_concepts"]
+                 if node["FullFams"] > 0]
+
+        # skip if there are no full colexifications (so no ID is assigned to unconnected node)
+        if not colex:
+            continue
+
         id = concept_to_id[concept]
-        for node in clist.concepts[idx].attributes["linked_concepts"]:
-            weight = node["FullFams"]
-            if weight > 0:
-                other_concept = node["NAME"]
-                other_id = concept_to_id[other_concept]
-                if other_id not in visited:
-                    edgelist.append((id, other_id, weight))
+        for node, weight in colex:
+            other_id = concept_to_id[node]
+            if other_id not in visited:
+                edgelist.append((id, other_id, weight))
+
         visited.add(id)
 
     with open(edgelist_file, "w") as f:
@@ -68,4 +75,5 @@ def read_network_file(edgelist_file="clics-edgelist.tsv"):
 if __name__ == "__main__":
     write_network_files()
     graph = read_network_file()
+    assert all(graph.sum(axis=1) > 0)
     print(graph.ndim, graph.dtype, graph.shape)
