@@ -1,3 +1,6 @@
+import csv
+import sys
+
 import numpy as np
 import matplotlib.pyplot as plt
 from newick import loads
@@ -5,6 +8,8 @@ from pylocluster import linkage
 from tabulate import tabulate
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
+from sklearn.metrics.pairwise import cosine_similarity
+from scipy.stats import spearmanr, pearsonr
 
 
 # load trained embeddings
@@ -16,9 +21,43 @@ with open("clics-embeddings.tsv") as f:
         embedding = np.array(eval(embedding))
         embeddings[concept] = embedding
 
+# load multisimlex ratings
+msl = {}
+
+with open("multisimlex.csv") as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        concept1 = row["CGL1"]
+        concept2 = row["CGL2"]
+        mean_similarity = float(row["mean"])
+        if concept1 != concept2:
+            msl[(concept1, concept2)] = mean_similarity
+
+msl_similarities = []
+pred_similarities = []
+
+for concept_pair, similarity in msl.items():
+    c1, c2 = concept_pair
+    if c1 in embeddings and c2 in embeddings:
+        emb1 = embeddings[c1]
+        emb2 = embeddings[c2]
+        pred_similarity = np.dot(emb1, emb2) / (np.linalg.norm(emb1) * np.linalg.norm(emb2))
+        msl_similarities.append(similarity)
+        pred_similarities.append(pred_similarity)
+
+msl_similarities = np.array(msl_similarities)
+pred_similarities = np.array(pred_similarities)
+# plt.scatter(msl_similarities, pred_similarities)
+# plt.show()
+
+print("Spearman:", spearmanr(msl_similarities, pred_similarities))
+print("Pearson:", pearsonr(msl_similarities, pred_similarities))
+
+sys.exit(0)
+###############################################
+
 # example words
-words = ["ARM", "HAND", "LEG", "FOOT", "HEAD", "SKULL", "BONE", "FIRE", "WOOD", "TREE",
-         "KING", "QUEEN", "MAN", "WOMAN"]
+words = ["ARM", "HAND", "LEG", "FOOT", "HEAD", "SKULL", "BONE", "FIRE", "WOOD", "TREE"]
 
 # set up distance matrix (distance = cosine distance)
 distance_matrix = np.zeros((len(words), len(words)))
