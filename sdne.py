@@ -117,7 +117,7 @@ L = torch.tensor(L, dtype=torch.float32)
 model = SDNE(num_nodes=graph.shape[0], hidden_sizes=(256, 128))
 
 # use custom loss function
-loss_function = SDNELoss()
+loss_function = SDNELoss(alpha=0.2, beta=10)
 
 # the weight_decay is responsible for L2 regularization
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-5)
@@ -125,7 +125,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-5)
 losses = []
 
 # for now, batched training is not implemented
-for epoch in range(1000):
+for epoch in range(10000):
     model.train()
     reconstructed, embedding = model(graph)
 
@@ -165,7 +165,7 @@ with open("clics-concept-ids.tsv") as f:
         concept_to_id[concept] = id
         id_to_concept[id] = concept
 
-with open("clics-embeddings.tsv", "w") as f:
+with open("embeddings/sdne-embeddings-02-10-10000.tsv", "w") as f:
     for concept, id in concept_to_id.items():
         embed = model.embed(graph[id])
         f.write(concept + "\t" + str(embed.detach().tolist()) + "\n")

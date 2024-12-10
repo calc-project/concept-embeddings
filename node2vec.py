@@ -191,9 +191,32 @@ def read_network_file(edgelist_file="clics-edgelist.tsv"):
 
     return graph
 
+# load concept to idx
+id_dict = {}
+
+with open("clics-concept-ids.tsv") as f:
+    for row in f.read().split("\n"):
+        if not row:
+            continue
+        idx, concept = row.split("\t")
+        id_dict[int(idx)] = concept
+
 
 if __name__ == "__main__":
     graph = read_network_file()
     node2vec = Node2Vec(graph)
-    node2vec.train()
+    node2vec.train(epochs=1000)
     # node2vec.train(cbow=False)
+
+    with open("embeddings/n2v-sg.tsv", "w") as f:
+        for i, emb in enumerate(node2vec.embeddings[:1246]):
+            concept = id_dict[i]
+            f.write(f"{concept}\t{[float(x) for x in list(emb)]}\n")
+
+    node2vec = Node2Vec(graph)
+    node2vec.train(epochs=1000, cbow=False)
+
+    with open("embeddings/n2v-cbow.tsv", "w") as f:
+        for i, emb in enumerate(node2vec.embeddings[:1246]):
+            concept = id_dict[i]
+            f.write(f"{concept}\t{[float(x) for x in list(emb)]}\n")
