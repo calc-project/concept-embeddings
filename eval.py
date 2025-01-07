@@ -103,7 +103,8 @@ plt.show()
 ###############################################
 
 # example words
-words = ["ARM", "HAND", "LEG", "FOOT", "HEAD", "SKULL", "BONE", "FIRE", "WOOD", "TREE"]
+words = ["ARM", "HAND", "LEG", "FOOT", "FIRE", "WOOD", "TREE", "BOY", "GIRL", "SON", "DAUGHTER"]
+# words = ["GIRL", "BOY", "WOMAN", "MAN"]
 # words = ["BALD", "NAKED", "CROW", "EAGLE", "VULTURE", "HAWK"]
 # words = [c.concepticon_gloss for c in Concepticon().conceptlists['Swadesh-1964-100'].concepts.values()
   #       if c.concepticon_gloss in embeddings]
@@ -144,5 +145,5 @@ plt.scatter(*np.swapaxes(res, 0, 1))
 for concept, coordinates in zip(words, res):
     plt.annotate(concept, coordinates)
 # plt.title("TSNE")
-plt.savefig("figures/TSNE.pdf")
+plt.savefig("figures/TSNE-clics4.pdf")
 plt.show()

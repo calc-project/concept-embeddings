@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 import torch.nn as nn
+import matplotlib.pyplot as plt
 
 
 class CBOW(nn.Module):
@@ -138,6 +139,7 @@ class Node2Vec(object):
     def train(self, n=5, walk_length=10, p=1, q=1, window_size=2, cbow=True, **kwargs):
         # read parameters (TODO refine)
         epochs = kwargs.get("epochs", 100)
+        patience = kwargs.get("patience")
 
         # generate training data from random walks
         walks = self.sample_random_walks(n=n, walk_length=walk_length, p=p, q=q)
@@ -149,6 +151,11 @@ class Node2Vec(object):
         # loss function and optimizer
         criterion = nn.CrossEntropyLoss()
         optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
+        # callbacks for early stopping
+        losses = []
+        best_loss = np.inf
+        wait = 0
 
         # TODO smarter training (properly pass down parameters, batch training, early stopping, etc)
         for epoch in range(epochs):
@@ -163,9 +170,33 @@ class Node2Vec(object):
             loss.backward()
             optimizer.step()
 
-            print(f"Epoch: {epoch}, Loss: {loss.item():.4f}")
+            if epoch % 10 == 0:
+                print(f"Epoch: {epoch}, Loss: {loss.item():.4f}")
+
+            losses.append(float(loss))
+
+            # check for convergence
+            if loss.item() < best_loss:
+                best_loss = loss.item()
+                wait = 0
+            else:
+                wait += 1
+                if patience and wait > patience:
+                    print(f"Training stopped after {epoch} epochs.")
+                    break  # stop training
 
         self.embeddings = list(model.parameters())[0]
+        plot_losses(losses)
+
+
+def plot_losses(losses):
+    # defining the Plot Style
+    plt.style.use('fivethirtyeight')
+    plt.xlabel('Iterations')
+    plt.ylabel('Loss')
+
+    plt.plot(losses)
+    plt.show()
 
 
 # TODO obviously this doesn't belong here
@@ -194,7 +225,7 @@ def read_network_file(edgelist_file="clics-edgelist.tsv"):
 # load concept to idx
 id_dict = {}
 
-with open("clics-concept-ids.tsv") as f:
+with open("clics4/concept-ids-Family_Weight.tsv") as f:
     for row in f.read().split("\n"):
         if not row:
             continue
@@ -203,20 +234,20 @@ with open("clics-concept-ids.tsv") as f:
 
 
 if __name__ == "__main__":
-    graph = read_network_file()
+    graph = read_network_file("clics4/edgelist-Family_Weight.tsv")
     node2vec = Node2Vec(graph)
-    node2vec.train(epochs=1000)
+    node2vec.train(epochs=1000, patience=5)
     # node2vec.train(cbow=False)
 
-    with open("embeddings/n2v-sg.tsv", "w") as f:
-        for i, emb in enumerate(node2vec.embeddings[:1246]):
+    with open("embeddings/n2v-cbow-w.tsv", "w") as f:
+        for i, emb in enumerate(node2vec.embeddings[:-1]):
             concept = id_dict[i]
             f.write(f"{concept}\t{[float(x) for x in list(emb)]}\n")
 
     node2vec = Node2Vec(graph)
-    node2vec.train(epochs=1000, cbow=False)
+    node2vec.train(epochs=1000, patience=5, cbow=False)
 
-    with open("embeddings/n2v-cbow.tsv", "w") as f:
-        for i, emb in enumerate(node2vec.embeddings[:1246]):
+    with open("embeddings/n2v-sg-w.tsv", "w") as f:
+        for i, emb in enumerate(node2vec.embeddings):
             concept = id_dict[i]
             f.write(f"{concept}\t{[float(x) for x in list(emb)]}\n")
