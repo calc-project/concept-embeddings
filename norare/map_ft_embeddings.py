@@ -1,7 +1,7 @@
 import csv
 import numpy as np
 from pyconcepticon import Concepticon
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 
 # define language IDs (Concepticon -> fastText)
@@ -55,7 +55,10 @@ for lang, lang_id in lang_ids.items():
             continue
         mean_embedding = np.mean(embeddings, axis=0).tolist()
         valid_translations = [x for x in translations_in_lang if x in ft_embeddings]
-        table.append([concept, str(valid_translations), str(mean_embedding)])
+        c = Counter(valid_translations)
+        # ensure valid json notation for word counts
+        json_string = "{" + ", ".join([f'"{k}": {v}' for k, v in c.items()]) + "}"
+        table.append([concept, json_string, str(mean_embedding)])
 
     with open(f"{lang}_embeddings.csv", "w") as f:
         writer = csv.writer(f)
