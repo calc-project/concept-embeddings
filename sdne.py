@@ -1,6 +1,24 @@
+import csv
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.stats import spearmanr
+
+
+def msl_ratings(fp="multisimlex.csv"):
+    # load multisimlex ratings
+    msl = {}
+
+    with open(fp) as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            concept1 = row["CGL1"]
+            concept2 = row["CGL2"]
+            mean_similarity = float(row["mean"])
+            if concept1 != concept2:
+                msl[(concept1, concept2)] = mean_similarity
+
+    return msl
 
 
 def read_network_file(edgelist_file="clics-edgelist.tsv"):
@@ -24,6 +42,19 @@ def read_network_file(edgelist_file="clics-edgelist.tsv"):
         graph[j, i] = weight
 
     return graph
+
+
+concept_to_id = {}
+id_to_concept = {}
+
+with open("clics4/concept-ids-Family_Count.tsv") as f:
+    for row in f:
+        if not row:
+            continue
+        id, concept = row.strip().split("\t")
+        id = int(id)
+        concept_to_id[concept] = id
+        id_to_concept[id] = concept
 
 
 class SDNELoss(torch.nn.Module):
@@ -103,7 +134,7 @@ class SDNE(torch.nn.Module):
 ############################################################################################
 
 # read in the graph
-graph = read_network_file()
+graph = read_network_file("clics4/edgelist-Family_Count.tsv")
 
 # generate L matrix
 D = np.diag(graph.sum(axis=1))
@@ -123,6 +154,18 @@ loss_function = SDNELoss(alpha=0.2, beta=10)
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-5)
 
 losses = []
+msl_losses = []
+
+msl = msl_ratings()
+for pair in set(msl.keys()):
+    c1, c2 = pair
+    if not (c1 in concept_to_id and c2 in concept_to_id):
+        msl.pop(pair)
+
+# early stopping
+best_loss = np.inf
+wait = 0
+patience = 0
 
 # for now, batched training is not implemented
 for epoch in range(10000):
@@ -139,13 +182,61 @@ for epoch in range(10000):
 
     losses.append(float(loss))
 
-# defining the Plot Style
-plt.style.use('fivethirtyeight')
-plt.xlabel('Iterations')
-plt.ylabel('Loss')
+    # MSL validation
+    msl_similarities = []
+    pred_similarities = []
+    for pair, sim in msl.items():
+        c1, c2 = pair
+        idx1, idx2 = concept_to_id[c1], concept_to_id[c2]
+        emb1 = model.embed(graph[idx1])
+        emb2 = model.embed(graph[idx2])
+        # cosine similarity between embeddings
+        pred_sim = np.dot(emb1, emb2) / (np.linalg.norm(emb1) * np.linalg.norm(emb2))
+        msl_similarities.append(sim)
+        pred_similarities.append(pred_sim)
 
-# plotting the last 100 values
-plt.plot(losses)
+    msl_corr = float(spearmanr(msl_similarities, pred_similarities).statistic)
+    msl_losses.append(msl_corr)
+
+    if epoch % 10 == 0:
+        print(f"Epoch: {epoch}, Training loss: {loss.item():.4f}, MSL: {msl_corr:.4f}")
+
+    # check for convergence
+    if loss.item() < best_loss:
+        best_loss = loss.item()
+        wait = 0
+    else:
+        wait += 1
+        if patience and wait > patience:
+            print(f"Training stopped after {epoch} epochs.")
+            break  # stop training
+
+
+# Apply styling
+plt.style.use('fivethirtyeight')
+
+# Create the figure and the primary y-axis
+fig, ax1 = plt.subplots()
+
+# Plot training loss on the primary y-axis
+ax1.set_xlabel('Iterations')
+ax1.set_ylabel('Training Loss', color='b')
+ax1.plot(losses, color='b', label='Training Loss')
+ax1.tick_params(axis='y', labelcolor='b')
+
+# Create a secondary y-axis for MSL correlation
+ax2 = ax1.twinx()
+ax2.set_ylabel('MSL Correlation', color='g')
+ax2.plot(msl_losses, color='g', label='MSL Correlation')
+ax2.tick_params(axis='y', labelcolor='g')
+
+# Add a title and legends
+fig.suptitle('Training Loss and MSL Correlation')
+ax1.legend(loc='upper left')
+ax2.legend(loc='upper right')
+
+# Show the plot
+fig.tight_layout()
 plt.show()
 
 
@@ -153,19 +244,8 @@ plt.show()
 # EXPORT TRAINED EMBEDDINGS TO FILE #
 #####################################
 
-concept_to_id = {}
-id_to_concept = {}
 
-with open("clics-concept-ids.tsv") as f:
-    for row in f:
-        if not row:
-            continue
-        id, concept = row.strip().split("\t")
-        id = int(id)
-        concept_to_id[concept] = id
-        id_to_concept[id] = concept
-
-with open("embeddings/sdne-embeddings-02-10-10000.tsv", "w") as f:
+with open("embeddings/2025-01-07/sdne.tsv", "w") as f:
     for concept, id in concept_to_id.items():
         embed = model.embed(graph[id])
         f.write(concept + "\t" + str(embed.detach().tolist()) + "\n")

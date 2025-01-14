@@ -1,7 +1,10 @@
+import csv
 import numpy as np
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from scipy.stats import spearmanr
 
 
 class CBOW(nn.Module):
@@ -140,10 +143,16 @@ class Node2Vec(object):
         # read parameters (TODO refine)
         epochs = kwargs.get("epochs", 100)
         patience = kwargs.get("patience")
+        delta = kwargs.get("delta", 0.0)
+        test_split = kwargs.get("test_split", 0.2)
+        shuffle = kwargs.get("shuffle", True)
 
         # generate training data from random walks
         walks = self.sample_random_walks(n=n, walk_length=walk_length, p=p, q=q)
         X, Y = self.generate_training_data(walks, window_size=window_size, cbow=cbow)
+
+        # split train and test data randomly
+        X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=test_split, shuffle=shuffle)
 
         # set up the model
         model = CBOW(self.num_nodes + 1) if cbow else SkipGram(self.num_nodes)
@@ -153,40 +162,87 @@ class Node2Vec(object):
         optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
         # callbacks for early stopping
-        losses = []
+        train_losses = []
+        val_losses = []
         best_loss = np.inf
         wait = 0
+
+        # TODO temporary check, remove later
+        # load multisimlex rating for evaluation
+        msl = msl_ratings()
+        msl_losses = []
+
+        for pair in set(msl.keys()):
+            c1, c2 = pair
+            if not (c1 in concept_to_id and c2 in concept_to_id):
+                msl.pop(pair)
 
         # TODO smarter training (properly pass down parameters, batch training, early stopping, etc)
         for epoch in range(epochs):
             model.train()
 
             # forward pass
-            pred = model(X)
-            loss = criterion(pred, Y)
+            pred = model(X_train)
+            loss = criterion(pred, Y_train)
 
             # backward pass
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
 
-            if epoch % 10 == 0:
-                print(f"Epoch: {epoch}, Loss: {loss.item():.4f}")
+            # validation
+            with torch.no_grad():
+                pred = model(X_test)
+                val_loss = criterion(pred, Y_test)
 
-            losses.append(float(loss))
+            train_losses.append(float(loss))
+            val_losses.append(float(val_loss))
+
+            # MSL validation
+            msl_similarities = []
+            pred_similarities = []
+            embeddings = list(model.parameters())[0]
+            for pair, sim in msl.items():
+                c1, c2 = pair
+                idx1, idx2 = concept_to_id[c1], concept_to_id[c2]
+                emb1 = embeddings[idx1].detach().numpy()
+                emb2 = embeddings[idx2].detach().numpy()
+                # cosine similarity between embeddings
+                pred_sim = np.dot(emb1, emb2) / (np.linalg.norm(emb1) * np.linalg.norm(emb2))
+                msl_similarities.append(sim)
+                pred_similarities.append(pred_sim)
+
+            msl_corr = float(spearmanr(msl_similarities, pred_similarities).statistic)
+            msl_losses.append(msl_corr)
+
+            if epoch % 10 == 0:
+                print(f"Epoch: {epoch}, Training loss: {loss.item():.4f}, Validation loss: {val_loss.item():.4f}, "
+                      f"MSL: {msl_corr:.4f}")
 
             # check for convergence
-            if loss.item() < best_loss:
-                best_loss = loss.item()
+            if val_loss.item() - best_loss < -delta:
+                best_loss = val_loss.item()
                 wait = 0
             else:
                 wait += 1
-                if patience and wait > patience:
+                if patience is not None and wait > patience:
                     print(f"Training stopped after {epoch} epochs.")
                     break  # stop training
 
         self.embeddings = list(model.parameters())[0]
-        plot_losses(losses)
+        # plot_losses(val_losses)
+        plt.cla()
+        plt.style.use('fivethirtyeight')
+        plt.xlabel('Iterations')
+        plt.ylabel('Losses')
+
+        # dirty fix for better visualization
+        msl_losses = np.array(msl_losses) * 10
+
+        plt.plot(train_losses, color='b', label='Training loss')
+        plt.plot(val_losses, color='r', label='Validation loss')
+        plt.plot(msl_losses, color='g', label='MSL correlation')
+        plt.show()
 
 
 def plot_losses(losses):
@@ -222,32 +278,50 @@ def read_network_file(edgelist_file="clics-edgelist.tsv"):
 
     return graph
 
-# load concept to idx
-id_dict = {}
+def msl_ratings(fp="multisimlex.csv"):
+    # load multisimlex ratings
+    msl = {}
 
-with open("clics4/concept-ids-Family_Weight.tsv") as f:
+    with open(fp) as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            concept1 = row["CGL1"]
+            concept2 = row["CGL2"]
+            mean_similarity = float(row["mean"])
+            if concept1 != concept2:
+                msl[(concept1, concept2)] = mean_similarity
+
+    return msl
+
+# load idx to concept
+id_dict = {}
+# ...and concept to idx
+concept_to_id = {}
+
+with open("clics4/concept-ids-Family_Count.tsv") as f:
     for row in f.read().split("\n"):
         if not row:
             continue
         idx, concept = row.split("\t")
         id_dict[int(idx)] = concept
+        concept_to_id[concept] = int(idx)
 
 
 if __name__ == "__main__":
-    graph = read_network_file("clics4/edgelist-Family_Weight.tsv")
+    graph = read_network_file("clics4/edgelist-Family_Count.tsv")
     node2vec = Node2Vec(graph)
-    node2vec.train(epochs=1000, patience=5)
+    node2vec.train(epochs=10000, patience=5, delta=0.001)
     # node2vec.train(cbow=False)
 
-    with open("embeddings/n2v-cbow-w.tsv", "w") as f:
+    with open("embeddings/2025-01-07/n2v-cbow-w.tsv", "w") as f:
         for i, emb in enumerate(node2vec.embeddings[:-1]):
             concept = id_dict[i]
             f.write(f"{concept}\t{[float(x) for x in list(emb)]}\n")
 
     node2vec = Node2Vec(graph)
-    node2vec.train(epochs=1000, patience=5, cbow=False)
+    node2vec.train(epochs=10000, patience=5, delta=0.001, cbow=False)
 
-    with open("embeddings/n2v-sg-w.tsv", "w") as f:
+    with open("embeddings/2025-01-07/n2v-sg-w.tsv", "w") as f:
         for i, emb in enumerate(node2vec.embeddings):
             concept = id_dict[i]
             f.write(f"{concept}\t{[float(x) for x in list(emb)]}\n")

@@ -16,13 +16,12 @@ from pyconcepticon import Concepticon
 # load trained embeddings
 embeddings = {}
 
-with open("embeddings/n2v-cbow.tsv") as f:
+with open("embeddings/2025-01-07/n2v-sg-c.tsv") as f:
     for line in f:
         concept, embedding = line.strip().split("\t")
         embedding = np.array(eval(embedding))
         embeddings[concept] = embedding
 
-"""
 # load multisimlex ratings
 msl = {}
 pl_dict = {}
@@ -85,7 +84,7 @@ plt.plot(msl_similarities, y_emb, color='red')
 plt.xlabel("Multi-SimLex")
 plt.ylabel("embedding similarity")
 plt.title("SDNE")
-plt.savefig("figures/SDNE.pdf")
+# plt.savefig("figures/SDNE.pdf")
 plt.show()
 plt.cla()
 
@@ -95,9 +94,9 @@ plt.plot(msl_similarities_slice, y_pl, color='red')
 plt.xlabel("Multi-SimLex")
 plt.ylabel("shortest walking distance")
 plt.title("Baseline")
-plt.savefig("figures/Baseline.pdf")
+# plt.savefig("figures/Baseline.pdf")
 plt.show()
-"""
+
 
 # sys.exit(0)
 ###############################################
@@ -122,7 +121,7 @@ for i, word1 in enumerate(words):
 
 print(tabulate(distance_matrix, headers=words, showindex=words, floatfmt=".4f"))
 
-# print(loads(linkage(distance_matrix, taxa=words))[0].ascii_art())
+print(loads(linkage(distance_matrix, taxa=words))[0].ascii_art())
 
 # set up embedding matrix for specified words
 matrix = np.array([embeddings[word] for word in words])
