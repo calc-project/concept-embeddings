@@ -16,7 +16,7 @@ from pyconcepticon import Concepticon
 # load trained embeddings
 embeddings = {}
 
-with open("embeddings/2025-01-07/n2v-sg-c.tsv") as f:
+with open("embeddings/2025-01-16/prone-128-babyclics.tsv") as f:
     for line in f:
         concept, embedding = line.strip().split("\t")
         embedding = np.array(eval(embedding))
@@ -138,11 +138,11 @@ plt.show()
 plt.cla()
 
 # TSNE
-tsne = TSNE(n_components=2, perplexity=2)
+tsne = TSNE(n_components=2, perplexity=3)
 res = tsne.fit_transform(matrix)
 plt.scatter(*np.swapaxes(res, 0, 1))
 for concept, coordinates in zip(words, res):
     plt.annotate(concept, coordinates)
 # plt.title("TSNE")
-plt.savefig("figures/TSNE-clics4.pdf")
+# plt.savefig("figures/TSNE-clics4.pdf")
 plt.show()
