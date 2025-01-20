@@ -1,13 +1,9 @@
 from graphembeddings.models.trainer import Node2Vec, ProNE, SDNE
-from graphembeddings.utils.io import read_network_file, read_concept_ids
+from graphembeddings.utils.io import read_graph_data
 from pathlib import Path
 
 
-edgelist_fp = Path(__file__).parent / "clics4" / "edgelist-Family_Count.tsv"
-graph = read_network_file(edgelist_fp)
-
-concept_ids_fp = Path(__file__).parent / "clics4" / "concept-ids-Family_Count.tsv"
-id_to_concept, _ = read_concept_ids(concept_ids_fp)
+graph, id_to_concept, _ = read_graph_data(Path(__file__).parent / "data" / "graphs" / "clics4" / "family_count.json")
 
 # test Node2Vec (CBOW)
 node2vec = Node2Vec(graph, id_to_concept)

@@ -1,4 +1,5 @@
 import numpy as np
+import json
 
 
 def read_network_file(edgelist_file):
@@ -39,3 +40,20 @@ def read_concept_ids(id_file):
             concept_to_id[concept] = int(idx)
 
     return id_to_concept, concept_to_id
+
+
+def read_graph_data(fp, directed=False):
+    with open(fp) as f:
+        data = json.load(f)
+
+    concept_to_id = data["concept_ids"]
+    id_to_concept = {i: c for c, i in concept_to_id.items()}
+    edgelist = data["edgelist"]
+
+    graph = np.zeros((len(concept_to_id), len(concept_to_id)))
+    for i, j, w in edgelist:
+        graph[i, j] = w
+        if not directed:
+            graph[j, i] = w
+
+    return graph, id_to_concept, concept_to_id
