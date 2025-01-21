@@ -4,6 +4,7 @@ import networkx as nx
 from graphembeddings.utils.io import read_graph_data, read_embeddings
 from pathlib import Path
 from scipy.stats import spearmanr, pearsonr
+from sklearn.decomposition import PCA
 
 
 MSL_DEFAULT_PATH = Path(__file__).parent.parent / "data" / "msl" / "multisimlex.csv"
@@ -92,12 +93,38 @@ def msl_correlation_baseline(similarity_ratings, graph, concept_to_id, correlati
     return corr.statistic
 
 
+def concatenate_embeddings(embeddings1, embeddings2):
+    shared_keys = set(embeddings1.keys()) & set(embeddings2.keys())
+
+    return {k: embeddings1[k] + embeddings2[k] for k in shared_keys}
+
+
+def fuse_embeddings(embeddings1, embeddings2, n_components=128):
+    concat_embeddings = concatenate_embeddings(embeddings1, embeddings2)
+    keys, embeddings = zip(*concat_embeddings.items())
+    embeddings = np.array(embeddings)
+    pca = PCA(n_components=n_components)
+    embeddings = pca.fit_transform(embeddings)
+
+    return dict(zip(keys, embeddings))
+
+
 if __name__ == "__main__":
-    G, _, concept_to_id = read_graph_data(GRAPHS_DIR / "clics4" / "family_count.json")
+    mode = "affixfams"
+
+    G, _, concept_to_id = read_graph_data(GRAPHS_DIR / "babyclics" / f"{mode}.json")
     msl = read_msl_data()
     corr = msl_correlation_baseline(msl, G, concept_to_id)
     print(corr)
 
-    embeddings = read_embeddings(Path(__file__).parent.parent.parent / "prone-test.json")
-    corr = msl_correlation(msl, embeddings)
+    full_embeddings = read_embeddings(Path(__file__).parent.parent.parent / "embeddings" / "babyclics" / "fullfams" / "prone.json")
+    embeddings = read_embeddings(Path(__file__).parent.parent.parent / "embeddings" / "babyclics" / mode / "prone.json")
+    # concat_embeddings = concatenate_embeddings(embeddings, full_embeddings)
+    fused_embeddings = fuse_embeddings(full_embeddings, embeddings)
+    corr = msl_correlation(msl, fused_embeddings)
+    print(corr)
+
+    full_embeddings = read_embeddings(
+        Path(__file__).parent.parent.parent / "embeddings" / "babyclics" / "affixfams" / "prone.json")
+    corr = msl_correlation(msl, full_embeddings)
     print(corr)

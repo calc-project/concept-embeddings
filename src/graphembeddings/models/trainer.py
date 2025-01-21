@@ -2,11 +2,14 @@ import torch
 import numpy as np
 import networkx as nx
 import json
+import datetime
 from nodevectors import ProNE as ProNEEncoder
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
+from pathlib import Path
 
 from graphembeddings.models.nn import SDNEEmbedder, SDNELoss, CBOW, SkipGram
+from graphembeddings.utils.io import read_graph_data
 
 __all__ = ["SDNE", "Node2Vec", "ProNE"]
 
@@ -19,13 +22,20 @@ class GraphEmbeddingModel(object):
     """
     Abstract class that defines the interface for graph embedding models.
     """
-    def __init__(self, graph: np.ndarray, id_to_concept: dict):
+    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fn: str):
         self.graph = graph  # as adjacency matrix
         self.id_to_concept = id_to_concept
         self.num_nodes = graph.shape[0]
         self.embeddings = None  # learned embeddings will be stored in this object
         self.callbacks = None  # can track certain metrics along training, if required
-        self.training_params = {}
+        self.training_params = {"model": self.__class__.__name__, "training_data": graph_data_fn}
+
+    @classmethod
+    def from_graph_file(cls, fp):
+        graph, id_to_concept, _ = read_graph_data(fp)
+        if isinstance(fp, Path):
+            fp = "/".join(fp.parts[-2:])
+        return cls(graph, id_to_concept, str(fp))
 
     def _get_training_params(self, **kwargs):
         """
@@ -37,8 +47,13 @@ class GraphEmbeddingModel(object):
 
     def train(self, **kwargs):
         training_params = self._get_training_params(**kwargs)
-        self.training_params = training_params
+        self.training_params.update(training_params)
+        time_train_start = datetime.datetime.now()
         self._train(**training_params)
+        # record the time when the training was finished; and how long it took
+        time_train_end = datetime.datetime.now()
+        self.training_params["training_time"] = str(time_train_end - time_train_start)
+        self.training_params["timestamp"] = time_train_end.strftime("%Y-%M-%d %H:%M:%S")
 
     def _train(self, **kwargs):
         pass
@@ -60,8 +75,8 @@ class ProNE(GraphEmbeddingModel):
         "embedding_size": 128,
     }
 
-    def __init__(self, graph: np.ndarray, id_to_concept: dict):
-        super().__init__(graph, id_to_concept)
+    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fp: str):
+        super().__init__(graph, id_to_concept, graph_data_fp)
         self.graph = nx.from_numpy_array(self.graph)
 
     def _train(self, **kwargs):
@@ -81,8 +96,8 @@ class SDNE(GraphEmbeddingModel):
         "weight_decay": 1e-5
     }
 
-    def __init__(self, graph: np.ndarray, id_to_concept: dict):
-        super().__init__(graph, id_to_concept)
+    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fp: str):
+        super().__init__(graph, id_to_concept, graph_data_fp)
         # generate L matrix
         self.D = np.diag(self.graph.sum(axis=1))
         self.L = self.D - self.graph
@@ -136,6 +151,9 @@ class SDNE(GraphEmbeddingModel):
 
         # store embeddings
         self.embeddings = {self.id_to_concept[i]: model.embed(self.graph[i]).tolist() for i in range(self.num_nodes)}
+
+        # record how many epochs the model was actually trained for
+        self.training_params["epochs"] = epoch + 1
 
 
 class Node2Vec(GraphEmbeddingModel):
@@ -264,7 +282,8 @@ class Node2Vec(GraphEmbeddingModel):
         best_loss = np.inf
         wait = 0
 
-        for epoch in tqdm(range(training_params["max_epochs"]), desc="Training Node2Vec..."):
+        submodel_str = "CBOW" if cbow else "SkipGram"
+        for epoch in tqdm(range(training_params["max_epochs"]), desc=f"Training Node2Vec... ({submodel_str})"):
             model.train()
 
             # forward pass
@@ -296,3 +315,6 @@ class Node2Vec(GraphEmbeddingModel):
 
         embeddings = list(model.parameters())[0]
         self.embeddings = {self.id_to_concept[i]: embeddings[i].tolist() for i in self.id_to_concept}
+
+        # record how many epochs the model was actually trained for
+        self.training_params["epochs"] = epoch + 1
