@@ -12,7 +12,9 @@ __all__ = ["SDNE", "Node2Vec", "ProNE"]
 
 
 class GraphEmbeddingModel(object):
-    DEFAULT_PARAMS = {}
+    DEFAULT_PARAMS = {
+        "embedding_size": 128,
+    }
 
     """
     Abstract class that defines the interface for graph embedding models.
@@ -23,6 +25,7 @@ class GraphEmbeddingModel(object):
         self.num_nodes = graph.shape[0]
         self.embeddings = None  # learned embeddings will be stored in this object
         self.callbacks = None  # can track certain metrics along training, if required
+        self.training_params = {}
 
     def _get_training_params(self, **kwargs):
         """
@@ -32,7 +35,12 @@ class GraphEmbeddingModel(object):
         """
         return {param: kwargs.get(param, default) for param, default in self.DEFAULT_PARAMS.items()}
 
-    def train(self, embedding_size=128, **kwargs):
+    def train(self, **kwargs):
+        training_params = self._get_training_params(**kwargs)
+        self.training_params = training_params
+        self._train(**training_params)
+
+    def _train(self, **kwargs):
         pass
 
     def save(self, fp):
@@ -42,17 +50,22 @@ class GraphEmbeddingModel(object):
         if not self.embeddings:
             raise ValueError("No embeddings available. Train embeddings first.")
 
-        # TODO add logging of training parameters
+        data = {"parameters": self.training_params, "embeddings": self.embeddings}
         with open(fp, "w") as f:
-            json.dump(self.embeddings, f)
+            json.dump(data, f)
 
 
 class ProNE(GraphEmbeddingModel):
+    DEFAULT_PARAMS = {
+        "embedding_size": 128,
+    }
+
     def __init__(self, graph: np.ndarray, id_to_concept: dict):
         super().__init__(graph, id_to_concept)
         self.graph = nx.from_numpy_array(self.graph)
 
-    def train(self, embedding_size=128, **kwargs):
+    def _train(self, **kwargs):
+        embedding_size = kwargs.pop("embedding_size")
         model = ProNEEncoder(n_components=embedding_size, **kwargs)
         model.fit(self.graph)
         self.embeddings = {self.id_to_concept[id]: emb.tolist() for id, emb in model.model.items()}
@@ -78,9 +91,9 @@ class SDNE(GraphEmbeddingModel):
         self.graph = torch.tensor(self.graph, dtype=torch.float32)
         self.L = torch.tensor(self.L, dtype=torch.float32)
 
-    def train(self, embedding_size=128, **kwargs):
+    def _train(self, **kwargs):
         # get training parameters
-        training_params = self._get_training_params(**kwargs)
+        training_params = kwargs
 
         # set up model
         model = SDNEEmbedder(num_nodes=self.num_nodes, hidden_sizes=training_params["hidden_sizes"])
@@ -133,6 +146,8 @@ class Node2Vec(GraphEmbeddingModel):
     test_split = kwargs.get("test_split", 0.2)
     shuffle = kwargs.get("shuffle", True)"""
     DEFAULT_PARAMS = {
+        "embedding_size": 128,
+        "cbow": True,
         "n": 5,
         "walk_length": 10,
         "p": 1,
@@ -220,9 +235,10 @@ class Node2Vec(GraphEmbeddingModel):
 
         return X, Y
 
-    def train(self, cbow=True, **kwargs):
+    def _train(self, **kwargs):
         # read parameters
-        training_params = self._get_training_params(**kwargs)
+        training_params = kwargs
+        cbow = training_params["cbow"]
 
         # generate training data from random walks
         walks = self.sample_random_walks(n=training_params["n"], walk_length=training_params["walk_length"],
@@ -235,7 +251,8 @@ class Node2Vec(GraphEmbeddingModel):
                                                             shuffle=training_params["shuffle"])
 
         # set up the model
-        model = CBOW(self.num_nodes + 1) if cbow else SkipGram(self.num_nodes)
+        model = CBOW(self.num_nodes + 1, embed_dimension=training_params["embedding_size"]) if cbow \
+            else SkipGram(self.num_nodes, embed_dimension=training_params["embedding_size"])
 
         # loss function and optimizer
         criterion = torch.nn.CrossEntropyLoss()

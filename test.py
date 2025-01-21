@@ -5,6 +5,13 @@ from pathlib import Path
 
 graph, id_to_concept, _ = read_graph_data(Path(__file__).parent / "data" / "graphs" / "clics4" / "family_count.json")
 
+
+# test SDNE
+sdne = SDNE(graph, id_to_concept)
+sdne.train(max_epochs=100)
+sdne.save("sdne-test.json")
+print("Done training SDNE.")
+
 # test Node2Vec (CBOW)
 node2vec = Node2Vec(graph, id_to_concept)
 node2vec.train(cbow=True, max_epochs=100)
@@ -22,9 +29,3 @@ prone = ProNE(graph, id_to_concept)
 prone.train()
 prone.save("prone-test.json")
 print("Done training ProNE.")
-
-# test SDNE
-sdne = SDNE(graph, id_to_concept)
-sdne.train(max_epochs=100)
-sdne.save("sdne-test.json")
-print("Done training SDNE.")

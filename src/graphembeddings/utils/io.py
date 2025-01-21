@@ -57,3 +57,10 @@ def read_graph_data(fp, directed=False):
             graph[j, i] = w
 
     return graph, id_to_concept, concept_to_id
+
+
+def read_embeddings(fp):
+    with open(fp) as f:
+        data = json.load(f)
+
+    return data["embeddings"]
