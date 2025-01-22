@@ -1,11 +1,13 @@
 import csv
 import numpy as np
 import networkx as nx
-from graphembeddings.utils.io import read_graph_data, read_embeddings
 from pathlib import Path
 from scipy.stats import spearmanr, pearsonr
 from sklearn.decomposition import PCA
 from tabulate import tabulate
+
+from graphembeddings.utils.io import read_graph_data, read_embeddings
+from graphembeddings.utils.graphutils import merge_graphs
 
 
 MSL_DEFAULT_PATH = Path(__file__).parent.parent / "data" / "msl" / "multisimlex.csv"
@@ -94,14 +96,24 @@ def msl_correlation_baseline(similarity_ratings, graph, concept_to_id, correlati
     return corr.statistic
 
 
-def concatenate_embeddings(embeddings1, embeddings2):
-    shared_keys = set(embeddings1.keys()) & set(embeddings2.keys())
+def concatenate_embeddings(*embeddings):
+    shared_keys = set(embeddings[0].keys())
+    for i in range(1, len(embeddings)):
+        shared_keys = shared_keys.intersection(embeddings[i].keys())
 
-    return {k: embeddings1[k] + embeddings2[k] for k in shared_keys}
+    concatenated_embeddings = {}
+
+    for key in shared_keys:
+        emb = embeddings[0][key]
+        for i in range(1, len(embeddings)):
+            emb += embeddings[i][key]
+        concatenated_embeddings[key] = emb
+
+    return concatenated_embeddings
 
 
-def fuse_embeddings(embeddings1, embeddings2, n_components=128, retain_all=False):
-    concat_embeddings = concatenate_embeddings(embeddings1, embeddings2)
+def fuse_embeddings(*input_embeddings, n_components=128, retain_all=False):
+    concat_embeddings = concatenate_embeddings(*input_embeddings)
     keys, embeddings = zip(*concat_embeddings.items())
     embeddings = np.array(embeddings)
     pca = PCA(n_components=n_components)
@@ -110,66 +122,69 @@ def fuse_embeddings(embeddings1, embeddings2, n_components=128, retain_all=False
     embeddings = dict(zip(keys, embeddings))
 
     if retain_all:
-        for k, v in embeddings1.items():
-            if k not in embeddings and len(v) == n_components:
-                embeddings[k] = v
-        for k, v in embeddings2.items():
-            if k not in embeddings and len(v) == n_components:
-                embeddings[k] = v
+        for input_embedding in input_embeddings:
+            for k, v in input_embedding.items():
+                if k not in embeddings and len(v) == n_components:
+                    embeddings[k] = v
 
     return embeddings
 
 
 if __name__ == "__main__":
-    mode = "affixfams"
+    # mode = "affixfams"
     models = ["n2v-cbow", "n2v-sg", "sdne", "prone"]
 
     table = []
 
-    # correlate MSL with shortest path lengths (affix colex only)
-    G_affix, _, concept_to_id_affix = read_graph_data(GRAPHS_DIR / "babyclics" / f"{mode}.json", directed=True, to_undirected=True)
+    # read Multi-SimLex data
     msl = read_msl_data()
+
+    # correlate MSL with shortest path lengths (affix colex only)
+    G_affix, _, concept_to_id_affix = read_graph_data(GRAPHS_DIR / "babyclics" / "affixfams.json", directed=True, to_undirected=True)
     corr_affix = msl_correlation_baseline(msl, G_affix, concept_to_id_affix)
 
     # ...with full colex only
-    G_full, id_to_concept_full, concept_to_id_full = read_graph_data(GRAPHS_DIR / "babyclics" / "fullfams.json", directed=True,
-                                                to_undirected=True)
+    G_full, id_to_concept_full, concept_to_id_full = read_graph_data(GRAPHS_DIR / "babyclics" / "fullfams.json")
     corr_full = msl_correlation_baseline(msl, G_full, concept_to_id_full)
 
-    # ...and with both
-    # TODO make this into a proper method later --
-    # this is a dirty hack that just works for now, knowing that the nodes in "fullfams" are a subset of the nodes in "affixfams"
-    G_combined = G_affix.copy()
-    for i in range(len(G_full)):
-        for j in range(i):
-            cell = G_full[i, j]
-            i_aff = concept_to_id_affix[id_to_concept_full[i]]
-            j_aff = concept_to_id_affix[id_to_concept_full[j]]
-            G_combined[i_aff, j_aff] += cell
-            G_combined[j_aff, i_aff] += cell
+    # ...and with overlap colex.
+    G_overlap, id_to_concept_overlap, concept_to_id_overlap = read_graph_data(GRAPHS_DIR / "babyclics" / "overlapfams.json")
+    corr_overlap = msl_correlation_baseline(msl, G_overlap, concept_to_id_overlap)
 
-    corr_combined = msl_correlation_baseline(msl, G_combined, concept_to_id_affix)
+    # ...combine affix and full colex
+    G_full_affix, concepts_full_affix = merge_graphs(G_full, G_affix, concept_to_id_full, concept_to_id_affix)
+    corr_full_affix = msl_correlation_baseline(msl, G_full_affix, concepts_full_affix)
 
-    table.append([corr_full, corr_affix, corr_combined])
-    headers = ["full", "affix", "combined"]
+    # combine overlap and full colex
+    G_full_overlap, concepts_full_overlap = merge_graphs(G_full, G_overlap, concept_to_id_full, concept_to_id_overlap)
+    corr_full_overlap = msl_correlation_baseline(msl, G_full_overlap, concepts_full_overlap)
+
+    # combine all
+    G_all, concepts_all = merge_graphs(G_full_affix, G_overlap, concepts_full_affix, concept_to_id_overlap)
+    corr_all = msl_correlation_baseline(msl, G_all, concepts_all)
+
+    table.append([corr_full, corr_affix, corr_overlap, corr_full_affix, corr_full_overlap, corr_all])
+    headers = ["full", "affix", "overlap", "full+affix", "full+overlap", "full+affix+overlap"]
 
     for model in models:
         full_embeddings = read_embeddings(Path(__file__).parent.parent.parent / "embeddings" / "babyclics" / "fullfams" / f"{model}.json")
-        embeddings = read_embeddings(Path(__file__).parent.parent.parent / "embeddings" / "babyclics" / mode / f"{model}.json")
-        # concat_embeddings = concatenate_embeddings(embeddings, full_embeddings)
-        # corr = msl_correlation(msl, concat_embeddings)
-        fused_embeddings = fuse_embeddings(full_embeddings, embeddings, retain_all=False)
-        corr_combined = msl_correlation(msl, fused_embeddings)
+        affix_embeddings = read_embeddings(Path(__file__).parent.parent.parent / "embeddings" / "babyclics" / "affixfams" / f"{model}.json")
+        overlap_embeddings = read_embeddings(Path(__file__).parent.parent.parent / "embeddings" / "babyclics" / "overlapfams" / f"{model}.json")
 
-        full_embeddings = read_embeddings(
-            Path(__file__).parent.parent.parent / "embeddings" / "babyclics" / "fullfams" / f"{model}.json")
+        # calculate correlations for single embeddings
         corr_full = msl_correlation(msl, full_embeddings)
-
-        affix_embeddings = read_embeddings(
-            Path(__file__).parent.parent.parent / "embeddings" / "babyclics" / "affixfams" / f"{model}.json")
         corr_affix = msl_correlation(msl, affix_embeddings)
+        corr_overlap = msl_correlation(msl, overlap_embeddings)
 
-        table.append([corr_full, corr_affix, corr_combined])
+        # fuse embeddings & calculate correlation
+        embeddings_full_affix = fuse_embeddings(full_embeddings, affix_embeddings)
+        corr_full_affix = msl_correlation(msl, embeddings_full_affix)
+        embeddings_full_overlap = fuse_embeddings(full_embeddings, overlap_embeddings)
+        corr_full_overlap = msl_correlation(msl, embeddings_full_overlap)
+        embeddings_all = fuse_embeddings(full_embeddings, affix_embeddings, overlap_embeddings)
+        corr_all = msl_correlation(msl, embeddings_all)
+
+        table.append([corr_full, corr_affix, corr_overlap, corr_full_affix, corr_full_overlap, corr_all])
 
     index = ["baseline"] + models
     print(tabulate(table, headers=headers, showindex=index, tablefmt="github", floatfmt=".4f"))

@@ -1,6 +1,8 @@
 import numpy as np
 import json
 
+from graphembeddings.utils.graphutils import graph_to_undirected
+
 
 def read_network_file(edgelist_file):
     with open(edgelist_file) as f:
@@ -67,12 +69,3 @@ def read_embeddings(fp):
         data = json.load(f)
 
     return data["embeddings"]
-
-
-def graph_to_undirected(graph: np.array):
-    for i in range(len(graph)):
-        for j in range(i):
-            cell_value = graph[i, j] + graph[j, i]
-            graph[i, j] = graph[j, i] = cell_value
-
-    return graph
