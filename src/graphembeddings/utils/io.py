@@ -42,7 +42,7 @@ def read_concept_ids(id_file):
     return id_to_concept, concept_to_id
 
 
-def read_graph_data(fp, directed=False):
+def read_graph_data(fp, directed=False, to_undirected=False):
     with open(fp) as f:
         data = json.load(f)
 
@@ -56,6 +56,9 @@ def read_graph_data(fp, directed=False):
         if not directed:
             graph[j, i] = w
 
+    if directed and to_undirected:
+        graph = graph_to_undirected(graph)
+
     return graph, id_to_concept, concept_to_id
 
 
@@ -64,3 +67,12 @@ def read_embeddings(fp):
         data = json.load(f)
 
     return data["embeddings"]
+
+
+def graph_to_undirected(graph: np.array):
+    for i in range(len(graph)):
+        for j in range(i):
+            cell_value = graph[i, j] + graph[j, i]
+            graph[i, j] = graph[j, i] = cell_value
+
+    return graph

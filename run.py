@@ -12,29 +12,35 @@ available_graphs = {
 
 for dataset, weightings in available_graphs.items():
     for weighting in weightings:
+        if weighting == "affixfams":
+            directed = to_undirected = True
+        else:
+            directed = to_undirected = False
+            continue
+
         DATA_FP = GRAPH_DIR / dataset / f"{weighting}.json"
         OUTPUT_DIR = OUTPUT_BASE_DIR / dataset / weighting
 
         # SDNE
-        sdne = SDNE.from_graph_file(DATA_FP)
+        sdne = SDNE.from_graph_file(DATA_FP, directed=directed, to_undirected=to_undirected)
         sdne.train(max_epochs=10000, patience=10, min_delta=0.001)
         sdne.save(OUTPUT_DIR / "sdne.json")
         print("Done training SDNE.")
 
         # Node2Vec (CBOW)
-        node2vec = Node2Vec.from_graph_file(DATA_FP)
+        node2vec = Node2Vec.from_graph_file(DATA_FP, directed=directed, to_undirected=to_undirected)
         node2vec.train(cbow=True, max_epochs=3000, patience=5, min_delta=0.001)
         node2vec.save(OUTPUT_DIR / "n2v-cbow.json")
         print("Done training Node2Vec (CBOW).")
 
         # Node2Vec (SkipGram)
-        node2vec = Node2Vec.from_graph_file(DATA_FP)
+        node2vec = Node2Vec.from_graph_file(DATA_FP, directed=directed, to_undirected=to_undirected)
         node2vec.train(cbow=False, max_epochs=1500, patience=5, min_delta=0.001)
         node2vec.save(OUTPUT_DIR / "n2v-sg.json")
         print("Done training Node2Vec (SkipGram).")
 
         # ProNE
-        prone = ProNE.from_graph_file(DATA_FP)
-        prone.train(embedding_size=64)
-        prone.save(OUTPUT_DIR / "prone-64.json")
+        prone = ProNE.from_graph_file(DATA_FP, directed=directed, to_undirected=to_undirected)
+        prone.train(embedding_size=128)
+        prone.save(OUTPUT_DIR / "prone.json")
         print("Done training ProNE.")

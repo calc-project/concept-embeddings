@@ -1,6 +1,5 @@
 import torch
 import numpy as np
-import networkx as nx
 import json
 import datetime
 from nodevectors import ProNE as ProNEEncoder
@@ -31,8 +30,8 @@ class GraphEmbeddingModel(object):
         self.training_params = {"model": self.__class__.__name__, "training_data": graph_data_fn}
 
     @classmethod
-    def from_graph_file(cls, fp):
-        graph, id_to_concept, _ = read_graph_data(fp)
+    def from_graph_file(cls, fp, directed=False, to_undirected=False):
+        graph, id_to_concept, _ = read_graph_data(fp, directed=directed, to_undirected=to_undirected)
         if isinstance(fp, Path):
             fp = "/".join(fp.parts[-2:])
         return cls(graph, id_to_concept, str(fp))
@@ -53,7 +52,7 @@ class GraphEmbeddingModel(object):
         # record the time when the training was finished; and how long it took
         time_train_end = datetime.datetime.now()
         self.training_params["training_time"] = str(time_train_end - time_train_start)
-        self.training_params["timestamp"] = time_train_end.strftime("%Y-%M-%d %H:%M:%S")
+        self.training_params["timestamp"] = time_train_end.strftime("%Y-%m-%d %H:%M:%S")
 
     def _train(self, **kwargs):
         pass
@@ -77,7 +76,6 @@ class ProNE(GraphEmbeddingModel):
 
     def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fp: str):
         super().__init__(graph, id_to_concept, graph_data_fp)
-        self.graph = nx.from_numpy_array(self.graph)
 
     def _train(self, **kwargs):
         embedding_size = kwargs.pop("embedding_size")
