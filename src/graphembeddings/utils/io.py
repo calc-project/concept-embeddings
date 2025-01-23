@@ -1,5 +1,6 @@
 import numpy as np
 import json
+import csv
 
 from graphembeddings.utils.graphutils import graph_to_undirected
 
@@ -69,3 +70,16 @@ def read_embeddings(fp):
         data = json.load(f)
 
     return data["embeddings"]
+
+
+def read_ft_embeddings(fp):
+    embeddings = {}
+
+    with open(fp) as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            concept = row["CONCEPTICON_GLOSS"]
+            emb = eval(row["EMBEDDING"])
+            embeddings[concept] = emb
+
+    return embeddings
