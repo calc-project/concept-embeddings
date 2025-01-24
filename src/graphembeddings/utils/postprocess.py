@@ -10,7 +10,7 @@ def concatenate_embeddings(*embeddings):
     concatenated_embeddings = {}
 
     for key in shared_keys:
-        emb = embeddings[0][key]
+        emb = embeddings[0][key].copy()
         for i in range(1, len(embeddings)):
             emb += embeddings[i][key]
         concatenated_embeddings[key] = emb
