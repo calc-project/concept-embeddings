@@ -101,7 +101,7 @@ if __name__ == "__main__":
     shared_concepts = list(concepts.keys())
 
     # sample shifts and random shifts w.r.t. the concepts in the full colex graph.
-    # all models are evaulated on the same sample to ensure a fair comparison
+    # all models are evaluated on the same sample to ensure a fair comparison
     shifts = load_shifts(embeddings=shared_concepts)
 
     tables = []
