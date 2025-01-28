@@ -16,7 +16,6 @@ for dataset, weightings in available_graphs.items():
             directed = to_undirected = True
         else:
             directed = to_undirected = False
-            continue
 
         DATA_FP = GRAPH_DIR / dataset / f"{weighting}.json"
         OUTPUT_DIR = OUTPUT_BASE_DIR / dataset / weighting

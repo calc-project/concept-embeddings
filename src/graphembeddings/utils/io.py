@@ -65,11 +65,14 @@ def read_graph_data(fp, directed=False, to_undirected=False):
     return graph, id_to_concept, concept_to_id
 
 
-def read_embeddings(fp):
+def read_embeddings(fp, metadata=False):
     with open(fp) as f:
         data = json.load(f)
 
-    return data["embeddings"]
+    if not metadata:
+        return data["embeddings"]
+
+    return data
 
 
 def read_ft_embeddings(fp):

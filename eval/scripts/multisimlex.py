@@ -12,6 +12,7 @@ from graphembeddings.utils.postprocess import fuse_embeddings
 
 MSL_DEFAULT_PATH = Path(__file__).parent.parent / "data" / "msl" / "multisimlex.csv"
 GRAPHS_DIR = Path(__file__).parent.parent.parent / "data" / "graphs"
+EMBEDDINGS_DIR = Path(__file__).parent.parent.parent / "embeddings" / "babyclics"
 
 
 def read_msl_data(fp=MSL_DEFAULT_PATH, col="mean"):
@@ -97,7 +98,6 @@ def msl_correlation_baseline(similarity_ratings, graph, concept_to_id, correlati
 
 
 if __name__ == "__main__":
-    # mode = "affixfams"
     models = ["n2v-cbow", "n2v-sg", "sdne", "prone"]
 
     table = []
@@ -133,24 +133,18 @@ if __name__ == "__main__":
     headers = ["full", "affix", "overlap", "full+affix", "full+overlap", "full+affix+overlap"]
 
     for model in models:
-        full_embeddings = read_embeddings(Path(__file__).parent.parent.parent / "embeddings" / "babyclics" / "fullfams" / f"{model}.json")
-        affix_embeddings = read_embeddings(Path(__file__).parent.parent.parent / "embeddings" / "babyclics" / "affixfams" / f"{model}.json")
-        overlap_embeddings = read_embeddings(Path(__file__).parent.parent.parent / "embeddings" / "babyclics" / "overlapfams" / f"{model}.json")
+        line = []
 
-        # calculate correlations for single embeddings
-        corr_full = msl_correlation(msl, full_embeddings)
-        corr_affix = msl_correlation(msl, affix_embeddings)
-        corr_overlap = msl_correlation(msl, overlap_embeddings)
+        for h in headers:
+            if "+" in h:
+                name = h.replace("+", "-")
+            else:
+                name = h + "fams"
+            embeddings = read_embeddings(EMBEDDINGS_DIR / name / f"{model}.json")
+            corr = msl_correlation(msl, embeddings)
+            line.append(corr)
 
-        # fuse embeddings & calculate correlation
-        embeddings_full_affix = fuse_embeddings(full_embeddings, affix_embeddings)
-        corr_full_affix = msl_correlation(msl, embeddings_full_affix)
-        embeddings_full_overlap = fuse_embeddings(full_embeddings, overlap_embeddings)
-        corr_full_overlap = msl_correlation(msl, embeddings_full_overlap)
-        embeddings_all = fuse_embeddings(full_embeddings, affix_embeddings, overlap_embeddings)
-        corr_all = msl_correlation(msl, embeddings_all)
-
-        table.append([corr_full, corr_affix, corr_overlap, corr_full_affix, corr_full_overlap, corr_all])
+        table.append(line)
 
     index = ["baseline"] + models
     print(tabulate(table, headers=headers, showindex=index, tablefmt="github", floatfmt=".4f"))

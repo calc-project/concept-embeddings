@@ -116,19 +116,13 @@ if __name__ == "__main__":
             # row in the resulting table
             accuracies = []
 
-            # load individual embeddings
-            full_embeddings = load_embeddings(GRAPH_EMBEDDINGS_DIR / "fullfams" / f"{model}.json")
-            affix_embeddings = load_embeddings(GRAPH_EMBEDDINGS_DIR / "affixfams" / f"{model}.json")
-            overlap_embeddings = load_embeddings(GRAPH_EMBEDDINGS_DIR / "overlapfams" / f"{model}.json")
-
-            # fuse embeddings
-            embeddings_full_affix = fuse_embeddings(full_embeddings, affix_embeddings)
-            embeddings_full_overlap = fuse_embeddings(full_embeddings, overlap_embeddings)
-            embeddings_all = fuse_embeddings(full_embeddings, affix_embeddings, overlap_embeddings)
-
-            for emb_model in [full_embeddings, affix_embeddings, overlap_embeddings,
-                               embeddings_full_affix, embeddings_full_overlap, embeddings_all]:
-                X, y = generate_training_data(shifts, random_shifts, emb_model)
+            for h in headers:
+                if "+" in h:
+                    name = h.replace("+", "-")
+                else:
+                    name = h + "fams"
+                embeddings = read_embeddings(GRAPH_EMBEDDINGS_DIR / name / f"{model}.json")
+                X, y = generate_training_data(shifts, random_shifts, embeddings)
                 lr = fit_logistic_regression(X, y)
                 accuracies.append(lr.score(X, y))
 
