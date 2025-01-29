@@ -26,8 +26,9 @@ class Baseline(object):
         return pmi
 
     def _calculate_random_walk_matrix(self, alpha=0.75):
-        p = self.ppmi_matrix * self.ppmi_matrix.sum()
-        walk_matrix = (np.identity(len(self.G)) - alpha * p) ** -1
+        # P is a transition matrix inferred from the PPMI matrix
+        P = self.ppmi_matrix / self.ppmi_matrix.sum(axis=1)[:, np.newaxis]
+        walk_matrix = (np.identity(len(self.G)) - alpha * P) ** -1
         walk_matrix[walk_matrix == np.inf] = 0
         return walk_matrix
 
