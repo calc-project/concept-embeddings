@@ -8,7 +8,8 @@ from sklearn.linear_model import LinearRegression
 from graphembeddings.utils.io import read_embeddings, read_graph_data
 from graphembeddings.utils.postprocess import cosine_similarity, fuse_embeddings
 
-from semshift import load_embeddings, sample_random_shifts, generate_training_data, fit_logistic_regression
+from semshift import load_embeddings, sample_random_shifts, generate_training_data, generate_baseline_training_data, fit_logistic_regression
+from baselines import Baseline, get_all_graphs
 
 
 GRAPH_EMBEDDINGS_DIR = Path(__file__).parent.parent.parent / "embeddings" / "babyclics"
@@ -45,15 +46,15 @@ def load_eat_edges(fp=EAT_DEFAULT_FP, threshold=5):
 
 
 if __name__ == "__main__":
+    baseline_models = ["shortest path", "cosine sim", "ppmi", "random walks"]
     models = ["n2v-cbow", "n2v-sg", "sdne", "prone"]
     headers = ["full", "affix", "overlap", "full+affix", "full+overlap", "full+affix+overlap"]
 
     ft_langs = ["arabic", "english", "spanish", "estonian", "finnish", "french", "polish", "russian", "chinese"]
 
     # load concepts from the full colexification graph; they are a subset of the concept spaces of all other models
-    fullfams_graph_fp = Path(__file__).parent.parent.parent / "data" / "graphs" / "babyclics" / "fullfams.json"
-    _, _, concepts = read_graph_data(fullfams_graph_fp)
-    shared_concepts = list(concepts.keys())
+    graphs, concept_ids = get_all_graphs()
+    shared_concepts = list(concept_ids["full+affix+overlap"].keys())
 
     # load edges from EAT
     edges, weights = load_eat_edges()
@@ -67,15 +68,36 @@ if __name__ == "__main__":
         true_edges, random_edges = sample_random_shifts(edges, shared_concepts)
         table = []
 
-        for model in models:
-            # row in the resulting table
+        for h in headers:
             accuracies = []
 
-            for h in headers:
-                if "+" in h:
-                    name = h.replace("+", "-")
+            # baselines
+            graph = graphs[h]
+            concept_to_id = concept_ids[h]
+            baseline = Baseline(graph, concept_to_id)
+
+            for baseline_model in baseline_models:
+                if baseline_model == "shortest path":
+                    X, y = generate_baseline_training_data(true_edges, random_edges, similarity_function=baseline.shortest_path)
+                elif baseline_model == "cosine sim":
+                    X, y = generate_baseline_training_data(true_edges, random_edges, similarity_function=baseline.cos_similarity)
+                elif baseline_model == "ppmi":
+                    X, y = generate_baseline_training_data(true_edges, random_edges, similarity_function=baseline.ppmi)
+                elif baseline_model == "random walks":
+                    X, y = generate_baseline_training_data(true_edges, random_edges, similarity_function=baseline.katz_random_walks)
                 else:
-                    name = h + "fams"
+                    continue
+
+                lr = fit_logistic_regression(X, y)
+                accuracies.append(lr.score(X, y))
+
+            # models
+            if "+" in h:
+                name = h.replace("+", "-")
+            else:
+                name = h + "fams"
+
+            for model in models:
                 embeddings = read_embeddings(GRAPH_EMBEDDINGS_DIR / name / f"{model}.json")
                 X, y = generate_training_data(true_edges, random_edges, embeddings)
                 lr = fit_logistic_regression(X, y)
@@ -100,7 +122,9 @@ if __name__ == "__main__":
 
     # average over all obtained accuracies per cell
     emb_table = np.mean(tables, axis=0)
-    print(tabulate(emb_table, headers=headers, showindex=models, tablefmt="github", floatfmt=".4f"))
+    emb_table = emb_table.swapaxes(0, 1).tolist()
+    index = baseline_models + models
+    print(tabulate(emb_table, headers=headers, showindex=index, tablefmt="github", floatfmt=".4f"))
     print(200 * "-")
 
     # same for the fasttext accuracies

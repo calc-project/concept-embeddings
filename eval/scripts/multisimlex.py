@@ -9,7 +9,7 @@ from graphembeddings.utils.io import read_graph_data, read_embeddings, read_ft_e
 from graphembeddings.utils.graphutils import merge_graphs
 from graphembeddings.utils.postprocess import fuse_embeddings
 
-from baselines import Baseline
+from baselines import Baseline, get_all_graphs
 
 
 MSL_DEFAULT_PATH = Path(__file__).parent.parent / "data" / "msl" / "multisimlex.csv"
@@ -109,32 +109,7 @@ if __name__ == "__main__":
     # read Multi-SimLex data
     msl = read_msl_data()
 
-    graphs = {}
-    concept_ids = {}
-
-    # read in raw graphs...
-    G_affix, _, concept_to_id_affix = read_graph_data(GRAPHS_DIR / "babyclics" / "affixfams.json", directed=True,
-                                                      to_undirected=True)
-    G_full, id_to_concept_full, concept_to_id_full = read_graph_data(GRAPHS_DIR / "babyclics" / "fullfams.json")
-    G_overlap, id_to_concept_overlap, concept_to_id_overlap = read_graph_data(
-        GRAPHS_DIR / "babyclics" / "overlapfams.json")
-    graphs["affix"] = G_affix
-    graphs["full"] = G_full
-    graphs["overlap"] = G_overlap
-    concept_ids["affix"] = concept_to_id_affix
-    concept_ids["full"] = concept_to_id_full
-    concept_ids["overlap"] = concept_to_id_overlap
-
-    # ...and combine them
-    G_full_affix, concepts_full_affix = merge_graphs(G_full, G_affix, concept_to_id_full, concept_to_id_affix)
-    graphs["full+affix"] = G_full_affix
-    concept_ids["full+affix"] = concepts_full_affix
-    G_full_overlap, concepts_full_overlap = merge_graphs(G_full, G_overlap, concept_to_id_full, concept_to_id_overlap)
-    graphs["full+overlap"] = G_full_overlap
-    concept_ids["full+overlap"] = concepts_full_overlap
-    G_all, concepts_all = merge_graphs(G_full_affix, G_overlap, concepts_full_affix, concept_to_id_overlap)
-    graphs["full+affix+overlap"] = G_all
-    concept_ids["full+affix+overlap"] = concepts_all
+    graphs, concept_ids = get_all_graphs()
 
     for h in headers:
         line = []
@@ -181,7 +156,7 @@ if __name__ == "__main__":
 
     for lang in ft_langs:
         embeddings = read_ft_embeddings(Path(__file__).parent.parent / "data" / "fasttext" / f"{lang}_embeddings.csv")
-        embeddings_filtered = {k: v for k, v in embeddings.items() if k in concepts_all}
+        embeddings_filtered = {k: v for k, v in embeddings.items() if k in concept_ids["full+affix+overlap"]}
         corr = msl_correlation(msl, embeddings)
         corr_filtered = msl_correlation(msl, embeddings_filtered)
         ft_table.append([corr, corr_filtered])
