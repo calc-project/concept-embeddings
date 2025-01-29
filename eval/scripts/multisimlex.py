@@ -9,6 +9,8 @@ from graphembeddings.utils.io import read_graph_data, read_embeddings, read_ft_e
 from graphembeddings.utils.graphutils import merge_graphs
 from graphembeddings.utils.postprocess import fuse_embeddings
 
+from baselines import Baseline
+
 
 MSL_DEFAULT_PATH = Path(__file__).parent.parent / "data" / "msl" / "multisimlex.csv"
 GRAPHS_DIR = Path(__file__).parent.parent.parent / "data" / "graphs"
@@ -98,55 +100,79 @@ def msl_correlation_baseline(similarity_ratings, graph, concept_to_id, correlati
 
 
 if __name__ == "__main__":
+    baseline_models = ["shortest path", "cosine sim", "ppmi", "random walks"]
     models = ["n2v-cbow", "n2v-sg", "sdne", "prone"]
+    headers = ["full", "affix", "overlap", "full+affix", "full+overlap", "full+affix+overlap"]
 
     table = []
 
     # read Multi-SimLex data
     msl = read_msl_data()
 
-    # correlate MSL with shortest path lengths (affix colex only)
-    G_affix, _, concept_to_id_affix = read_graph_data(GRAPHS_DIR / "babyclics" / "affixfams.json", directed=True, to_undirected=True)
-    corr_affix = msl_correlation_baseline(msl, G_affix, concept_to_id_affix)
+    graphs = {}
+    concept_ids = {}
 
-    # ...with full colex only
+    # read in raw graphs...
+    G_affix, _, concept_to_id_affix = read_graph_data(GRAPHS_DIR / "babyclics" / "affixfams.json", directed=True,
+                                                      to_undirected=True)
     G_full, id_to_concept_full, concept_to_id_full = read_graph_data(GRAPHS_DIR / "babyclics" / "fullfams.json")
-    corr_full = msl_correlation_baseline(msl, G_full, concept_to_id_full)
+    G_overlap, id_to_concept_overlap, concept_to_id_overlap = read_graph_data(
+        GRAPHS_DIR / "babyclics" / "overlapfams.json")
+    graphs["affix"] = G_affix
+    graphs["full"] = G_full
+    graphs["overlap"] = G_overlap
+    concept_ids["affix"] = concept_to_id_affix
+    concept_ids["full"] = concept_to_id_full
+    concept_ids["overlap"] = concept_to_id_overlap
 
-    # ...and with overlap colex.
-    G_overlap, id_to_concept_overlap, concept_to_id_overlap = read_graph_data(GRAPHS_DIR / "babyclics" / "overlapfams.json")
-    corr_overlap = msl_correlation_baseline(msl, G_overlap, concept_to_id_overlap)
-
-    # ...combine affix and full colex
+    # ...and combine them
     G_full_affix, concepts_full_affix = merge_graphs(G_full, G_affix, concept_to_id_full, concept_to_id_affix)
-    corr_full_affix = msl_correlation_baseline(msl, G_full_affix, concepts_full_affix)
-
-    # combine overlap and full colex
+    graphs["full+affix"] = G_full_affix
+    concept_ids["full+affix"] = concepts_full_affix
     G_full_overlap, concepts_full_overlap = merge_graphs(G_full, G_overlap, concept_to_id_full, concept_to_id_overlap)
-    corr_full_overlap = msl_correlation_baseline(msl, G_full_overlap, concepts_full_overlap)
-
-    # combine all
+    graphs["full+overlap"] = G_full_overlap
+    concept_ids["full+overlap"] = concepts_full_overlap
     G_all, concepts_all = merge_graphs(G_full_affix, G_overlap, concepts_full_affix, concept_to_id_overlap)
-    corr_all = msl_correlation_baseline(msl, G_all, concepts_all)
+    graphs["full+affix+overlap"] = G_all
+    concept_ids["full+affix+overlap"] = concepts_all
 
-    table.append([corr_full, corr_affix, corr_overlap, corr_full_affix, corr_full_overlap, corr_all])
-    headers = ["full", "affix", "overlap", "full+affix", "full+overlap", "full+affix+overlap"]
-
-    for model in models:
+    for h in headers:
         line = []
 
-        for h in headers:
-            if "+" in h:
-                name = h.replace("+", "-")
-            else:
-                name = h + "fams"
+        # baselines
+        graph = graphs[h]
+        concept_to_id = concept_ids[h]
+        baseline = Baseline(graph, concept_to_id)
+
+        walk_lengths, cos_sims, ppmis, random_walks_sim = [], [], [], []
+        for pair, value in msl.items():
+            walk_lengths.append(baseline.shortest_path(*pair))
+            cos_sims.append(baseline.cos_similarity(*pair))
+            ppmis.append(baseline.ppmi(*pair))
+            random_walks_sim.append(baseline.katz_random_walks(*pair))
+
+        msl_sims = list(msl.values())
+        line.append(spearmanr(walk_lengths, msl_sims, nan_policy="omit").statistic)
+        line.append(spearmanr(cos_sims, msl_sims, nan_policy="omit").statistic)
+        line.append(spearmanr(ppmis, msl_sims, nan_policy="omit").statistic)
+        line.append(spearmanr(random_walks_sim, msl_sims, nan_policy="omit").statistic)
+
+        # embeddings
+        if "+" in h:
+            name = h.replace("+", "-")
+        else:
+            name = h + "fams"
+
+        for model in models:
             embeddings = read_embeddings(EMBEDDINGS_DIR / name / f"{model}.json")
             corr = msl_correlation(msl, embeddings)
             line.append(corr)
 
         table.append(line)
 
-    index = ["baseline"] + models
+    table = np.array(table).swapaxes(0, 1).tolist()
+
+    index = baseline_models + models
     print(tabulate(table, headers=headers, showindex=index, tablefmt="github", floatfmt=".4f"))
 
     # evaluate on fasttext as baseline
