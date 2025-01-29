@@ -5,7 +5,7 @@ from pathlib import Path
 from scipy.stats import spearmanr, pearsonr
 from tabulate import tabulate
 
-from graphembeddings.utils.io import read_graph_data, read_embeddings
+from graphembeddings.utils.io import read_graph_data, read_embeddings, read_ft_embeddings
 from graphembeddings.utils.graphutils import merge_graphs
 from graphembeddings.utils.postprocess import fuse_embeddings
 
@@ -148,3 +148,16 @@ if __name__ == "__main__":
 
     index = ["baseline"] + models
     print(tabulate(table, headers=headers, showindex=index, tablefmt="github", floatfmt=".4f"))
+
+    # evaluate on fasttext as baseline
+    ft_table = []
+    ft_langs = ["arabic", "english", "spanish", "estonian", "finnish", "french", "polish", "russian", "chinese"]
+
+    for lang in ft_langs:
+        embeddings = read_ft_embeddings(Path(__file__).parent.parent / "data" / "fasttext" / f"{lang}_embeddings.csv")
+        embeddings_filtered = {k: v for k, v in embeddings.items() if k in concepts_all}
+        corr = msl_correlation(msl, embeddings)
+        corr_filtered = msl_correlation(msl, embeddings_filtered)
+        ft_table.append([corr, corr_filtered])
+
+    print(tabulate(ft_table, headers=["all", "filtered"], showindex=ft_langs, tablefmt="github", floatfmt=".4f"))
