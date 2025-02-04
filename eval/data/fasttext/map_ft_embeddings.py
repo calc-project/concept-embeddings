@@ -39,7 +39,7 @@ for lang, lang_id in lang_ids.items():
     vocab = vocabularies[lang]
     # load fasttext embeddings
     ft_embeddings = {}
-    with open(f"cc.{lang_id}.300.vec") as f:
+    with open(f"cc.{lang_id}.128.vec") as f:
         for line in f:
             values = line.strip().split()
             word = values[0]
