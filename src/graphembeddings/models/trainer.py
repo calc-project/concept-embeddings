@@ -189,7 +189,7 @@ class Node2Vec(GraphEmbeddingModel):
 
                 # calculate probabilities for the next node
                 neighbors = self.graph[node]
-                if alpha:
+                if alpha is not None:
                     scaled = alpha * neighbors
                     prob = scaled / scaled.sum()
                 else:
