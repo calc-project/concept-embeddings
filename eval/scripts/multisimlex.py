@@ -50,8 +50,8 @@ def msl_correlation(similarity_ratings, embeddings, correlation_measure="spearma
             msl_similarities.append(similarity)
             embedding_similarities.append(emb_similarity)
 
-    print(f"Correlation with Multi-SimLex calculated based on {len(msl_similarities)}/{len(similarity_ratings)} "
-          f"available concept pairs.")
+    # print(f"Correlation with Multi-SimLex calculated based on {len(msl_similarities)}/{len(similarity_ratings)} "
+    #       f"available concept pairs.")
 
     if correlation_measure == "spearman":
         corr = spearmanr(msl_similarities, embedding_similarities)
@@ -86,8 +86,8 @@ def msl_correlation_baseline(similarity_ratings, graph, concept_to_id, correlati
             msl_similarities.append(similarity)
             path_lengths.append(nx.shortest_path_length(graph, id1, id2))
 
-    print(f"Correlation with Multi-SimLex calculated based on {len(msl_similarities)}/{len(similarity_ratings)} "
-          f"available concept pairs.")
+    # print(f"Correlation with Multi-SimLex calculated based on {len(msl_similarities)}/{len(similarity_ratings)} "
+    #       f"available concept pairs.")
 
     if correlation_measure == "spearman":
         corr = spearmanr(msl_similarities, path_lengths)
@@ -148,6 +148,7 @@ if __name__ == "__main__":
     table = np.array(table).swapaxes(0, 1).tolist()
 
     index = baseline_models + models
+    print("## Embeddings & Baselines")
     print(tabulate(table, headers=headers, showindex=index, tablefmt="github", floatfmt=".4f"))
 
     # evaluate on fasttext as baseline
@@ -161,4 +162,8 @@ if __name__ == "__main__":
         corr_filtered = msl_correlation(msl, embeddings_filtered)
         ft_table.append([corr, corr_filtered])
 
+    mean, mean_filtered = np.mean(ft_table, axis=0)
+    ft_table.append([mean, mean_filtered])
+    ft_langs.append("mean")
+    print("\n## FastText")
     print(tabulate(ft_table, headers=["all", "filtered"], showindex=ft_langs, tablefmt="github", floatfmt=".4f"))

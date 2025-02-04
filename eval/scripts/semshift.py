@@ -130,8 +130,8 @@ if __name__ == "__main__":
     tables = []
     ft_acc_tables = []
 
-    # sample random shifts 10 times:
-    for _ in range(10):
+    # sample random shifts 50 times:
+    for _ in range(50):
         shifts, random_shifts = sample_random_shifts(shifts, shared_concepts)
         table = []
 
@@ -190,9 +190,14 @@ if __name__ == "__main__":
     emb_table = np.mean(tables, axis=0)
     emb_table = emb_table.swapaxes(0, 1).tolist()
     index = baseline_models + models
+    print("## Embeddings & Baselines")
     print(tabulate(emb_table, headers=headers, showindex=index, tablefmt="github", floatfmt=".4f"))
-    print(100 * "=")
 
     # same for the fasttext accuracies
     ft_table = np.mean(ft_acc_tables, axis=0)
+    print("\n## FastText")
+    ft_mean_acc = np.mean(ft_table)
+    ft_table = [ft_table[0].tolist()]
+    ft_table[0].append(ft_mean_acc)
+    ft_langs.append("mean")
     print(tabulate(ft_table, headers=ft_langs, tablefmt="github", floatfmt=".4f"))
