@@ -27,8 +27,9 @@ def read_msl_data(fp=MSL_DEFAULT_PATH, col="mean"):
                 raise ValueError(f"Column {col} not found in {fp}")
             c1 = row["CONCEPT_1"]
             c2 = row["CONCEPT_2"]
-            rating = float(row[col])
-            similarity_ratings[(c1, c2)] = rating
+            if not c1 == c2:
+                rating = float(row[col])
+                similarity_ratings[(c1, c2)] = rating
 
     return similarity_ratings
 
