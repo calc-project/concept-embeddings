@@ -79,15 +79,24 @@ def common_concepts(conceptlist1, conceptlist2):
 def msl_similarity_matrix(words):
     msl = read_msl_data()
 
+    concept_to_id = {}
+    id_to_concept = {}
+
+    for c1, c2 in msl.keys():
+        if c1 not in concept_to_id:
+            i = len(concept_to_id)
+            concept_to_id[c1] = i
+            id_to_concept[i] = c1
+        if c2 not in concept_to_id:
+            i = len(concept_to_id)
+            concept_to_id[c2] = i
+            id_to_concept[i] = c2
+
     # set up similarity matrix for Multi-SimLex
-    matrix = np.zeros((len(words), len(words)))
-    for i, word1 in enumerate(words):
-        for j, word2 in enumerate(words):
-            if i < j:
-                if (word1, word2) in msl:
-                    matrix[i, j] = matrix[j, i] = msl[(word1, word2)]
-                elif (word2, word1) in msl:
-                    matrix[i, j] = matrix[j, i] = msl[(word2, word1)]
+    matrix = np.zeros((len(concept_to_id), len(concept_to_id)))
+    for (c1, c2), score in msl.items():
+        id1, id2 = concept_to_id[c1], concept_to_id[c2]
+        matrix[id1, id2] = matrix[id2, id1] = score
 
     # create a dictionary mapping concepts to rows in similarity matrix
     row_dict = {}
@@ -105,7 +114,9 @@ if __name__ == "__main__":
     EMB_DIR = Path(__file__).parent.parent.parent / "embeddings" / "babyclics"
     OUT_DIR = Path(__file__).parent.parent / "figures"
 
-    words = common_concepts("Vulic-2020-2244", "Swadesh-1964-100")
+    # retrieve concepts from Swadesh-100 list that are present in all three colexification networks
+    words = {c.concepticon_gloss for c in Concepticon().conceptlists["Swadesh-1964-100"].concepts.values()}
+    words = words & set(read_embeddings(EMB_DIR / "full-affix-overlap" / "prone.json").keys())
 
     row_dict, selected_words = msl_similarity_matrix(words)
     tsne_plot(selected_words, row_dict, perplexity=4, title="Multi-SimLex", save_fp=OUT_DIR / "msl.pdf")
@@ -117,5 +128,4 @@ if __name__ == "__main__":
             dir_name = EMB_DIR / mode.replace("+", "-")
 
         embeddings = read_embeddings(dir_name / "prone.json")
-        valid_words = words & set(embeddings.keys())
-        tsne_plot(valid_words, embeddings, perplexity=4, title=mode, save_fp=OUT_DIR / f"{mode.replace("+", "-")}.pdf")
+        tsne_plot(words, embeddings, perplexity=4, title=mode, save_fp=OUT_DIR / f"{mode.replace("+", "-")}.pdf")
