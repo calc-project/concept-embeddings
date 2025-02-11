@@ -12,12 +12,23 @@ This directory contains all materials required to replicate the evaluations and 
  
 ## Downloading external data
 
-You will need to download two additional pieces of data to run all scripts: FastText vectors and NoRaRe. Both subdirectories (`data/fasttext` and `data/norare`) contain Makefiles that declare downloading (and clearing) the data. You can either `cd` into the respective subdirectories and run `make` there, or conveniently just run `make` from this directory to obtain all relevant data. You can then clear all downloaded data from your disk by running `make clear`.
+You will need to download two additional pieces of data to run all scripts: FastText vectors and NoRaRe. Both subdirectories (`data/fasttext` and `data/norare`) contain Makefiles that declare downloading (and clearing) the data. You can either `cd` into the respective subdirectories and run `make` there, or conveniently just run `make` or `make download` from this directory to obtain all relevant data. You can then clear all downloaded data from your disk by running `make clear`.
+
+Note that only the NoRaRe data is needed to run the evaluation scripts, since the relevant FastText vectors have been extracted, preprocessed and stored in files in `data/fasttext`. Since dowloading the FastText vectors takes quite some time, the following command only downloads NoRaRe data:
 
 ```bash
-# download external data
+# download NoRaRe data
 graphembeddings/eval$ make
 ```
+
+If you want to reproduce the preprocessing steps for the FastText vectors, you can run `make download` instead:
+
+```bash
+# download NoRaRe data & FastText vectors
+graphembeddings/eval$ make download
+```
+
+You can remove the downloaded data from your disk by running:
 
 ```bash
 # remove external data
