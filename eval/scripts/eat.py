@@ -1,12 +1,9 @@
-import csv
-import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
 from tabulate import tabulate
-from sklearn.linear_model import LinearRegression
+from pynorare import NoRaRe
 
-from graphembeddings.utils.io import read_embeddings, read_graph_data
-from graphembeddings.utils.postprocess import cosine_similarity, fuse_embeddings
+from graphembeddings.utils.io import read_embeddings
 
 from semshift import load_embeddings, sample_random_shifts, generate_training_data, generate_baseline_training_data, fit_logistic_regression
 from baselines import Baseline, get_all_graphs
@@ -15,32 +12,33 @@ from baselines import Baseline, get_all_graphs
 GRAPH_EMBEDDINGS_DIR = Path(__file__).parent.parent.parent / "embeddings"
 FT_EMBEDDINGS_DIR = Path(__file__).parent.parent / "data" / "fasttext"
 
-EAT_DEFAULT_FP = Path(__file__).parent.parent / "data" / "eat" / "Kiss-1973-EAT.tsv"
+NORARE_DEFAULT_FP = Path(__file__).parent.parent / "data" / "norare" / "norare-data"
 
 
-def load_eat_edges(fp=EAT_DEFAULT_FP, threshold=5):
-    edges = []
-    weights = []
+def load_eat_edges(fp=NORARE_DEFAULT_FP, threshold=5):
+    norare = NoRaRe(fp)
+    eat = norare.datasets.get("Kiss-1973-EAT")
 
-    with open(fp) as f:
-        visited = set()
+    edges, weights = [], []
+    visited = set()
+    overflow = ""
 
-        reader = csv.DictReader(f, delimiter="\t")
-        for row in reader:
-            concept = row["CONCEPTICON_GLOSS"]
-            edge_data = row["EDGES"]
-            for edge in edge_data.split(";"):
-                # that happens for UC-dec encoding of some characters, e.g. &#39; for the apostrophe
-                if not (edge and ":" in edge):
-                    continue
-                target_concept, weight = edge.split(":")
-                if target_concept in visited:
-                    continue
-                weight = int(weight)
-                if weight > threshold:
-                    edges.append((concept, target_concept))
-                    weights.append(weight)
-            visited.add(concept)
+    for row in eat.concepts.values():
+        c1 = row["concepticon_gloss"]
+        for edge in row.get("edges", []):
+            # this is necessary for handling the apostrophe, which is represented by its hex code
+            if not ":" in edge:
+                overflow = edge.replace("&#39", "'")
+                continue
+            c2, weight = edge.split(":")
+            if overflow:
+                c2 = overflow + c2
+            overflow = ""
+            weight = int(weight)
+            if weight > threshold and c2 not in visited:
+                edges.append((c1, c2))
+                weights.append(weight)
+        visited.add(c1)
 
     return edges, weights
 
