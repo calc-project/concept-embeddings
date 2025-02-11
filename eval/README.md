@@ -14,6 +14,16 @@ This directory contains all materials required to replicate the evaluations and 
 
 You will need to download two additional pieces of data to run all scripts: FastText vectors and NoRaRe. Both subdirectories (`data/fasttext` and `data/norare`) contain Makefiles that declare downloading (and clearing) the data. You can either `cd` into the respective subdirectories and run `make` there, or conveniently just run `make` from this directory to obtain all relevant data. You can then clear all downloaded data from your disk by running `make clear`.
 
+```bash
+# download external data
+graphembeddings/eval$ make
+```
+
+```bash
+# remove external data
+graphembeddings/eval$ make clear
+```
+
 ## Creating preprocessed snapshots of the data
 
 Most subdirectories in `data` contain CSV/TSV files that serve as direct input to the evaluation script. These files represent a version of the raw data that is preprocessed for the purposes of our evaluation. All of those files are created using the Python script located in the same directory.
