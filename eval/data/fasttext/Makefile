@@ -14,6 +14,6 @@ install:
 
 clean:
 	@echo "Cleaning up downloaded files..."
-	@rm -f cc.*.300.vec
+	@rm -f cc.*.*.vec
 
 .PHONY: all install clean
