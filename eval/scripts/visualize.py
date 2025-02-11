@@ -29,9 +29,16 @@ def create_distance_matrix(concepts, embeddings, logging=False):
     return distance_matrix
 
 
-def generic_plot(concepts, res, title, save_fp=None, **kwargs):
+def generic_plot(concepts, res, title, save_fp=None, highlight=None):
     plt.cla()
-    plt.scatter(*np.swapaxes(res, 0, 1), s=15)
+    if highlight:
+        colors = len(concepts) * ["b"]
+        for c in highlight:
+            if c in concepts:
+                colors[concepts.index(c)] = "r"
+        plt.scatter(*np.swapaxes(res, 0, 1), s=15, c=colors)
+    else:
+        plt.scatter(*np.swapaxes(res, 0, 1), s=15)
     # for concept, coordinates in zip(concepts, res):
     #    plt.annotate(concept, coordinates)
     plt.title(title)
@@ -44,17 +51,23 @@ def generic_plot(concepts, res, title, save_fp=None, **kwargs):
 
 
 def pca_plot(concepts, embeddings, save_fp=None):
+    concepts = list(concepts)
     matrix = np.array([embeddings[c] for c in concepts])
     pca = PCA(n_components=2)
     res = pca.fit_transform(matrix)
     generic_plot(concepts, res, "PCA", save_fp=save_fp)
 
 
-def tsne_plot(concepts, embeddings, perplexity=2, save_fp=None, title="TSNE", **kwargs):
+def tsne_plot(concepts, embeddings, perplexity=2, save_fp=None, title="TSNE", highlight=None):
+    concepts = list(concepts)
     matrix = np.array([embeddings[c] for c in concepts])
     tsne = TSNE(n_components=2, perplexity=perplexity)
     res = tsne.fit_transform(matrix)
-    generic_plot(concepts, res, title, save_fp=save_fp, **kwargs)
+    if highlight:
+        suffix = save_fp.suffix
+        fp = Path(str(save_fp).replace(suffix, f"-hl{suffix}"))
+        generic_plot(concepts, res, title, save_fp=fp, highlight=highlight)
+    generic_plot(concepts, res, title, save_fp=save_fp)
 
 
 def common_concepts(conceptlist1, conceptlist2):
