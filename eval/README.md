@@ -42,3 +42,14 @@ Most subdirectories in `data` contain CSV/TSV files that serve as direct input t
 ## Running the evaluation scripts
 
 Assuming you have installed all necessary dependencies (see the general README) and downloaded all necessary data, you can run the evaluation scripts to reproduce our analyses. Note that you might obtain slightly different results, since parts of the evaluation rely on non-deterministic methods.
+
+```bash
+# Task 1 (§3.4.1)
+python scripts/multisimlex.py > results/multisimlex.md
+# Task 2 (§3.4.2)
+python scripts/semshift.py > results/semshift.md
+# Task 3 (§3.4.3)
+python scripts/eat.py > results/eat.md
+# Visualizations
+python scripts/visualize.py
+```
