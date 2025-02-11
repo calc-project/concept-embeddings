@@ -5,9 +5,7 @@ from pathlib import Path
 from scipy.stats import spearmanr, pearsonr
 from tabulate import tabulate
 
-from graphembeddings.utils.io import read_graph_data, read_embeddings, read_ft_embeddings
-from graphembeddings.utils.graphutils import merge_graphs
-from graphembeddings.utils.postprocess import fuse_embeddings
+from graphembeddings.utils.io import read_embeddings, read_ft_embeddings
 
 from baselines import Baseline, get_all_graphs
 

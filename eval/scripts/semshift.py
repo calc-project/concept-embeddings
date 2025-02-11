@@ -1,12 +1,7 @@
-import matplotlib.pyplot as plt
 import numpy as np
-import seaborn
-import csv
 import random
 from pathlib import Path
-from itertools import combinations
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, f1_score
 from tabulate import tabulate
 
 from graphembeddings.utils.io import read_embeddings, read_ft_embeddings, read_graph_data
