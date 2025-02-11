@@ -12,7 +12,7 @@ from semshift import load_embeddings, sample_random_shifts, generate_training_da
 from baselines import Baseline, get_all_graphs
 
 
-GRAPH_EMBEDDINGS_DIR = Path(__file__).parent.parent.parent / "embeddings" / "babyclics"
+GRAPH_EMBEDDINGS_DIR = Path(__file__).parent.parent.parent / "embeddings"
 FT_EMBEDDINGS_DIR = Path(__file__).parent.parent / "data" / "fasttext"
 
 EAT_DEFAULT_FP = Path(__file__).parent.parent / "data" / "eat" / "Kiss-1973-EAT.tsv"

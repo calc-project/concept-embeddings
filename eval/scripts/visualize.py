@@ -35,7 +35,7 @@ def tree(distance_matrix, concepts):
     print(loads(linkage(distance_matrix, taxa=concepts))[0].ascii_art())
 
 
-def generic_plot(concepts, res, title, save_fp=None):
+def generic_plot(concepts, res, title, save_fp=None, **kwargs):
     plt.cla()
     plt.scatter(*np.swapaxes(res, 0, 1), s=15)
     # for concept, coordinates in zip(concepts, res):
@@ -56,11 +56,11 @@ def pca_plot(concepts, embeddings, save_fp=None):
     generic_plot(concepts, res, "PCA", save_fp=save_fp)
 
 
-def tsne_plot(concepts, embeddings, perplexity=2, save_fp=None, title="TSNE"):
+def tsne_plot(concepts, embeddings, perplexity=2, save_fp=None, title="TSNE", **kwargs):
     matrix = np.array([embeddings[c] for c in concepts])
     tsne = TSNE(n_components=2, perplexity=perplexity)
     res = tsne.fit_transform(matrix)
-    generic_plot(concepts, res, title, save_fp=save_fp)
+    generic_plot(concepts, res, title, save_fp=save_fp, **kwargs)
 
 
 def common_concepts(conceptlist1, conceptlist2):
@@ -111,7 +111,7 @@ def msl_similarity_matrix(words):
 
 
 if __name__ == "__main__":
-    EMB_DIR = Path(__file__).parent.parent.parent / "embeddings" / "babyclics"
+    EMB_DIR = Path(__file__).parent.parent.parent / "embeddings"
     OUT_DIR = Path(__file__).parent.parent / "figures"
 
     # retrieve concepts from Swadesh-100 list that are present in all three colexification networks
@@ -128,4 +128,5 @@ if __name__ == "__main__":
             dir_name = EMB_DIR / mode.replace("+", "-")
 
         embeddings = read_embeddings(dir_name / "prone.json")
-        tsne_plot(words, embeddings, perplexity=4, title=mode, save_fp=OUT_DIR / f"{mode.replace("+", "-")}.pdf")
+        tsne_plot(words, embeddings, perplexity=4, title=mode, highlight=["BARK", "TREE"],
+                  save_fp=OUT_DIR / f"{mode.replace("+", "-")}.pdf")

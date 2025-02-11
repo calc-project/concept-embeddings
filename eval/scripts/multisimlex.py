@@ -14,7 +14,7 @@ from baselines import Baseline, get_all_graphs
 
 MSL_DEFAULT_PATH = Path(__file__).parent.parent / "data" / "msl" / "multisimlex.csv"
 GRAPHS_DIR = Path(__file__).parent.parent.parent / "data" / "graphs"
-EMBEDDINGS_DIR = Path(__file__).parent.parent.parent / "embeddings" / "babyclics"
+EMBEDDINGS_DIR = Path(__file__).parent.parent.parent / "embeddings"
 
 
 def read_msl_data(fp=MSL_DEFAULT_PATH, col="mean"):

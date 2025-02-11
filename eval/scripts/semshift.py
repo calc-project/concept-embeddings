@@ -15,7 +15,7 @@ from graphembeddings.utils.postprocess import fuse_embeddings, cosine_similarity
 from baselines import Baseline, get_all_graphs
 
 
-GRAPH_EMBEDDINGS_DIR = Path(__file__).parent.parent.parent / "embeddings" / "babyclics"
+GRAPH_EMBEDDINGS_DIR = Path(__file__).parent.parent.parent / "embeddings"
 FT_EMBEDDINGS_DIR = Path(__file__).parent.parent / "data" / "fasttext"
 
 SHIFTS_DEFAULT_FP = Path(__file__).parent.parent / "data" / "semshift" / "shift_summary.tsv"

@@ -5,7 +5,7 @@ from graphembeddings.utils.postprocess import fuse_embeddings
 from graphembeddings.utils.io import read_embeddings
 
 
-BASE_DIR = Path(__file__).parent / "embeddings" / "babyclics"
+BASE_DIR = Path(__file__).parent / "embeddings"
 
 combinations = ["full-affix", "full-overlap", "full-affix-overlap"]
 models = ["n2v-cbow", "n2v-sg", "prone", "sdne"]

@@ -79,11 +79,11 @@ def get_all_graphs(graphs_dir=GRAPHS_DIR):
     concept_ids = {}
 
     # read in raw graphs...
-    G_affix, _, concept_to_id_affix = read_graph_data(graphs_dir / "babyclics" / "affixfams.json", directed=True,
+    G_affix, _, concept_to_id_affix = read_graph_data(graphs_dir / "affixfams.json", directed=True,
                                                       to_undirected=True)
-    G_full, id_to_concept_full, concept_to_id_full = read_graph_data(graphs_dir / "babyclics" / "fullfams.json")
+    G_full, id_to_concept_full, concept_to_id_full = read_graph_data(graphs_dir / "fullfams.json")
     G_overlap, id_to_concept_overlap, concept_to_id_overlap = read_graph_data(
-        graphs_dir / "babyclics" / "overlapfams.json")
+        graphs_dir / "overlapfams.json")
     graphs["affix"] = G_affix
     graphs["full"] = G_full
     graphs["overlap"] = G_overlap
