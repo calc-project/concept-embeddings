@@ -32,7 +32,7 @@ You can remove the downloaded data from your disk by running:
 
 ```bash
 # remove external data
-graphembeddings/eval$ make clear
+graphembeddings/eval$ make clean
 ```
 
 ## Creating preprocessed snapshots of the data
