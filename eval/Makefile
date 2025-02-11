@@ -1,5 +1,8 @@
 make:
 	cd data/norare; make
+
+download:
+	cd data/norare; make
 	cd data/fasttext; make all
 
 clean:
