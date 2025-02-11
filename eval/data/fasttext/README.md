@@ -1,4 +1,4 @@
-# Mapping fastText embeddings onto Concepticon's edition of Multi-SimLex
+This repository contains multilingual fastText vectors, mapped to concepts in Concepticon via multilingual translations in Multi-SimLex. To recreate the CSV files, run the following commands:
 
 ```bash
 make install  # installs necessary Python packages (numpy, pyconcepticon)
