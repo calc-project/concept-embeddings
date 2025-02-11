@@ -3,8 +3,6 @@ import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from tabulate import tabulate
-from newick import loads
-from pylocluster import linkage
 from pathlib import Path
 from pyconcepticon import Concepticon
 from adjustText import adjust_text
@@ -29,10 +27,6 @@ def create_distance_matrix(concepts, embeddings, logging=False):
         print(tabulate(distance_matrix, headers=concepts, showindex=concepts, floatfmt=".4f"))
 
     return distance_matrix
-
-
-def tree(distance_matrix, concepts):
-    print(loads(linkage(distance_matrix, taxa=concepts))[0].ascii_art())
 
 
 def generic_plot(concepts, res, title, save_fp=None, **kwargs):
