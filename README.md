@@ -12,11 +12,19 @@ To replicate the full workflow of our study, follow these steps:
 
 ### 1. Install dependencies
 
-Build the source code and install all necessary dependencies by running
+Build the source code and install all necessary dependencies by running:
 
 ```
 pip install -e .[eval]
 ```
+
+If you are only interested in training graph embedding models, it is sufficient to run:
+
+```
+pip install -e .
+```
+
+**Warning: Due to dependency issues, this project can currently not be run in Python >=3.13!**
 
 ### 2. Extract the graph data
 
