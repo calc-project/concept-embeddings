@@ -42,7 +42,12 @@ def generic_plot(concepts, res, title, save_fp=None, highlight=None):
     # for concept, coordinates in zip(concepts, res):
     #    plt.annotate(concept, coordinates)
     plt.title(title)
-    labels = [plt.text(x, y, concept, ha="center", va="center", size=9) for (x, y), concept in zip(res, concepts)]
+    if highlight:
+        labels = [plt.text(x, y, concept, ha="center", va="center", size=9, color="r" if concept in highlight else "k")
+              for (x, y), concept in zip(res, concepts)]
+    else:
+        labels = [plt.text(x, y, concept, ha="center", va="center", size=9)
+                  for (x, y), concept in zip(res, concepts)]
     adjust_text(labels, arrowprops=dict(arrowstyle="-", color='k', lw=0.5))
     if save_fp:
         plt.savefig(save_fp)
