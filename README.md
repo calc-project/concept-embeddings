@@ -1,6 +1,13 @@
 # README
 
-This repository contains all the code and reference points to all the data necessary for reproducing our study *Partial Colexifications Improve Concept Embeddings*. The repository is structured in the following way:
+This repository contains all the code and reference points to all the data necessary for reproducing our study:
+
+> Rubehn, A. and List, J.-M. (2025). Partial Colexifications Improve Concept Embeddings. In *Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics, Volume 1: Long Papers*, Vienna, Austria. Association for Computational Linguistics.
+
+If you use our work, please make sure to cite the paper accordingly.
+
+## Repository Structure
+
 * `data` contains the colexification networks as JSON files, as well as a Python script for retrieving these data using `pyconcepticon`.
 * `embeddings` contains all the trained embeddings in a verbose JSON format that also stores relevant information about the training procedure.
 * `eval` contains all evaluation scripts and references to the evaluation data.
