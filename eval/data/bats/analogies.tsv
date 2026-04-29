@@ -1,4 +1,4 @@
-BATS_WORD	BATS_TARGETS	BATS_CATEGORY	CONCEPT_1	CONCEPT_2
+BATS_WORD	BATS_TARGETS	BATS_CATEGORY	CONCEPT_1	CONCEPT_2	COMMENT
 boar	sow	E10 [male - female]	BOAR (MALE PIG)	SOW (FEMALE PIG)
 boy	girl	E10 [male - female]	BOY	GIRL
 brother	sister	E10 [male - female]	BROTHER	SISTER
@@ -93,403 +93,287 @@ horse	foal/colt/filly	E06 [animal - young]	HORSE	FOAL
 insect	larva	E06 [animal - young]	INSECT	LARVA
 pig	piglet/shoat/farrow	E06 [animal - young]	PIG	PIGLET
 sheep	lamb/lambkin/cosset	E06 [animal - young]	SHEEP	LAMB
-armchair	chair/seat/piece_of_furniture/article_of_furniture/furnishing/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]
-blender	appliance/mixer/kitchen_utensil/utensil/implement/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-bracelet	jewelry/band/strip/slip/artifact/artefact/unit/object/physical_object/physical_entity/entity/jewellery/adornment/decoration/ornament/ornamentation/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-brooch	jewelry/jewellery/adornment/decoration/ornament/ornamentation/artifact/artefact/unit/object/physical_object/	L02 [hypernyms - misc]		
-cake	dessert/baked_goods/food/solid_food/course/nutriment/nourishment/nutrition/sustenance/aliment/alimentation/victuals/food/nutrient/substance/matter/physical_entity/entity	L02 [hypernyms - misc]		
-computer	device/machine/gadget/artifact/artefact/unit/object/physical_object/physical_entity/entity/expert/person/individual/someone/somebody/mortal/soul/causal_agent/cause/causal_agency/organism/being/physical_entity/living_thing/animate_thing/entity/unit/object/physical_object/	L02 [hypernyms - misc]		
-croissant	pastry/bun/roll/bread/breadstuff/staff_of_life/baked_goods/starches/food/solid_food/foodstuff/food_product/solid/food/nutrient/matter/substance/physical_entity/entity	L02 [hypernyms - misc]		
-cup	tableware/crockery/dishware/ware/article/artifact/artefact/unit/object/physical_object/physical_entity/entity/container	L02 [hypernyms - misc]		
-denim	fabric/cloth/material/textile/artifact/artefact/unit/object/physical_object/physical_entity/entity/garment/clothing/article_of_clothing/vesture/wear/wearable/habiliment/consumer_goods/covering/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-deodorant	toiletry/toilet_articles/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-desk	furniture/table/piece_of_furniture/article_of_furniture/furnishing/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-diary	journal/writing/written_material/piece_of_writing/written_communication/written_language/black_and_white/communication/abstraction/abstract_entity/entity/journal/book/volume/product/production/creation/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-dishwasher	appliance/machine/entity/unit/object/physical_object/white_goods/home_appliance/household_appliance/durables/durable_goods/consumer_durables/consumer_goods/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-dress	clothes/garment/clothing/article_of_clothing/vesture/wear/wearable/habiliment/consumer_goods/covering/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity/	L02 [hypernyms - misc]		
-fridge	appliance/icebox/white_goods/home_appliance/household_appliance/appliance/durables/durable_goods/consumer_durables/consumer_goods/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-gasoline	fuel/hydrocarbon/substance/organic_compound/matter/compound/chemical_compound/physical_entity/chemical/chemical_substance/entity/material/stuff/substance/part/portion/component_part/component/constituent/relation/abstraction/abstract_entity	L02 [hypernyms - misc]		
-grapefruit	citrus/citrus_fruit/citrous_fruit/fruit/edible_fruit/fruit/produce/green_goods/green_groceries/garden_truck/food/matter/natural_object/physical_entity/unit/entity/object/physical_object	L02 [hypernyms - misc]		
-hairnet	net/network/mesh/meshing/meshwork/fabric/cloth/material/textile/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-hairpin	pin/fastener/fastening/holdfast/fixing/restraint/constraint/device/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-hamburger	sandwich/snack_food/dish/nutriment/nourishment/nutrition/sustenance/aliment/alimentation/victuals/food/nutrient/substance/matter/physical_entity/entity/beef/boeuf/meat/food/solid_food/solid/matter/physical_entity/entity	L02 [hypernyms - misc]		
-jacket	clothes/coat/overgarment/outer_garment/garment/clothing/article_of_clothing/vesture/wear/wearable/habiliment/consumer_goods/covering/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity/	L02 [hypernyms - misc]		
-jeans	trousers/pants/workwear/garment/clothing/clothes/article_of_clothing/vesture/wear/wearable/habiliment/consumer_goods/covering/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity/	L02 [hypernyms - misc]		
-juicer	utensil/physical_entity/entity/unit/object/physical_object/squeezer/kitchen_utensil/implement/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-lemon	citrus/citrus_fruit/citrous_fruit/fruit/edible_fruit/fruit/produce/green_goods/green_groceries/garden_truck/food/matter/natural_object/physical_entity/unit/entity/object/physical_object	L02 [hypernyms - misc]		
-lotion	toiletry/toilet_articles/artifact/artefact/unit/object/physical_object/physical_entity/entity/	L02 [hypernyms - misc]		
-mascara	makeup/make-up/war_paint/cosmetic/toiletry/toilet_articles/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-necklace	jewelry/jewellery/adornment/decoration/ornament/ornamentation/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-notebook	book/volume/product/production/creation/artifact/artefact/unit/object/physical_object/physical_entity/entity/portable_computer/personal_computer/pc/microcomputer/digital_computer/computer/computing_machine/computing_device/data_processor/electronic_computer/information_processing_system/machine/device/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-notepad	pad/pad_of_paper/tablet/paper/material/stuff/substance/matter/part/portion/component_part/component/constituent/physical_entity/relation/entity/abstraction/abstract_entity	L02 [hypernyms - misc]		
-pastry	food/dough/concoction/mixture/intermixture/foodstuff/food_product/food/nutrient/substance/matter/physical_entity/entity/baked_goods/solid_food/solid/matter/physical_entity/entity	L02 [hypernyms - misc]		
-peach	fruit/drupe/stone_fruit/edible_fruit/fruit/produce/green_goods/green_groceries/garden_truck/food/matter/natural_object/physical_entity/unit/entity/object/physical_object	L02 [hypernyms - misc]		
-perfume	toiletry/toilet_articles/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-photo	picture/image/representation/creation/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-pie	pastry/baked_goods/food/solid_food/solid/matter/physical_entity/entity/indo-european/indo-european_language/indo-hittite/natural_language/tongue/language/linguistic_communication/communication/abstraction/abstract_entity/entity	L02 [hypernyms - misc]		
-plum	fruit/drupe/stone_fruit/edible_fruit/fruit/produce/green_goods/green_groceries/garden_truck/food/matter/natural_object/physical_entity/unit/entity/object/physical_object	L02 [hypernyms - misc]		
-postcard	card/correspondence/first_class/1st_class/first-class_mail/1st-class_mail/written_communication/written_language/black_and_white/mail/communication/message/abstraction/abstract_entity/entity	L02 [hypernyms - misc]		
-shelf	furniture/support/piece_of_furniture/article_of_furniture/furnishing/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-shirt	clothes/garment/clothing/garment/clothing/article_of_clothing/vesture/wear/wearable/habiliment/consumer_goods/covering/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity/	L02 [hypernyms - misc]		
-sidewalk	walk/walkway/paseo/path/way/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-skirt	clothes/garment/clothing/garment/clothing/article_of_clothing/vesture/wear/wearable/habiliment/consumer_goods/covering/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity/	L02 [hypernyms - misc]		
-sofa	furniture/seat/piece_of_furniture/article_of_furniture/furnishing/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-stapler	device/machine/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-sunscreen	cream/lotion/ointment/emollient/toiletry/toilet_articles/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-sweater	clothes/garment/clothing/article_of_clothing/vesture/wear/wearable/habiliment/consumer_goods/covering/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity/	L02 [hypernyms - misc]		
-toaster	appliance/entity/unit/object/physical_object/kitchen_appliance/home_appliance/household_appliance/durables/durable_goods/consumer_durables/consumer_goods/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-toothbrush	brush/toiletry/toilet_articles/implement/artifact/artefact/unit/object/physical_object/physical_entity/entity/mustache/moustache/facial_hair/hair/body_covering/covering/natural_covering/cover/natural_object/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-tub	container/vessel/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-tv	device/machine/receiver/receiving_system/set/electronic_equipment/equipment/artifact/artefact/unit/object/physical_object/physical_entity/entity/broadcasting/telecommunication/telecom/medium/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-vase	jar/vessel/container/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-wristband	band/strip/slip/artifact/artefact/unit/object/physical_object/physical_entity/entity/band/strip/slip/artifact/artefact/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]		
-able	unable/incapable/incompetent/unequal	L09 [antonyms - gradable]		
-abundant	scarce/rare/tight/meager/meagre/meagerly/stingy/scrimpy/insufficient/deficient	L09 [antonyms - gradable]		
-aware	unaware/oblivious/unmindful/unconscious/unsuspecting/asleep/insensible/unconscious/unwitting/ignorant/indifferent/oblivious	L09 [antonyms - gradable]		
-beautiful	ugly/disfigured/evil-looking/fugly/grotesque/monstrous/hideous/repulsive/ill-favored/ill-favoured/scrofulous/unlovely/unpicturesque/unsightly/displeasing/unattractive/awkward	L09 [antonyms - gradable]		
-big	small/atomic/subatomic/bantam/diminutive/lilliputian/midget/petite/tiny/flyspeck/bitty/bittie/teensy/teentsy/teeny/wee/weeny/weensy/teensy-weensy/teeny-weeny/itty-bitty/itsy-bitsy/dinky/dwarfish/elfin/elflike/gnomish/half-size/infinitesimal/minute/lesser/microscopic/microscopical/micro/miniature/minuscule/miniscule/olive-sized/pocket-size/pocket-sized/pocketable/puny/runty/shrimpy/slender/slim/smaller/littler/smallish/small-scale/undersize/undersized	L09 [antonyms - gradable]		
-bright	pale/colorless/colourless/dull/neutral/pale/white/bleached/faded/washed-out/washy/drab/somber/sombre/dulled/greyed/etiolate/etiolated/lurid/waxen/waxlike/waxy/whitened	L09 [antonyms - gradable]		
-cheap	expensive/big-ticket/high-ticket/costly/dear/high-priced/pricey/pricy/dearly-won/overpriced/valuable	L09 [antonyms - gradable]		
-clean	dirty/soiled/unclean/augean/bedraggled/draggled/befouled/fouled/begrimed/dingy/grimy/grubby/grungy/raunchy/black/smutty/buggy/cobwebby/dirty-faced/feculent/filthy/foul/nasty/flyblown/squalid/sordid/greasy/oily/lousy/maculate/mucky/muddy/ratty/scummy/smudgy/snotty/snot-nosed/sooty/travel-soiled/travel-stained/uncleanly/unswept/unwashed	L09 [antonyms - gradable]		
-clear	vague/obscure/unclear/undefined/indefinable/undefinable	L09 [antonyms - gradable]		
-close	distant/remote/removed/far/faraway/	L09 [antonyms - gradable]		
-colorful	colorless/colourless/dull/neutral/pale/white/bleached/faded/washed-out/washy/drab/somber/sombre/dulled/greyed/etiolate/etiolated/lurid/waxen/waxlike/waxy/whitened	L09 [antonyms - gradable]		
-common	rare/infrequent/scarce/uncommon/extraordinary	L09 [antonyms - gradable]		
-competent	incompetent/unskilled/unqualified/inefficient/unqualified/unskilled	L09 [antonyms - gradable]		
-concerned	unconcerned/blase/blithe/casual/insouciant/nonchalant/degage/detached/uninvolved/indifferent/careless/uninvolved/untroubled	L09 [antonyms - gradable]		
-cooked	raw/half-baked/fresh/natural/underdone/rare/uncooked/untoasted	L09 [antonyms - gradable]		
-dangerous	safe/fail-safe/risk-free/riskless/unhazardous/safe-and-sound/unhurt/harmless/invulnerable/secure/uninjured	L09 [antonyms - gradable]		
-decisive	hesitating/indecisive/hesitant/inconclusive/irresolute	L09 [antonyms - gradable]		
-dry	wet/bedewed/dewy/besprent/boggy/marshy/miry/mucky/muddy/quaggy/sloppy/sloughy/soggy/squashy/swampy/waterlogged/clammy/dank/damp/dampish/moist/sodden/soppy/drippy/drizzly/humid/misty/muggy/steamy/sticky/reeking/watery/rheumy/showery/rainy/steaming/tacky/undried/washed	L09 [antonyms - gradable]		
-energetic	lethargic/unergetic/dazed/foggy/groggy/logy/stuporous/dreamy/lackadaisical/languid/languorous/listless/inactive	L09 [antonyms - gradable]		
-familiar	unfamiliar/strange/unknown/unacquainted/unacquainted/foreign/strange/unknown	L09 [antonyms - gradable]		
-fat	thin/lean/anorexic/anorectic/bony/cadaverous/emaciated/gaunt/haggard/pinched/skeletal/wasted/deep-eyed/hollow-eyed/sunken-eyed/gangling/gangly/lanky/lank/spindly/rawboned/reedy/reedlike/twiggy/twiglike/scarecrowish/scraggy/boney/scrawny/skinny/underweight/weedy/shriveled/shrivelled/shrunken/withered/wizen/wizened/slender/slight/slim/svelte/slender-waisted/slim-waisted/wasp-waisted/spare/trim/spindle-legged/spindle-shanked/stringy/wiry/wisplike/wispy	L09 [antonyms - gradable]		
-full	empty/bare/stripped/blank/clean/white/empty-handed/glassy/glazed/lifeless/looted/pillaged/plundered/ransacked/vacant/vacuous/void	L09 [antonyms - gradable]		
-gaseous	solid/hard/coagulated/solidified/concrete/congealed/jelled/jellied/dry/semisolid/solid-state	L09 [antonyms - gradable]		
-generous	stingy/beggarly/mean/cheap/chinchy/chintzy/cheeseparing/close/near/penny-pinching/skinny/closefisted/hardfisted/tightfisted/grudging/niggardly/scrimy/mingy/miserly/tight/parsimonious/penurious/selfish/uncharitable/ungenerous/meanspirited	L09 [antonyms - gradable]		
-happy	sad/bittersweet/doleful/mournful/heavyhearted/melancholy/melancholic/pensive/wistful/tragic/tragical/tragicomic/tragicomical/deplorable/distressing/lamentable/pitiful/sorry	L09 [antonyms - gradable]		
-hard	soft/mellow/brushed/fleecy/napped/cheeselike/compressible/squeezable/cottony/cushioned/cushiony/padded/demulcent/emollient/salving/softening/downy/downlike/flossy/fluffy/flaccid/flocculent/woolly/wooly/yielding/mushy/overstuffed/softish/semisoft/spongy/squashy/squishy/spongelike/velvet/velvety	L09 [antonyms - gradable]		
-hot	cold/chilly/frosty/cool/frigid	L09 [antonyms - gradable]		
-interesting	uninteresting/dull/boring/deadening/ho-hum/irksome/slow/tedious/tiresome/wearisome/insipid/jejune/narcotic/soporiferous/soporific/prosaic/prosy/earthbound/ponderous/putdownable/unexciting/unstimulating	L09 [antonyms - gradable]		
-introvert	extravert/extrovert/outgoing/extroverted/forthcoming/sociable	L09 [antonyms - gradable]		
-large	small/little/atomic/subatomic/bantam/diminutive/lilliputian/midget/petite/tiny/flyspeck/bitty/bittie/teensy/teentsy/teeny/wee/weeny/weensy/teensy-weensy/teeny-weeny/itty-bitty/itsy-bitsy/dinky/dwarfish/elfin/elflike/gnomish/half-size/infinitesimal/minute/lesser/microscopic/microscopical/micro/miniature/minuscule/miniscule/olive-sized/pocket-size/pocket-sized/pocketable/puny/runty/shrimpy/slender/slim/smaller/littler/smallish/small-scale/undersize/undersized	L09 [antonyms - gradable]		
-long	short/abbreviated/shortened/truncated/brief/clipped/fleeting/fugitive/momentaneous/momentary/short_and_sweet/short-dated/short-range/short-run/short-term/abbreviated/brief/close/curtal/sawed-off/sawn-off/shortened/shortish/short-range/short-snouted/snub/stubby/telescoped/truncate/truncated/chunky/dumpy/low-set/squat/squatty/stumpy/compact/heavyset/stocky/thick/thickset/half-length/pint-size/pint-sized/runty/sawed-off/sawn-off/short-stalked/squab/squabby	L09 [antonyms - gradable]		
-lumpy	flat/level/plane/even/	L09 [antonyms - gradable]		
-noisy	silent/uncommunicative/dumb/mute/inarticulate/unarticulate	L09 [antonyms - gradable]		
-normal	abnormal/aberrant/deviant/deviate/anomalous/antidromic/atypical/irregular/brachydactylic/brachydactylous/defective/freakish/kinky/perverted/subnormal/supernormal/vicarious/unusual/exceptional/insane/unnatural	L09 [antonyms - gradable]		
-organized	unorganized/unstructured/uncoordinated/unformed/unincorporated	L09 [antonyms - gradable]		
-pale	tanned/bronzed/suntanned/brunet/brunette	L09 [antonyms - gradable]		
-rich	poor/broke/bust/skint/stone-broke/stony-broke/destitute/impoverished/indigent/necessitous/needy/poverty-stricken/hard_up/impecunious/penniless/penurious/pinched/moneyless/unprovided	L09 [antonyms - gradable]		
-sane	crazy/loony/looney/nutcase/weirdo/mad/insane	L09 [antonyms - gradable]		
-short	tall/gangling/gangly/lanky/rangy/height/leggy/long-legged/long-shanked/tall-growing/long/long-stalked/tall-stalked/stately/statuesque/tallish	L09 [antonyms - gradable]		
-simple	difficult/challenging/hard/complicated/demanding/daunting/taxing	L09 [antonyms - gradable]		
-sincere	insincere/bootlicking/fawning/obsequious/sycophantic/toadyish/buttery/fulsome/oily/oleaginous/smarmy/soapy/unctuous/dissimulative/false/feigned/gilded/meretricious/specious/hypocritical/plausible/counterfeit/imitative/dishonest/dishonorable/disingenuous/artful/false/unreal	L09 [antonyms - gradable]		
-slow	fast/quick/accelerated/alacritous/blistering/hot/red-hot/double-quick/express/fast-breaking/fast-paced/fleet/swift/high-speed/high-velocity/hurrying/scurrying/immediate/prompt/quick/straightaway/instantaneous/instant/meteoric/speedy/rapid/winged/windy	L09 [antonyms - gradable]		
-sweet	sour/acerb/acerbic/astringent/acetose/acetous/vinegary/vinegarish/acidic/acid/acidulent/acidulous/lemony/lemonlike/sourish/tangy/tart/subacid/bitter	L09 [antonyms - gradable]		
-tasty	tasteless/bland/flat/flavorless/flavourless/insipid/savorless/savourless/vapid/unflavored/unflavoured/nonflavored/nonflavoured/unsalted/unseasoned/unappetizing/unappetising/unpalatable	L09 [antonyms - gradable]		
-tight	loose/lax/baggy/loose-fitting/sloppy/flyaway/free/liberal/informal/unofficial	L09 [antonyms - gradable]		
-warm	cool/cold/chilly/frosty/cool/frigid	L09 [antonyms - gradable]		
-white	black/dark/lightless	L09 [antonyms - gradable]		
-wide	narrow/constricting/constrictive/narrowing/narrowed/narrow-mouthed/slender/thin/strait/straplike/tapered/tapering/limited	L09 [antonyms - gradable]		
-willing	unwilling/defiantnoncompliant/involuntary/nonvoluntary/unvoluntary/disinclined/averse/backward/hesitant/indisposed/loath/reluctant/uneager/unwishful	L09 [antonyms - gradable]		
-young	old/aged/elderly/older/senior/age/aging/ageing/senescent/ancient/anile/centenarian/darkened/doddering/doddery/gaga/senile/emeritus/grey/gray/grey-haired/gray-haired/grey-headed/gray-headed/grizzly/hoar/hoary/white-haired/middle-aged/nonagenarian/octogenarian/oldish/overage/overaged/superannuated/over-the-hill/sexagenarian/venerable/experienced/experient/mature/senior	L09 [antonyms - gradable]		
-after	before/earlier/previously	L10 [antonyms - binary]		
-ahead	behind/rear/after/tail/beforehand	L10 [antonyms - binary]		
-anterior	posterior	L10 [antonyms - binary]		
-backward	forward/forwards/frontward/frontwards/forrad/forrard/forth/onward	L10 [antonyms - binary]		
-before	after/subsequently/later/afterwards/afterward/ahead	L10 [antonyms - binary]		
-beginning	end/terminal/ending/last/final/finish/finale/conclusion	L10 [antonyms - binary]		
-below	above/higher/up	L10 [antonyms - binary]		
-climb	descend/declivitous/downhill/downward-sloping/degressive/descendant/descendent/down/downward/downward-arching/drizzling/dropping/falling/raining	L10 [antonyms - binary]		
-dead	alive/living/live	L10 [antonyms - binary]		
-decrement	increment	L10 [antonyms - binary]		
-descend	ascend/climb/rise/upward/ascendent/ascendant	L10 [antonyms - binary]		
-dive	emerge	L10 [antonyms - binary]		
-down	up/above/ahead/lead/leading/aweigh/dormie/dormy/heavenward/skyward/risen/sprouted/upbound/upfield/upward	L10 [antonyms - binary]		
-downslope	upslope/ascent	L10 [antonyms - binary]		
-drop	lift/pick_up	L10 [antonyms - binary]		
-dynamic	static/still/unmoving/unchanging	L10 [antonyms - binary]		
-employ	dismiss/fire/sack/displace/terminate	L10 [antonyms - binary]		
-exit	entrance/entranceway/entryway/entry/entree	L10 [antonyms - binary]		
-fall	rise/upward/climb	L10 [antonyms - binary]		
-first	last/end/terminal/ending/final/finish/finale/conclusion	L10 [antonyms - binary]		
-forget	remember/retrieve/recall/call_back/call_up/recollect	L10 [antonyms - binary]		
-forward	backward/back/backwards/rearward/rearwards	L10 [antonyms - binary]		
-front	back/rear/forepart	L10 [antonyms - binary]		
-in	out/outer/exterior/outside	L10 [antonyms - binary]		
-inbound	outbound	L10 [antonyms - binary]		
-inhale	exhale	L10 [antonyms - binary]		
-input	output	L10 [antonyms - binary]		
-inside	outside/exterior/out	L10 [antonyms - binary]		
-interior	exterior/outdoor/out-of-door/outside	L10 [antonyms - binary]		
-internal	external/outer/outside	L10 [antonyms - binary]		
-inverse	reverse/reversion/reversal/turnabout/turnaround	L10 [antonyms - binary]		
-mortal	immortal	L10 [antonyms - binary]		
-occupied	vacant/free	L10 [antonyms - binary]		
-off	on	L10 [antonyms - binary]		
-out	in/inside	L10 [antonyms - binary]		
-outward	upward/up/upwards	L10 [antonyms - binary]		
-over	under/below/beneath	L10 [antonyms - binary]		
-previously	subsequently/later/afterwards/afterward/after/subsequent	L10 [antonyms - binary]		
-proceed	retreat/return	L10 [antonyms - binary]		
-rise	sink/drop/fall	L10 [antonyms - binary]		
-south	north	L10 [antonyms - binary]		
-southeast	southwest/northeast	L10 [antonyms - binary]		
-submerge	emerge	L10 [antonyms - binary]		
-top	bottom/underside/undersurface	L10 [antonyms - binary]		
-toward	away/off/forth/aside	L10 [antonyms - binary]		
-true	false/incorrect/wrong/mistaken	L10 [antonyms - binary]		
-under	over/above/up	L10 [antonyms - binary]		
-up	down/downwards/downward/downwardly	L10 [antonyms - binary]		
-uphill	downhill/decline/fall/declivitous/downward-sloping	L10 [antonyms - binary]		
-west	east	L10 [antonyms - binary]		
-atmosphere	gas/oxygen/hydrogen/nitrogen/ozone	L04 [meronyms - substance]		
-bag	leather/fabric/plastic	L04 [meronyms - substance]		
-beach	sand/silicon/rocks/pebbles/atomic_number_14/si	L04 [meronyms - substance]		
-beard	hair	L04 [meronyms - substance]		
-body	flesh/bones	L04 [meronyms - substance]		
-boots	leather/canvas	L04 [meronyms - substance]		
-bottle	glass/plastic	L04 [meronyms - substance]		
-bowl	glass/china/aluminium/wood/steel/plastic/clay	L04 [meronyms - substance]		
-box	cardboard/tin/boxwood/turkish_boxwood	L04 [meronyms - substance]		
-bread	flour/yeast/	L04 [meronyms - substance]		
-bronze	copper/tin/cu/atomic_number_29	L04 [meronyms - substance]		
-candy	sugar/nougat/chocolate/gelatin/molasses/syrup/honey/fruit/nuts	L04 [meronyms - substance]		
-chocolate	cocoa/bean/cacao/cacao_bean/cocoa_bean	L04 [meronyms - substance]		
-clothing	fabric/leather/	L04 [meronyms - substance]		
-cloud	vapor/water/vapour/water_vapour/water_vapor	L04 [meronyms - substance]		
-cocktail	alcohol/juice/water	L04 [meronyms - substance]		
-concrete	silicon/cement/water/sand/atomic_number_14/si	L04 [meronyms - substance]		
-desk	wood/metal/steel	L04 [meronyms - substance]		
-diamond	carbon	L04 [meronyms - substance]		
-doorknob	metal/steel/bronze/wood	L04 [meronyms - substance]		
-flag	fabric/paper	L04 [meronyms - substance]		
-glacier	ice/water/oxygen/hydrogen/h/h2o/atomic_number_8/atomic_number_1/o/water_ice	L04 [meronyms - substance]		
-glass	silicone	L04 [meronyms - substance]		
-house	bricks/cement/wood/clay	L04 [meronyms - substance]		
-ice	water/oxygen/hydrogen/water/h2o/atomic_number_1/atomic_number_8/h/o	L04 [meronyms - substance]		
-icicle	ice/water	L04 [meronyms - substance]		
-jam	fruit/sugar/berries	L04 [meronyms - substance]		
-jeans	fabric/denim	L04 [meronyms - substance]		
-lawn	grass	L04 [meronyms - substance]		
-lens	glass/plastic	L04 [meronyms - substance]		
-mirror	glass/bronze	L04 [meronyms - substance]		
-money	paper/metal/silver/gold/iron/copper/tin	L04 [meronyms - substance]		
-ocean	water	L04 [meronyms - substance]		
-omelette	eggs/egg/milk/cheese	L04 [meronyms - substance]		
-pastry	flour/egg/butter/filling	L04 [meronyms - substance]		
-penny	metal/alloy/bronze/nickel/zinc/copper/tin	L04 [meronyms - substance]		
-pill	medicine/drug	L04 [meronyms - substance]		
-plastic	polymer/oil/gas/coal	L04 [meronyms - substance]		
-roof	shingles/tiles/wood/metal	L04 [meronyms - substance]		
-sea	water	L04 [meronyms - substance]		
-snow	water/oxygen/hydrogen/flake/ice/snowflake/snowflakes/h2o/atomic_number_1/atomic_number_8/h/o	L04 [meronyms - substance]		
-spoon	aluminium/wood/steel	L04 [meronyms - substance]		
-steel	iron/pearlite/carbon/cementite/ferrite/iron_carbide/fe/atomic_number_26/alpha_iron	L04 [meronyms - substance]		
-table	wood/metal/plastic	L04 [meronyms - substance]		
-wall	cement/bricks/stones/rocks/wood/cardboard/board/plank/clay/mud	L04 [meronyms - substance]		
-water	oxygen/hydrogen/water/h2o/atomic_number_1/atomic_number_8/h/o	L04 [meronyms - substance]		
-wig	hair	L04 [meronyms - substance]		
-wine	grapes/grape	L04 [meronyms - substance]		
-wire	metal	L04 [meronyms - substance]		
-yogurt	milk	L04 [meronyms - substance]		
-backpack	daypack/kitbag/kit_bag	L03 [hyponyms - misc]		
-bag	pouch/backpack/knapsack/packsack/rucksack/haversack/beanbag/bladder/pouch/carryall/holdall/tote/tote/drawstring/dust/vacuum/envelope/gasbag/gamebag/golf/gunnysack/gunny/burlap/ice/mailbag/postbag/nosebag/feedbag/pannier/plastic/purse/ragbag/rosin/sachet/sack/poke/paper/carrier/saddlebag/sandbag/schoolbag/shopping/sick_bag/sickbag/skin/sleeping/sweat/tea/toilet/sponge/tool/tucker-bag	L03 [hyponyms - misc]		
-bed	bunk/berth/built/built-in/bunk/cot/camp/couch/deathbed/double/four-poster/hammock/sack/marriage_bed/murphy/plank-bed/platform/sickbed/single_bed/sleigh/trundle/truckle/truckle/twin/water/semi-double/semidouble	L03 [hyponyms - misc]		
-boat	ferry/ark/barge/flatboat/hoy/lighter/bumboat/canal_boat/narrow_boat/narrowboat/ferryboat/fireboat/gondola/guard_boat/gunboat/junk/longboat/lugger/mackinaw/mackinaw/mailboat/mail/packet/packet/motorboat/powerboat/pilot/police/punt/river_boat/scow/sea_boat/small_boat/steamboat/surfboat/tender_boat/pinnace/cutter_boat/tugboat/tug/towboat/tower_boat/motorboat/yacht/sail/row/canoe/kayak/paddle/paddle_boat	L03 [hyponyms - misc]		
-book	paperback/album/folio/hardback/hardcover/journal/novel/order/paper-back/softback/soft-cover/picture/sketchbook/sketch/notebook	L03 [hyponyms - misc]		
-brush	toothbrush/bottlebrush/bristle/clothesbrush/hairbrush/nailbrush/paintbrush/sable/scrub/scrubbing/scrubber/shaving_brush	L03 [hyponyms - misc]		
-burger	hamburger/cheeseburger/50/50_burger/angus_burger/banquet_burger/barbecue_burger/bøfsandwich/utter_burge/buffalo_burger/california_burger/chili_burger/curry_burger/hamdog/salmon_burger/rice_burger/veggie_burger	L03 [hyponyms - misc]		
-camera	camcorder/box_camera/box_kodak/candid_camera/digital_camera/flash_camera/motion-picture_camera/movie_camera/cine-camera/point-and-shoot_camera/point-and-shoot/polaroid_camera/polaroid_land_camera/polaroid/portrait_camera/reflex_camera/webcam/webcamera/sound_camera	L03 [hyponyms - misc]		
-candy	lollipop/candy_bar/carob_bar/hard_candy/brandyball/patty/bonbon/brittle/toffee/toffy/butterscotch/candy_cane/candy_corn/caramel/cotton_candy/spun_sugar/candyfloss/dragee/fondant/fudge/gumdrop/honey_crisp/mint/mint_candy/horehound/jelly_bean/jelly_egg/kiss/candy_kiss/licorice/liquorice/life_saver/sucker/all-day_sucker/lozenge/marshmallow/marzipan/marchpane/nougat/nougat_bar/nut_bar/peanut_bar/popcorn_ball/praline/rock_candy/rock/sugar_candy/sugarplum/taffy/truffle/chocolate_truffle/turkish_delight/easter_egg	L03 [hyponyms - misc]		
-car	limousine/convertible/ambulance/beach/wagon/station/estate/waggon/bus/jalopy/heap/cab/hack/taxi/taxicab/compact/coupe/cruiser/police/patrol/prowl/squad/electric/hardtop/hatchback/hot-rod/jeep/landrover/limo/loaner/minicar/minivan/model/pace/racer/race/racing/roadster/runabout/two-seater/sedan/saloon/sports/sport/sport/suv/stanley/steamer/stock/subcompact/touring/tourer/used/secondhand	L03 [hyponyms - misc]		
-church	chapel/abbey/basilica/cathedral/duomo/kirk	L03 [hyponyms - misc]		
-citrus	lemon/orange/lime/mandarin/tangerine/yuzu	L03 [hyponyms - misc]		
-cloud	thundercloud/cirrocumulus/cirrocumulus/cirrostratus/cirrus/contrail/condensation/trail/cumulonimbus/cumulonimbus/cumulus/nacreous/nebule/nimbus/rain/storm/stratus/mushroom/smoke	L03 [hyponyms - misc]		
-collar	choker/ruff/ruffle/clerical/roman_collar/dog_collar/eton_collar/rabato_collar/rebato_collar/turtleneck/polo-neck/neckpiece	L03 [hyponyms - misc]		
-color	white/black/blue/green/red/yello/orange/vermilion/amber/chartreuse/teal/violet/magenta/rose/azure/cyan/indigo/purple/brown	L03 [hyponyms - misc]		
-computer	laptop/desktop/tablet/smartphone/supercomputer/iphone/ipad	L03 [hyponyms - misc]		
-container	bag/handbag/pocketbook/purse/basket/handbasket/bin/bowl/pipe/bowl/box/bread-bin/breadbox/bunker/can/tin/canister/cannister/capsule/cargo/case/display/showcase/vitrine/cassette/cup/cylinder/dice/cup/box/dish/dispenser/drawer/dumpster/empty/envelope/glass/bag/bottle/mailer/manger/trough/measure/mold/mould/cast/package/parcel/pan/pod/pot/flowerpot/flask/receptacle/reliquary/saltcellar/savings/bank/coin/money/bank/scuttle/coal/scuttle/shaker/spoon/thimble/capsule/vessel/basket/bin/waste-paper/wastebasket/waste/file/can/pot/workbasket/workbox/workbag	L03 [hyponyms - misc]		
-cookware	pot/baster/chafing/dish/cooker/sheet/tray/enamelware/grid/gridiron/griddle/pan/poacher/skimmer/steamer/turner	L03 [hyponyms - misc]		
-cup	teacup/beaker/chalice/goblet/coffee_cup/dixie/paper_cup/grace/kylix/cylix/mustache_cup/moustache_cup/scyphus/grail	L03 [hyponyms - misc]		
-cushion	pincushion/pillow/air/inflatable/gaddi/hassock/headrest/pillow/seat	L03 [hyponyms - misc]		
-cutlery	knife/fork/spoon/tablefork/teaspoon/dessert_spoon/salad_fork/carving_fork	L03 [hyponyms - misc]		
-dessert	cake/ambrosia/baked_alaska/blancmange/charlotte/compote/fruit_compote/dumpling/flan/frozen_dessert/junket/mold/mould/mousse/pavlova/peach_melba/pudding/pud/pudding/syllabub/sillabub/tiramisu/whip/zabaglione/sabayon/charlotte_russe/apple_dumpling/frozen_custard/soft_ice_cream/frozen_pudding/frozen_yogurt/ice-cream_cake/icebox_cake/ice-cream_cone/ice-cream_sundae/sundae/ice/frappe/ice_cream/icecream/ice_lolly/lolly/lollipop/popsicle/ice_milk/parfait/sherbert/sherbet/snowball/snowball/split/chocolate_mousse/trifle/brown_betty/chocolate_pudding/duff/plum_duff/flummery/nesselrode/nesselrode_pudding/pease_pudding/plum_pudding/christmas_pudding/roly-poly/roly-poly_pudding/steamed_pudding/suet_pudding/tapioca_pudding/vanilla_pudding/prune_whip/water_ice/sorbet/chocolate_ice_cream/neapolitan_ice_cream/peach_ice_cream/strawberry_ice_cream/tutti-frutti/vanilla_ice_cream/banana_split/tipsy_cake/spotted_dick/choc-ice	L03 [hyponyms - misc]		
-dress	gown/caftan/kaftan/chemise/sack/shift/coatdress/cocktail_dress/sheath/dirndl/gown/jumper/pinafore/pinny/kirtle/morning/evening/muumuu/polonaise/sari/saree/shirtdress/strapless/sundress	L03 [hyponyms - misc]		
-drum	tambourine/bass_drum/gran_casa/bongo/bongo_drum/snare_drum/snare/side_drum/tabor/tabour/tambour/tenor_drum/tom-tom/timbrel/djembe/doumbek/darbuka	L03 [hyponyms - misc]		
-emotion	anger/choler/ire/anxiety/conditioned_emotional_response/cer/conditioned_emotion/emotional_state/spirit/fear/fearfulness/fright/fear/reverence/awe/veneration/hate/hatred/joy/joyousness/joyfulness/love/annoyance/chafe/vexation/bad_temper/ill_temper/dander/hackles/fury/rage/madness/huffiness/indignation/outrage/infuriation/enragement/umbrage/offense/offence/angst/anxiousness/disquiet/concern/care/fear/discomfiture/discomposure/disconcertion/disconcertment/edginess/uneasiness/inquietude/disquietude/insecurity/jitteriness/jumpiness/nervousness/restiveness/scruple/qualm/misgiving/sinking/sinking_feeling/worry/trouble/ecstasy/rapture/transport/exaltation/raptus/embarrassment/gratification/satisfaction/happiness/felicity/state/unhappiness/alarm/dismay/consternation/apprehension/apprehensiveness/dread/creeps/frisson/shiver/chill/quiver/shudder/thrill/tingle/horror/hysteria/intimidation/panic/terror/affright/scare/panic_attack/stage_fright/timidity/timidness/timorousness/abhorrence/abomination/detestation/execration/loathing/odium/despisal/despising/hostility/enmity/ill_will/malevolence/malignity/misanthropy/misogamy/misogyny/misogynism/misology/misoneism/misopedia/murderousness/elation/high_spirits/lightness/exhilaration/excitement/exuberance/exultation/jubilance/jubilancy/jubilation/agape/agape/agape_love/amorousness/enamoredness/ardor/ardour/benevolence/devotion/devotedness/filial_love/heartstrings/lovingness/caring/loyalty/puppy_love/calf_love/crush/infatuation/worship/adoration/aggravation/exasperation/displeasure/frustration/harassment/torment/pique/temper/irritation/fit/tantrum/scene/conniption/irascibility/short_temper/spleen/quick_temper/lividity/wrath/dudgeon/high_dudgeon/willies/comfort/quality_of_life/blessedness/beatitude/beatification/radiance/embitterment/sadness/sorrow/sorrowfulness/chill/pall/foreboding/premonition/presentiment/boding/gloom/gloominess/somberness/sombreness/suspense/trepidation/swivet/cold_feet/diffidence/self-doubt/self-distrust/shyness/aggression/aggressiveness/animosity/animus/bad_blood/antagonism/belligerence/belligerency/class_feeling/resentment/bitterness/gall/rancor/rancour/maleficence/malice/maliciousness/spite/spitefulness/venom/vindictiveness/vengefulness/misocainea/euphoria/euphory/bang/boot/charge/rush/flush/thrill/kick/intoxication/titillation/triumph/beneficence/warmheartedness/warmth/nirvana/enlightenment/mourning/bereavement/poignance/poignancy/presage/shadow/hesitance/hesitancy/unassertiveness/warpath/envy/enviousness/grudge/score/grievance/heartburning/sulkiness/huffishness/covetousness/jealousy/green-eyed_monster/penis_envy	L03 [hyponyms - misc]		
-flask	thermos/ampulla/canteen/erlenmeyer_flask/hipflask/pocket_flask/round-bottom_flask/vacuum_flask/vacuum_bottle/dewar_flask/dewar/thermos_bottle/thermos_flask	L03 [hyponyms - misc]		
-guitar	ukulele/bass/bass_guitar/acoustic_guitar/cittern/cithern/cither/citole/gittern/electric_guitar/hawaiian/steel/uke	L03 [hyponyms - misc]		
-gun	rifle/air/airgun/antiaircraft/flak/flack/pom-pom/ack-ack/breechloader/cannon/firearm/piece/small-arm/gas/minute/quaker/set/spring/whaling	L03 [hyponyms - misc]		
-jewel	diamond/ruby/pearl/emerald/sapphire	L03 [hyponyms - misc]		
-jewelry	bracelet/bead/bijou/bling/bling_bling/bangle/clip/cufflink/earring/jewel/gem/precious_stone/necklace/pin/ring/band/tie_clip/bugle/anklet/ankle_bracelet/armilla/pendant_earring/drop_earring/eardrop/crown_jewel/diamond/emerald/pearl/ruby/sapphire/solitaire/chain/chain/string/strand/choker/collar/dog_collar/neckband/brooch/broach/breastpin/scatter_pin/stickpin/tie_tack/tiepin/scarfpin/annulet/engagement_ring/mourning_ring/ringlet/signet_ring/seal_ring/wedding_ring/wedding_band/ice/sparkler/seed_pearl/sunburst	L03 [hyponyms - misc]		
-mixer	blender/liquidizer/liquidiser/eggbeater/eggwhisk/electric/whisk	L03 [hyponyms - misc]		
-month	january/february/march/april/may/june/july/august/september/october/november/december/jan/feb/mar/apr/jun/jul/aug/sep/oct/nov/dec	L03 [hyponyms - misc]		
-oven	broiler/dutch_oven/gas_oven/rotisserie/tandoor	L03 [hyponyms - misc]		
-painting	watercolor/abstraction/cityscape/daub/distemper/finger-painting/icon/ikon/landscape/miniature/illumination/monochrome/mural/wall/nude/nude_painting/oil/pentimento/sand/seascape/waterscape/semi-abstraction/still_life/tanka/water-color/watercolour/water-colour/fresco/graffitti	L03 [hyponyms - misc]		
-poem	haiku/abecedarius/alcaic/alcaic_verse/ballad/lay/ballade/blank_verse/elegy/lament/epic_poem/heroic_poem/epic/epos/free_verse/vers_libre/lyric/lyric_poem/rondeau/rondel/sonnet/tanka/terza_rima/verse/rhyme/versicle	L03 [hyponyms - misc]		
-railway	monorail/cable/funicular/cog/rack/elevated/el/overhead/metro/tube/underground/subway/rail	L03 [hyponyms - misc]		
-season	spring/harvest/haying/fall/autumn/springtime/summer/summertime/winter/wintertime/rainy/dry/growing/seedtime/sheepshearing/holiday/high/peak/off-season/preseason/baseball/basketball/exhibition/concert/fishing/football/hockey/hunting/social/theatrical/whitsun/whitsuntide/whitweek	L03 [hyponyms - misc]		
-seat	chair/bench/box/ottoman/pouf/pouffe/puff/hassock/sofa/couch/lounge/stool/toilet	L03 [hyponyms - misc]		
-shelf	bookshelf/hob/mantel/mantelpiece/mantle/mantlepiece/chimneypiece/overmantel/berm	L03 [hyponyms - misc]		
-shirt	polo/camise/dashiki/daishiki/dress/evening/hair/jersey/t-shirt/tee/kurta/sport/tank/work-shirt	L03 [hyponyms - misc]		
-shoes	sneakers/anklet/baby_shoes/balmoral/blucher/bowling_shoes/brogan/brogue/clodhopper/work_shoes/calceus/chopine/platform_shoes/chukka/boots/cleats/congress_shoes/gaiters/flipper_shoes/fin_shoes/ghillie/gillie/gym_shoes/tennis_shoes/loafers/moccasins/mocassins/oxford_shoes/pump_shoes/running_shoes/sabot/wooden_shoes/sandals/slingbacks/sling_shoes/walker_shoes/walking_shoes/wedgie/wing_shoes/tip_shoes/stiletto/heeled	L03 [hyponyms - misc]		
-sofa	divan/diwan/convertible_sofa/daybed/loveseat/settee/squab	L03 [hyponyms - misc]		
-song	lullaby/religious_song/anthem/aria/ballad/lay/barcarole/barcarolle/ditty/dirge/coronach/lament/requiem/threnody/drinking_song/folk_song/folksong/folk_ballad/lied/love_song/love-song/cradlesong/berceuse/oldie/golden_oldie/partsong/prothalamion/prothalamium/roundelay/scolion/banquet_song/serenade/torch_song/work_song	L03 [hyponyms - misc]		
-spice	pepper/allspice/ajwain/cumin/caraway_seed/cardamom/cassia/cayenne/celery_seeds/chile_pepper/chile/cinnamon/clove/coriander/dill/fennel/fenugreek/frankincense/galangal/garlic/ginger/horseradish/jalapeño/juniper/licorice/mace/mustard/nutmeg/onion/paprika/peppercorns/saffron/savory/sesame/anise/sumac/tabasco/tamarind/turmeric/five_spice_powder/ginger/powdered_ginger/chinese_anise/star_anise/star_aniseed	L03 [hyponyms - misc]		
-sweater	turtleneck/cardigan/pullover/slipover/turtle/polo-neck	L03 [hyponyms - misc]		
-tool	rake/abrader/abradant/bender/clincher/comb/cutting_implement/drill/eolith/fork/gang/garden_tool/lawn_tool/grapnel/grapple/grappler/grappling_hook/grappling_iron/hack/hand_tool/hoe/jack/jaws_of_life/neolith/paleolith/pestle/muller/pounder/plow/plough/power_tool/punch/puncher/ram/rounder/saw_set/shaping_tool/strickle/stylus/style/tamp/tamper/tamping_bar/tap/upset/swage	L03 [hyponyms - misc]		
-toy	doll/ball/balloon/cockhorse/dolly/dollhouse/house/frisbee/hobby/hobbyhorse/rocking/horse/hula-hoop/jack-in-the-box/jungle/gym/jumping/jack/kaleidoscope/kite/lego/meccano/shooter/pinata/pinwheel/playhouse/wendy/pogo/stick/popgun/rattle/sandbox/sandpile/sandpit/seesaw/teeter/teeter-totter/teetertotter/teeterboard/tilting/board/dandle/slide/playground/sliding/slingshot/sling/catapult/stick/horse/swing/teddy/bear/top/whirligig/teetotum/spinning/train/water_pistol/gun/squirt/squirter/yo-yo	L03 [hyponyms - misc]		
-trousers	jeans/bellbottom_trousers/bell-bottoms/bellbottom_pants/breeches/knee_breeches/knee_pants/knickerbockers/knickers/chino/churidars/cords/corduroys/flannel/gabardine/tweed/white/jean/blue_jean/denim/jodhpurs/jodhpur_breeches/riding_breeches/long_trousers/long_pants/pajama/pyjama/pantaloon/pedal_pusher/toreador_pants/salwar/shalwar/short_pants/shorts/trunks/slacks/stretch_pants/sweat_pants/sweatpants/trews/britches/buckskins/plus_fours/trunk_hose/levi's/levis/bermuda_shorts/jamaica_shorts/hot_pants/lederhosen	L03 [hyponyms - misc]		
-weapon	gun/bow/bow/arrow/dart/knucks/knuckles/flamethrower/knife/missile/pike/projectile/slasher/sling/spear/lance/shaft/stun/baton/sword/blade/brand/steel/tomahawk/hatchet/fire	L03 [hyponyms - misc]		
-weekday	monday/workday/working_day/work_day/feria/mon/tuesday/tues/wednesday/midweek/wed/thursday/th/friday/fri/saturday/sabbatum/sat	L03 [hyponyms - misc]		
-allosaurus	dinosaur/reptile/bird/archosaur/archosaurian/archosaurian_reptile/	L01 [hypernyms - animals]		
-anaconda	snake/reptile/boa/serpent/ophidian	L01 [hypernyms - animals]		
-ant	insect/invertebrate/creature/beast/hymenopteran/being/animal/organism/fauna/arthropod/hymenopterous_insect/animate_being/physical_hymenopteron/physical_entity/hymenopter/living_thing	L01 [hypernyms - animals]		
-beaver	rodent/vertebrate/creature/beast/animal/organism/fauna/placental/chordate/eutherian/mammal/mammalian/eutherian_mammal/gnawer/animate_being/living_thing/placental_mammal/craniate/	L01 [hypernyms - animals]		
-bee	insect/invertebrate/creature/beast/hymenopteran/being/animal/insect/organism/fauna/arthropod/hymenopterous_insect/animate_being/hymenopteron/hymenopter/living_thing	L01 [hypernyms - animals]		
-beetle	insect/invertebrate/creature/beast/being/animal/insect/organism/fauna/arthropod/animate_being/living_thing	L01 [hypernyms - animals]		
-buffalo	bovid/mammal/bison/cow/vertebrate/creature/ungulate/beast/being/animal/organism/fauna/placental/artiodactyl/ruminant/chordate/eutherian/mammalian/bovine/animate_being/eutherian_mammal/placental_mammal/craniate/physical_hoofed_mammal/physical_entity/even-toed_ungulate/artiodactyl_mammal/living_thing	L01 [hypernyms - animals]		
-butterfly	insect/creature/beast/lepidopteran/animal/organism/fauna/arthropod/lepidopterous_insect/lepidopteron/animate_being/living_thing	L01 [hypernyms - animals]		
-cat	feline/beast/animal/organism/fauna/placental/carnivore/chordate/felid/eutherian/mammal/mammalian/eutherian_mammal/animate_being/placental_mammal/craniate/	L01 [hypernyms - animals]		
-chicken	fowl/bird/vertebrate/poultry/creature/beast/being/animal/organism/fauna/poultry/chordate/domestic_fowl/animate_being/gallinaceous_bird/craniate/gallinacean/living_thing	L01 [hypernyms - animals]		
-chimpanzee	primate/vertebrate/creature/beast/being/animal/organism/fauna/placental/hominid/chordate/eutherian/mammal/ape/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/physical_physical_entity/living_thing	L01 [hypernyms - animals]		
-chinchilla	rodent/vertebrate/creature/beast/animal/organism/fauna/placental/chordate/eutherian/mammal/mammalian/eutherian_mammal/gnawer/animate_being/living_thing/placental_mammal/craniate/	L01 [hypernyms - animals]		
-cobra	snake/reptile/elapid/elapid_snake/serpent/ophidian	L01 [hypernyms - animals]		
-cockroach	insect/invertebrate/creature/beast/dictyopterous_insect/being/animal/organism/fauna/arthropod/animate_being/physical_entity/living_thing	L01 [hypernyms - animals]		
-cow	bovid/mammal/cattle/vertebrate/creature/ungulate/beast/being/animal/organism/fauna/placental/artiodactyl/ruminant/chordate/eutherian/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/physical_hoofed_mammal/physical_entity/even-toed_ungulate/artiodactyl_mammal/living_thing	L01 [hypernyms - animals]		
-coyote	canine/vertebrate/creature/beast/canid/being/animal/organism/fauna/placental/carnivore/chordate/eutherian/mammal/mammalian/animate_being/eutherian_mammal/locomote/placental_mammal/craniate/domesticated_animal/physical_entity/domestic_animal/living_thing	L01 [hypernyms - animals]		
-deer	bovid/mammal/vertebrate/creature/ungulate/beast/being/animal/organism/fauna/placental/artiodactyl/ruminant/chordate/eutherian/mammalian/bovine/animate_being/eutherian_mammal/placental_mammal/craniate/physical_hoofed_mammal/physical_entity/even-toed_ungulate/artiodactyl_mammal/living_thing	L01 [hypernyms - animals]		
-dog	canine/vertebrate/creature/beast/canid/being/animal/organism/fauna/placental/carnivore/chordate/eutherian/mammal/mammalian/animate_being/eutherian_mammal/locomote/placental_mammal/craniate/domesticated_animal/physical_entity/domestic_animal/living_thing	L01 [hypernyms - animals]		
-duck	fowl/bird/vertebrate/poultry/creature/beast/being/animal/organism/fauna/poultry/chordate/domestic_fowl/waterfowl/water_fowl/animate_being/anseriform_bird/craniate/living_thing	L01 [hypernyms - animals]		
-eagle	raptor/bird/vertebrate/creature/beast/being/animal/organism/fauna/chordate/animate_being/craniate/iving_thing/raptorial_bird/bird_of_prey/	L01 [hypernyms - animals]		
-falcon	raptor/bird/vertebrate/creature/beast/being/animal/organism/fauna/chordate/animate_being/craniate/living_thing/raptorial_bird/bird_of_prey/	L01 [hypernyms - animals]		
-fox	canine/vertebrate/creature/beast/canid/being/animal/organism/fauna/placental/carnivore/chordate/eutherian/mammal/mammalian/animate_being/eutherian_mammal/locomote/placental_mammal/craniate/domesticated_animal/physical_entity/domestic_animal/living_thing	L01 [hypernyms - animals]		
-gibbon	primate/vertebrate/creature/beast/being/animal/organism/fauna/placental/chordate/eutherian/mammal/ape/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/physical_physical_entity/living_thing	L01 [hypernyms - animals]		
-goat	bovid/mammal/vertebrate/ungulate/beast/being/animal/organism/fauna/placental/artiodactyl/chordate/eutherian/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/hoofed_mammal/even-toed_ungulate/artiodactyl_mammal/living_thing	L01 [hypernyms - animals]		
-goose	fowl/bird/vertebrate/poultry/creature/beast/being/animal/organism/fauna/poultry/chordate/domestic_fowl/waterfowl/water_fowl/animate_being/anseriform_bird/craniate/living_thing	L01 [hypernyms - animals]		
-gorilla	primate/vertebrate/creature/beast/being/animal/organism/fauna/placental/hominid/chordate/eutherian/mammal/ape/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/physical_physical_entity/living_thing	L01 [hypernyms - animals]		
-hawk	raptor/bird/vertebrate/creature/beast/being/animal/organism/fauna/chordate/animate_being/craniate/living_thing/raptorial_bird/bird_of_prey/	L01 [hypernyms - animals]		
-human	primate/vertebrate/creature/beast/being/animal/organism/fauna/placental/hominid/chordate/eutherian/mammal/ape/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/physical_physical_entity/living_thing	L01 [hypernyms - animals]		
-jackal	canine/vertebrate/creature/beast/canid/being/animal/organism/fauna/placental/carnivore/chordate/eutherian/mammal/mammalian/animate_being/eutherian_mammal/locomote/placental_mammal/craniate/domesticated_animal/physical_entity/domestic_animal/living_thing	L01 [hypernyms - animals]		
-jaguar	feline/cat/beast/animal/organism/fauna/placental/carnivore/chordate/felid/eutherian/mammal/mammalian/eutherian_mammal/animate_being/placental_mammal/craniate/big_cat	L01 [hypernyms - animals]		
-leopard	feline/cat/beast/animal/organism/fauna/placental/carnivore/causal_agent/chordate/felid/eutherian/mammal/mammalian/eutherian_mammal/animate_being/placental_mammal/craniate/big_cat	L01 [hypernyms - animals]		
-lion	feline/cat/beast/animal/organism/fauna/placental/carnivore/chordate/felid/eutherian/mammal/mammalian/eutherian_mammal/animate_being/placental_mammal/craniate/big_cat	L01 [hypernyms - animals]		
-mamba	snake/reptile/elapid/elapid_snake/serpent/ophidian	L01 [hypernyms - animals]		
-mouse	rodent/vertebrate/creature/beast/animal/organism/fauna/placental/chordate/eutherian/mammal/mammalian/eutherian_mammal/gnawer/animate_being/living_thing/placental_mammal/craniate/	L01 [hypernyms - animals]		
-orangutan	primate/vertebrate/creature/beast/being/animal/organism/fauna/placental/hominid/chordate/eutherian/mammal/ape/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/physical_physical_entity/living_thing	L01 [hypernyms - animals]		
-owl	raptor/bird/vertebrate/creature/beast/being/animal/organism/fauna/chordate/animate_being/craniate/living_thing/raptorial_bird/bird_of_prey/	L01 [hypernyms - animals]		
-pony	bovid/mammal/horse/vertebrate/creature/beast/animal/organism/fauna/placental/eutherian/mammal/equine/mammalian/equid/living_thing/odd-toed_ungulate/animate_being/eutherian_mammal/perissodactyl/placental_mammal/craniate/hoofed_mammal/physical_entity/perissodactyl_mammal/equus_caballus	L01 [hypernyms - animals]		
-porcupine	rodent/vertebrate/creature/beast/animal/organism/fauna/placental/chordate/eutherian/mammal/mammalian/eutherian_mammal/gnawer/animate_being/living_thing/placental_mammal/craniate/	L01 [hypernyms - animals]		
-quail	fowl/bird/vertebrate/poultry/creature/beast/being/animal/organism/fauna/poultry/chordate/wild_fowl/wildfowl/animate_being/gallinaceous_bird/craniate/gallinacean/living_thing	L01 [hypernyms - animals]		
-rattlesnake	snake/reptile/pit_viper/serpent/ophidian	L01 [hypernyms - animals]		
-squirrel	rodent/vertebrate/creature/beast/animal/organism/fauna/placental/chordate/eutherian/mammal/mammalian/eutherian_mammal/gnawer/animate_being/living_thing/placental_mammal/craniate/	L01 [hypernyms - animals]		
-stegosaurus	dinosaur/reptile/armored_dinosaur/archosaur/archosaurian/archosaurian_reptile/	L01 [hypernyms - animals]		
-tiger	feline/cat/beast/animal/organism/fauna/placental/carnivore/chordate/felid/eutherian/mammal/mammalian/eutherian_mammal/animate_being/placental_mammal/craniate/big_cat	L01 [hypernyms - animals]		
-triceratops	dinosaur/reptile/ceratopsian/horned_dinosaur/archosaur/archosaurian/archosaurian_reptile/	L01 [hypernyms - animals]		
-turkey	fowl/bird/vertebrate/poultry/creature/beast/being/animal/organism/fauna/poultry/chordate/domestic_fowl/animate_being/gallinaceous_bird/craniate/gallinacean/living_thing	L01 [hypernyms - animals]		
-tyrannosaurus	dinosaur/reptile/theropod/theropod_dinosaur/bird-footed_dinosaur/archosaur/archosaurian/archosaurian_reptile/	L01 [hypernyms - animals]		
-velociraptor	dinosaur/reptile/maniraptor/archosaur/archosaurian/archosaurian_reptile/	L01 [hypernyms - animals]		
-viper	snake/reptile/snake/serpent/ophidian	L01 [hypernyms - animals]		
-vulture	raptor/bird/vertebrate/creature/beast/being/animal/organism/fauna/chordate/animate_being/craniate/living_thing/raptorial_bird/bird_of_prey/	L01 [hypernyms - animals]		
-wolf	canine/vertebrate/creature/beast/canid/being/animal/organism/fauna/placental/carnivore/chordate/eutherian/mammal/mammalian/animate_being/eutherian_mammal/locomote/placental_mammal/craniate/domesticated_animal/physical_entity/domestic_animal/living_thing	L01 [hypernyms - animals]		
-acrobat	troupe	L05 [meronyms - member]		
-antelope	herd	L05 [meronyms - member]		
-bee	swarm/hive/colony/drift/cast/nest/rabble/stand	L05 [meronyms - member]		
-bird	flock	L05 [meronyms - member]		
-book	library/shelf/collection/accounting/accounting_system/method_of_accounting	L05 [meronyms - member]		
-calf	cattle/herd	L05 [meronyms - member]		
-car	train/procession	L05 [meronyms - member]		
-cat	clowder/glaring/clutter/pounce	L05 [meronyms - member]		
-cattle	herd	L05 [meronyms - member]		
-christian	congregation/church/parish	L05 [meronyms - member]		
-citizen	citizenry/country/state	L05 [meronyms - member]		
-college	university	L05 [meronyms - member]		
-county	state/country	L05 [meronyms - member]		
-cow	herd	L05 [meronyms - member]		
-crow	murder	L05 [meronyms - member]		
-division	company/business/platoon/battle_group	L05 [meronyms - member]		
-elephant	herd	L05 [meronyms - member]		
-employee	staff/company	L05 [meronyms - member]		
-fish	school	L05 [meronyms - member]		
-flower	bouquet/bunch	L05 [meronyms - member]		
-galaxy	universe	L05 [meronyms - member]		
-goose	gaggle	L05 [meronyms - member]		
-juror	jury	L05 [meronyms - member]		
-kitten	litter	L05 [meronyms - member]		
-letter	alphabet	L05 [meronyms - member]		
-lion	pride	L05 [meronyms - member]		
-listener	audience	L05 [meronyms - member]		
-member	club/team/group/band/community	L05 [meronyms - member]		
-musician	orchestra/band	L05 [meronyms - member]		
-nomad	horde	L05 [meronyms - member]		
-page	book/notebook/website/web-site	L05 [meronyms - member]		
-parishioner	parish/church	L05 [meronyms - member]		
-person	society/company/party/world	L05 [meronyms - member]		
-photo	album/collection/library	L05 [meronyms - member]		
-player	team/group/orchestra	L05 [meronyms - member]		
-policeman	police	L05 [meronyms - member]		
-secretary	staff	L05 [meronyms - member]		
-senator	senate/house	L05 [meronyms - member]		
-sheep	flock	L05 [meronyms - member]		
-shrub	shrubbery	L05 [meronyms - member]		
-singer	choir/band/duo/trio/quartet	L05 [meronyms - member]		
-soldier	army/unit/division/troop	L05 [meronyms - member]		
-song	album/collection/antology/library	L05 [meronyms - member]		
-spouse	couple/relationship/family	L05 [meronyms - member]		
-star	constellation/galaxy	L05 [meronyms - member]		
-state	country/province	L05 [meronyms - member]		
-student	class/school	L05 [meronyms - member]		
-tree	forest/wood/grove	L05 [meronyms - member]		
-wolf	pack	L05 [meronyms - member]		
-word	paragraph/sentence/text	L05 [meronyms - member]		
-academia	college/university/institute	L06 [meronyms - part]		
-apartment	bedroom/room/bathroom/kitchen/kitchenette/living_room/pantry/toilet/shower_room	L06 [meronyms - part]		
-bird	feathers/plume/preen/croup/calamus/fowl/drumstick/syrinx/bill/rump/vane/barb/quill/shaft/pecker/pennon/feet/giblets/alula/talon/foot/pinion/wing/wishbone/nib/sac/giblet/furcula/bird/neb/feather/gland/oyster/thigh/plumage/web/hindquarters/beak/parson's_nose/wishing_bone/pope's_nose/spurious_wing/bastard_wing/croupe/air_sac/quill_feather/uropygium/bird's_foot/uropygial/second_joint/uropygial_gland/preen_gland/flight_feather/dark_meat	L06 [meronyms - part]		
-brush	bristle/hold/shank/grip/handgrip/handle/head/stem	L06 [meronyms - part]		
-bus	seats/conductor/window/driver/roof	L06 [meronyms - part]		
-byte	bit	L06 [meronyms - part]		
-car	engine/armrest/headrest/grille/hinge/tailpipe/suspension/hood/horn/hooter/petrol/pintle/trunk/floorboard/bar/gas/buffer/door/stabilizer/seat/window/exhaust/tailfin/back/luggage/pedal/cowling/seatbelt/high/wing/gasoline/fin/cowl/silencer/gun/compartment/rear/radiator/accessory/sunroof/roof/lights/bumper/glove/bag/cushion/backrest/accelerator/fender/third/throttle/bonnet/air/gear/muffler/mirror/shock/reverse/anti-sway_bar/tail_fin/accelerator_pedal/car_seat/automobile_horn/anti-sway/automobile_engine/gasoline_engine/car_door/shock_absorber/luggage_compartment/glove_compartment/bumper_guard/exhaust_system/first_gear/high_gear/rear_window/sunshine-roof/third_gear/air_bag/doorlock/petrol_engine/automobile_trunk/auto_accessory/inlet_manifold/horn_button/running_board/stabilizer_bar/motor_horn/exhaust_manifold/exhaust_pipe/radiator_grille/low_gear/flexible_joint/head_restraint/hood_ornament/exhaust_valve/car_mirror/gas_pedal/seat_belt/reverse_gear/car_horn/car_window/suspension_system	L06 [meronyms - part]		
-castle	donjon/tower/turret/gate/dungeon/moat/keep/great_hall	L06 [meronyms - part]		
-cat	whiskers/coat/paw/paws/fur/eyes/back/claws/tail/teeth	L06 [meronyms - part]		
-chair	seat/armrest/headrest/armrests/rest/pad/back/leg/backrest/legs	L06 [meronyms - part]		
-church	altar/choir/vestry/transept/apse/sanctuary/rood/screen/bema/nave/tower/sacristy/corner/chancel/amen/chapel/apsis/side/narthex/presbytery/side_chapel/lady_chapel/church_tower/rood_screen/amen_corner	L06 [meronyms - part]		
-comb	teeth/shaft/grip/tooth/handle	L06 [meronyms - part]		
-day	hour/forenoon/eventide/nanosecond/noonday/femtosecond/hr/minutes/microsecond/msec/time/midnight/sec/nighttime/min/morning/noon/evening/dark/picosecond/daytime/minute/daylight/s/high/even/quarter/morn/noontide/second/afternoon/twelve/millisecond/midday/midafternoon/attosecond/night/morning_time/high_noon/half-hour/twelve_noon/late-night_hour/early-morning_hour/lights-out/60_minutes/small_hours/30_minutes/15_minutes/quarter-hour	L06 [meronyms - part]		
-deer	antler/antlers/withers/flag/scut	L06 [meronyms - part]		
-dollar	cent	L06 [meronyms - part]		
-door	hinge/keyhole/threshold/doorframe/bolt/deadbolt/doorjamb/tumbler/doorpost/doorstep/doorcase/case/lock/casing/doorsill	L06 [meronyms - part]		
-dress	sleeve/slide/plastron/zip/zipper/fastener/hemline/bodice/neckline/waistline/belt/slide_fastener/zip_fastener	L06 [meronyms - part]		
-filename	extension/name	L06 [meronyms - part]		
-flower	petal/leaf/anther/style/perianth/placenta/stamen/pistil/ovary/corolla/carpel/envelope/sepal/calyx/stigma/chlamys/petals/corona/perigonium/perigone/flower_petal/floral_leaf/floral_envelope/gynostegium	L06 [meronyms - part]		
-gigabit	megabit/kbit/kb/kilobit/mb/mbit	L06 [meronyms - part]		
-gramm	milligram/mg/grain/milligram/mcg/carat/microgram/ng/dg/decigram/nanogram/metric_grain/obolus	L06 [meronyms - part]		
-guitar	string/deck/pegs/fret/strings/frets/peg/fingerboard	L06 [meronyms - part]		
-gun	trigger/holder/safety/extractor/clip/magazine/barrel/hammer/viewfinder/gunsight/stock/cartridge/remover/chamber/ejector/cock/catch/finder/mechanism/gunstock/lock/action/muzzle/key/gunlock/cartridge_holder/gun_muzzle/gun-sight/action_mechanism/gun_chamber/gun_trigger/firing_mechanism/safety_lock/cartridge_extractor/firing_chamber/cartridge_ejector/view_finder/cartridge_clip/gun_barrel/safety_catch/cartridge_remover	L06 [meronyms - part]		
-harbor	dock/facility/anchorage/landing/docking/dockage/anchorage_ground/docking_facility/landing_place/landing_stage	L06 [meronyms - part]		
-jail	cell/cellblock/guard/police/prison_cell/jail_cell	L06 [meronyms - part]		
-jewellery	bead/stone/wire/beads/gemstone/gem/metal/gold/silver/platina/bead/beads/jewel	L06 [meronyms - part]		
-litre	millilitre/cc/ml/milliliter/cl/dl/deciliter/mil/cubic_centimetre/centiliter/decilitre/cubic_centimeter/centilitre/cubic_millimeter/cubic_millimetre	L06 [meronyms - part]		
-movie	scene/subtitles/footage/credit/episode/shot/sequence/credits/caption	L06 [meronyms - part]		
-orthography	hyphenation/punctuation/punctuation_mark/word_division/spelling	L06 [meronyms - part]		
-piano	keyboard/clavier/loud/hammer/sounding/pedal/sustaining/soft/fingerboard/soundboard/action/board/key/fallboard/piano_action/action_mechanism/damper_block/fall-board/sounding_board/sustaining_pedal/loud_pedal/piano_damper/piano_keyboard/sound_hole/soft_pedal	L06 [meronyms - part]		
-pie	crust/cheese/filling/fruit/apple/berries/glazing/pastry/icing	L06 [meronyms - part]		
-poem	stanza/canto/prosody/rime/line/rhyme/verse/poetic_rhythm/rhythmic_pattern/verse_line/line_of_verse/line_of_poetry	L06 [meronyms - part]		
-pub	bar/barroom/taproom/saloon/ginmill	L06 [meronyms - part]		
-radio	receiver/tuner/radio/demodulator/transmitter/detector/receiving/set/amplifier/wireless/radio_transmitter/receiving_set/radio_receiver/radio_set	L06 [meronyms - part]		
-railcar	suspension/cushion/shock/shock_absorber/suspension_system	L06 [meronyms - part]		
-seafront	harbor/seaport/dock/haven/anchorage/landing/harbour/dockage/anchorage_ground/docking_facility/landing_place/landing_stage	L06 [meronyms - part]		
-shilling	pence	L06 [meronyms - part]		
-shirt	button/dickie/collar/dickey/sleeve/buttons/dicky/pocket/shirttail/shirtsleeve/shirtfront/shirt_button	L06 [meronyms - part]		
-sonata	movement/psrt	L06 [meronyms - part]		
-staircase	step/riser/landing/tread/stair/stairhead	L06 [meronyms - part]		
-sword	blade/forte/hilt/peak/foible/point/pommel/haft/tip/knob/helve/knife_edge/cutting_edge	L06 [meronyms - part]		
-table	tabletop/tableware/leg/legs	L06 [meronyms - part]		
-teapot	spout/handle/knob/lid/body/belly/base/filter/tea_filter	L06 [meronyms - part]		
-telephone	receiver/mouthpiece/dial/wire/screen/display/telephone_receiver	L06 [meronyms - part]		
-tonne	kilogram/mg/gm/hg/grain/milligram/hundredweight/kilo/mcg/dag/carat/microgram/gramme/quintal/ng/gram/dg/g/kg/decigram/nanogram/myriagram/centner/metric_grain/myg/dekagram/decagram/metric_hundredweight/obolus/doppelzentner/hectogram/dkg	L06 [meronyms - part]		
-torso	chest/arse/shoulder/bum/midriff/groin/deltoid/diaphragm/lat/pectoralis/behind/gluteus/middle/stomach/teres/thorax/tush/ab/rump/breastbone/buns/gladiolus/haunch/backside/buttocks/serratus/pectoral/stern/navel/paunch/seat/mediastinum/ass/axilla/back/belly/bottom/omphalos/fundament/acromion/derriere/hindgut/gut/gallbladder/saddle/cheek/waist/butt/bowel/keister/bellybutton/pectus/prat/loins/abdominal/rear/dorsum/posterior/venter/small/abdomen/umbilicus/armpit/waistline/sternum/scapula/glute/manubrium/fanny/side/midsection/pecs/hip/buttock/intestine/breast/can/tail/hindquarters/xiphoid_process/thoracic_vertebra/abdominal_wall/musculus_deltoideus/abdominal_cavity/arteria_circumflexa_scapulae/arteria_glutes/arteria_axillaris/axillary_fossa/arteria_colica/articulatio_humeri/shoulder_joint/gall_bladder/spare_tire/arteria_circumflexa_humeri/serratus_muscles/axillary_artery/gluteus_muscle/love_handle/latissimus_dorsi/pectoral_muscle/tooshie/abdominal_muscle/circumflex_humeral_artery/abdominal_aorta/vena_thoracica/musculus_pectoralis/hypochondrium/area_of_cardiac_dullness/glenoid_cavity/rib_cage/thoracic_aorta/omphalus/circumflex_scapular_artery/acromial_process/shoulder_bone/tail_end/rear_end/gluteal_muscle/inguen/shoulder_blade/rotator_cuff/corpus_sternum/dorsal_vertebra/teres_muscle/thoracic_cavity/axillary_cavity/chest_cavity/deltoid_muscle/belly_button/gluteal_artery/thoracic_vein/glenoid_fossa/nates/colic_artery/lumbar_vertebra/hind_end	L06 [meronyms - part]		
-tripod	leg/stand	L06 [meronyms - part]		
-typewriter	keyboard/typewriter/carriage/tab/ribbon/shift/backspace/action/key/typewriter_carriage/backspace_key/action_mechanism/typewriter_keyboard/shift_key/space_bar/tab_key/typewriter_ribbon/backspacer	L06 [meronyms - part]		
-window	pane/sash/windowpane/window/fastener/glass/frame/case/windowsill/mullion/jamb/lock/casing/sash_lock/window_glass/sash_fastener/pane_of_glass/window_lock/window_sash/window_frame	L06 [meronyms - part]		
-womb	cervix/caul/placenta/oviduct/veil/myometrium/endometrium/uterine_artery/embryonic_membrane/uterine_cervix/uterine_cavity/fallopian_tube/uterine_tube/cervix_uteri/arteria_uterina	L06 [meronyms - part]		
+grapefruit	citrus/citrus_fruit/citrous_fruit/fruit/edible_fruit/fruit/produce/green_goods/green_groceries/garden_truck/food/matter/natural_object/physical_entity/unit/entity/object/physical_object	L02 [hypernyms - misc]	GRAPEFRUIT OR POMELO	CITRUS FRUIT
+jacket	clothes/coat/overgarment/outer_garment/garment/clothing/article_of_clothing/vesture/wear/wearable/habiliment/consumer_goods/covering/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity/	L02 [hypernyms - misc]	JACKET	CLOTHES
+lemon	citrus/citrus_fruit/citrous_fruit/fruit/edible_fruit/fruit/produce/green_goods/green_groceries/garden_truck/food/matter/natural_object/physical_entity/unit/entity/object/physical_object	L02 [hypernyms - misc]	LEMON	CITRUS FRUIT
+peach	fruit/drupe/stone_fruit/edible_fruit/fruit/produce/green_goods/green_groceries/garden_truck/food/matter/natural_object/physical_entity/unit/entity/object/physical_object	L02 [hypernyms - misc]	PEACH	FRUIT
+shirt	clothes/garment/clothing/garment/clothing/article_of_clothing/vesture/wear/wearable/habiliment/consumer_goods/covering/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity/	L02 [hypernyms - misc]	SHIRT	CLOTHES
+skirt	clothes/garment/clothing/garment/clothing/article_of_clothing/vesture/wear/wearable/habiliment/consumer_goods/covering/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity/	L02 [hypernyms - misc]	SKIRT	CLOTHES
+sweater	clothes/garment/clothing/article_of_clothing/vesture/wear/wearable/habiliment/consumer_goods/covering/commodity/trade_good/good/artifact/artefact/unit/object/physical_object/physical_entity/entity/	L02 [hypernyms - misc]	SWEATER	CLOTHES
+toothbrush	brush/toiletry/toilet_articles/implement/artifact/artefact/unit/object/physical_object/physical_entity/entity/mustache/moustache/facial_hair/hair/body_covering/covering/natural_covering/cover/natural_object/unit/object/physical_object/physical_entity/entity	L02 [hypernyms - misc]	TOOTHBRUSH	BRUSH
+beautiful	ugly/disfigured/evil-looking/fugly/grotesque/monstrous/hideous/repulsive/ill-favored/ill-favoured/scrofulous/unlovely/unpicturesque/unsightly/displeasing/unattractive/awkward	L09 [antonyms - gradable]	BEAUTIFUL	UGLY
+big	small/atomic/subatomic/bantam/diminutive/lilliputian/midget/petite/tiny/flyspeck/bitty/bittie/teensy/teentsy/teeny/wee/weeny/weensy/teensy-weensy/teeny-weeny/itty-bitty/itsy-bitsy/dinky/dwarfish/elfin/elflike/gnomish/half-size/infinitesimal/minute/lesser/microscopic/microscopical/micro/miniature/minuscule/miniscule/olive-sized/pocket-size/pocket-sized/pocketable/puny/runty/shrimpy/slender/slim/smaller/littler/smallish/small-scale/undersize/undersized	L09 [antonyms - gradable]	BIG	SMALL
+cheap	expensive/big-ticket/high-ticket/costly/dear/high-priced/pricey/pricy/dearly-won/overpriced/valuable	L09 [antonyms - gradable]	CHEAP	EXPENSIVE
+clean	dirty/soiled/unclean/augean/bedraggled/draggled/befouled/fouled/begrimed/dingy/grimy/grubby/grungy/raunchy/black/smutty/buggy/cobwebby/dirty-faced/feculent/filthy/foul/nasty/flyblown/squalid/sordid/greasy/oily/lousy/maculate/mucky/muddy/ratty/scummy/smudgy/snotty/snot-nosed/sooty/travel-soiled/travel-stained/uncleanly/unswept/unwashed	L09 [antonyms - gradable]	CLEAN	DIRTY
+clear	vague/obscure/unclear/undefined/indefinable/undefinable	L09 [antonyms - gradable]	CLEAR	OBSCURE
+close	distant/remote/removed/far/faraway/	L09 [antonyms - gradable]	NEAR	FAR
+dangerous	safe/fail-safe/risk-free/riskless/unhazardous/safe-and-sound/unhurt/harmless/invulnerable/secure/uninjured	L09 [antonyms - gradable]	DANGEROUS	SAFE	unsure whether this is a good match. the concepticon defines DANGEROUS to refer to the Agent, but SAFE to the Patient.
+dry	wet/bedewed/dewy/besprent/boggy/marshy/miry/mucky/muddy/quaggy/sloppy/sloughy/soggy/squashy/swampy/waterlogged/clammy/dank/damp/dampish/moist/sodden/soppy/drippy/drizzly/humid/misty/muggy/steamy/sticky/reeking/watery/rheumy/showery/rainy/steaming/tacky/undried/washed	L09 [antonyms - gradable]	DRY	WET
+fat	thin/lean/anorexic/anorectic/bony/cadaverous/emaciated/gaunt/haggard/pinched/skeletal/wasted/deep-eyed/hollow-eyed/sunken-eyed/gangling/gangly/lanky/lank/spindly/rawboned/reedy/reedlike/twiggy/twiglike/scarecrowish/scraggy/boney/scrawny/skinny/underweight/weedy/shriveled/shrivelled/shrunken/withered/wizen/wizened/slender/slight/slim/svelte/slender-waisted/slim-waisted/wasp-waisted/spare/trim/spindle-legged/spindle-shanked/stringy/wiry/wisplike/wispy	L09 [antonyms - gradable]	FAT (OBESE)	THIN (SLIM)/THIN
+full	empty/bare/stripped/blank/clean/white/empty-handed/glassy/glazed/lifeless/looted/pillaged/plundered/ransacked/vacant/vacuous/void	L09 [antonyms - gradable]	FULL	EMPTY
+generous	stingy/beggarly/mean/cheap/chinchy/chintzy/cheeseparing/close/near/penny-pinching/skinny/closefisted/hardfisted/tightfisted/grudging/niggardly/scrimy/mingy/miserly/tight/parsimonious/penurious/selfish/uncharitable/ungenerous/meanspirited	L09 [antonyms - gradable]	GENEROUS	STINGY
+happy	sad/bittersweet/doleful/mournful/heavyhearted/melancholy/melancholic/pensive/wistful/tragic/tragical/tragicomic/tragicomical/deplorable/distressing/lamentable/pitiful/sorry	L09 [antonyms - gradable]	HAPPY	SAD
+hard	soft/mellow/brushed/fleecy/napped/cheeselike/compressible/squeezable/cottony/cushioned/cushiony/padded/demulcent/emollient/salving/softening/downy/downlike/flossy/fluffy/flaccid/flocculent/woolly/wooly/yielding/mushy/overstuffed/softish/semisoft/spongy/squashy/squishy/spongelike/velvet/velvety	L09 [antonyms - gradable]	HARD	SOFT
+hot	cold/chilly/frosty/cool/frigid	L09 [antonyms - gradable]	HOT	COLD
+long	short/abbreviated/shortened/truncated/brief/clipped/fleeting/fugitive/momentaneous/momentary/short_and_sweet/short-dated/short-range/short-run/short-term/abbreviated/brief/close/curtal/sawed-off/sawn-off/shortened/shortish/short-range/short-snouted/snub/stubby/telescoped/truncate/truncated/chunky/dumpy/low-set/squat/squatty/stumpy/compact/heavyset/stocky/thick/thickset/half-length/pint-size/pint-sized/runty/sawed-off/sawn-off/short-stalked/squab/squabby	L09 [antonyms - gradable]	LONG	SHORT
+noisy	silent/uncommunicative/dumb/mute/inarticulate/unarticulate	L09 [antonyms - gradable]	NOISY	QUIET
+rich	poor/broke/bust/skint/stone-broke/stony-broke/destitute/impoverished/indigent/necessitous/needy/poverty-stricken/hard_up/impecunious/penniless/penurious/pinched/moneyless/unprovided	L09 [antonyms - gradable]	RICH	POOR
+short	tall/gangling/gangly/lanky/rangy/height/leggy/long-legged/long-shanked/tall-growing/long/long-stalked/tall-stalked/stately/statuesque/tallish	L09 [antonyms - gradable]	SMALL (NOT TALL)	TALL/TALL (PERSON)
+simple	difficult/challenging/hard/complicated/demanding/daunting/taxing	L09 [antonyms - gradable]	EASY	DIFFICULT
+sweet	sour/acerb/acerbic/astringent/acetose/acetous/vinegary/vinegarish/acidic/acid/acidulent/acidulous/lemony/lemonlike/sourish/tangy/tart/subacid/bitter	L09 [antonyms - gradable]	SWEET	SOUR
+tasty	tasteless/bland/flat/flavorless/flavourless/insipid/savorless/savourless/vapid/unflavored/unflavoured/nonflavored/nonflavoured/unsalted/unseasoned/unappetizing/unappetising/unpalatable	L09 [antonyms - gradable]	TASTY	TASTELESS
+tight	loose/lax/baggy/loose-fitting/sloppy/flyaway/free/liberal/informal/unofficial	L09 [antonyms - gradable]	TIGHT	LOOSE
+warm	cool/cold/chilly/frosty/cool/frigid	L09 [antonyms - gradable]	WARM	COLD
+white	black/dark/lightless	L09 [antonyms - gradable]	WHITE	BLACK
+wide	narrow/constricting/constrictive/narrowing/narrowed/narrow-mouthed/slender/thin/strait/straplike/tapered/tapering/limited	L09 [antonyms - gradable]	WIDE	NARROW
+young	old/aged/elderly/older/senior/age/aging/ageing/senescent/ancient/anile/centenarian/darkened/doddering/doddery/gaga/senile/emeritus/grey/gray/grey-haired/gray-haired/grey-headed/gray-headed/grizzly/hoar/hoary/white-haired/middle-aged/nonagenarian/octogenarian/oldish/overage/overaged/superannuated/over-the-hill/sexagenarian/venerable/experienced/experient/mature/senior	L09 [antonyms - gradable]	YOUNG	OLD/OLD (AGED)
+after	before/earlier/previously	L10 [antonyms - binary]	AFTER	BEFORE
+ahead	behind/rear/after/tail/beforehand	L10 [antonyms - binary]	IN FRONT OF	BEHIND
+anterior	posterior	L10 [antonyms - binary]
+backward	forward/forwards/frontward/frontwards/forrad/forrard/forth/onward	L10 [antonyms - binary]	BACKWARD	FORWARD
+before	after/subsequently/later/afterwards/afterward/ahead	L10 [antonyms - binary]	BEFORE	AFTER
+beginning	end/terminal/ending/last/final/finish/finale/conclusion	L10 [antonyms - binary]	BEGINNING	END (OF TIME)
+below	above/higher/up	L10 [antonyms - binary]	BELOW OR UNDER	ABOVE
+climb	descend/declivitous/downhill/downward-sloping/degressive/descendant/descendent/down/downward/downward-arching/drizzling/dropping/falling/raining	L10 [antonyms - binary]	GO UP (ASCEND)	GO DOWN (DESCEND)
+dead	alive/living/live	L10 [antonyms - binary]	DEAD	LIVE
+decrement	increment	L10 [antonyms - binary]	DECREASE	INCREASE	imperfect match, nouns not in Concepticon
+descend	ascend/climb/rise/upward/ascendent/ascendant	L10 [antonyms - binary]	GO DOWN (DESCEND)	GO UP (ASCEND)
+dive	emerge	L10 [antonyms - binary]
+down	up/above/ahead/lead/leading/aweigh/dormie/dormy/heavenward/skyward/risen/sprouted/upbound/upfield/upward	L10 [antonyms - binary]	DOWN	UP
+downslope	upslope/ascent	L10 [antonyms - binary]
+drop	lift/pick_up	L10 [antonyms - binary]	DROP (SOMETHING)	LIFT/PICK UP
+dynamic	static/still/unmoving/unchanging	L10 [antonyms - binary]
+employ	dismiss/fire/sack/displace/terminate	L10 [antonyms - binary]
+exit	entrance/entranceway/entryway/entry/entree	L10 [antonyms - binary]
+fall	rise/upward/climb	L10 [antonyms - binary]	FALL	RISE (ONESELF)
+first	last/end/terminal/ending/final/finish/finale/conclusion	L10 [antonyms - binary]	FIRST	LAST (FINAL)
+forget	remember/retrieve/recall/call_back/call_up/recollect	L10 [antonyms - binary]	FORGET	REMEMBER
+forward	backward/back/backwards/rearward/rearwards	L10 [antonyms - binary]	FORWARD	BACKWARD
+front	back/rear/forepart	L10 [antonyms - binary]	FRONT (PART)	BACK (PART)
+in	out/outer/exterior/outside	L10 [antonyms - binary]
+inbound	outbound	L10 [antonyms - binary]
+inhale	exhale	L10 [antonyms - binary]
+input	output	L10 [antonyms - binary]
+inside	outside/exterior/out	L10 [antonyms - binary]	INSIDE	OUTSIDE
+interior	exterior/outdoor/out-of-door/outside	L10 [antonyms - binary]
+internal	external/outer/outside	L10 [antonyms - binary]
+inverse	reverse/reversion/reversal/turnabout/turnaround	L10 [antonyms - binary]
+mortal	immortal	L10 [antonyms - binary]
+occupied	vacant/free	L10 [antonyms - binary]
+off	on	L10 [antonyms - binary]
+out	in/inside	L10 [antonyms - binary]
+outward	upward/up/upwards	L10 [antonyms - binary]
+over	under/below/beneath	L10 [antonyms - binary]
+previously	subsequently/later/afterwards/afterward/after/subsequent	L10 [antonyms - binary]
+proceed	retreat/return	L10 [antonyms - binary]
+rise	sink/drop/fall	L10 [antonyms - binary]
+south	north	L10 [antonyms - binary]	SOUTH	NORTH
+southeast	southwest/northeast	L10 [antonyms - binary]
+submerge	emerge	L10 [antonyms - binary]
+top	bottom/underside/undersurface	L10 [antonyms - binary]	TOP	BOTTOM
+toward	away/off/forth/aside	L10 [antonyms - binary]
+true	false/incorrect/wrong/mistaken	L10 [antonyms - binary]	TRUE	FALSE
+under	over/above/up	L10 [antonyms - binary]
+up	down/downwards/downward/downwardly	L10 [antonyms - binary]
+uphill	downhill/decline/fall/declivitous/downward-sloping	L10 [antonyms - binary]
+west	east	L10 [antonyms - binary]	WEST	EAST
+atmosphere	gas/oxygen/hydrogen/nitrogen/ozone	L04 [meronyms - substance]
+bag	leather/fabric/plastic	L04 [meronyms - substance]	BAG	LEATHER/CLOTH
+beach	sand/silicon/rocks/pebbles/atomic_number_14/si	L04 [meronyms - substance]	BEACH	SAND
+beard	hair	L04 [meronyms - substance]	BEARD	HAIR
+body	flesh/bones	L04 [meronyms - substance]	BODY	FLESH/FLESH OR MEAT/BONE
+boots	leather/canvas	L04 [meronyms - substance]	BOOT	LEATHER
+bottle	glass/plastic	L04 [meronyms - substance]	BOTTLE	GLASS/PLASTIC
+bowl	glass/china/aluminium/wood/steel/plastic/clay	L04 [meronyms - substance]	BOWL	GLASS/ALUMINIUM/WOOD/PLASTIC/CLAY	...not sure whether meronyms with that many options are really worthwhile testing
+box	cardboard/tin/boxwood/turkish_boxwood	L04 [meronyms - substance]	BOX	WOOD
+bread	flour/yeast/	L04 [meronyms - substance]	BREAD	FLOUR/YEAST
+bronze	copper/tin/cu/atomic_number_29	L04 [meronyms - substance]	BRONZE	COPPER/TIN (METAL)
+candy	sugar/nougat/chocolate/gelatin/molasses/syrup/honey/fruit/nuts	L04 [meronyms - substance]	CANDY	SUGAR
+chocolate	cocoa/bean/cacao/cacao_bean/cocoa_bean	L04 [meronyms - substance]	CHOCOLATE	COCOA BEAN
+clothing	fabric/leather/	L04 [meronyms - substance]	CLOTHES	CLOTH/LEATHER
+cloud	vapor/water/vapour/water_vapour/water_vapor	L04 [meronyms - substance]	CLOUD	WATER/STEAM
+cocktail	alcohol/juice/water	L04 [meronyms - substance]
+concrete	silicon/cement/water/sand/atomic_number_14/si	L04 [meronyms - substance]
+desk	wood/metal/steel	L04 [meronyms - substance]
+diamond	carbon	L04 [meronyms - substance]
+doorknob	metal/steel/bronze/wood	L04 [meronyms - substance]	DOORKNOB	METAL/STEEL/BRONZE/WOOD
+flag	fabric/paper	L04 [meronyms - substance]	FLAG	CLOTH
+glacier	ice/water/oxygen/hydrogen/h/h2o/atomic_number_8/atomic_number_1/o/water_ice	L04 [meronyms - substance]
+glass	silicone	L04 [meronyms - substance]
+house	bricks/cement/wood/clay	L04 [meronyms - substance]	HOUSE	BRICK/WOOD/CLAY
+ice	water/oxygen/hydrogen/water/h2o/atomic_number_1/atomic_number_8/h/o	L04 [meronyms - substance]	ICE	WATER
+icicle	ice/water	L04 [meronyms - substance]
+jam	fruit/sugar/berries	L04 [meronyms - substance]
+jeans	fabric/denim	L04 [meronyms - substance]
+lawn	grass	L04 [meronyms - substance]	LAWN	GRASS
+lens	glass/plastic	L04 [meronyms - substance]
+mirror	glass/bronze	L04 [meronyms - substance]	MIRROR	GLASS/BRONZE
+money	paper/metal/silver/gold/iron/copper/tin	L04 [meronyms - substance]	MONEY	PAPER/METAL/SILVER/GOLD/IRON/COPPER/TIN (METAL)
+ocean	water	L04 [meronyms - substance]	OCEAN	WATER
+omelette	eggs/egg/milk/cheese	L04 [meronyms - substance]
+pastry	flour/egg/butter/filling	L04 [meronyms - substance]
+penny	metal/alloy/bronze/nickel/zinc/copper/tin	L04 [meronyms - substance]
+pill	medicine/drug	L04 [meronyms - substance]	PILL	MEDICINE
+plastic	polymer/oil/gas/coal	L04 [meronyms - substance]
+roof	shingles/tiles/wood/metal	L04 [meronyms - substance]	ROOF	THATCH/TILE/WOOD/METAL/RAFTER
+sea	water	L04 [meronyms - substance]	SEA	WATER
+snow	water/oxygen/hydrogen/flake/ice/snowflake/snowflakes/h2o/atomic_number_1/atomic_number_8/h/o	L04 [meronyms - substance]	SNOW	WATER/ICE
+spoon	aluminium/wood/steel	L04 [meronyms - substance]	SPOON	ALUMINIUM/WOOD/STEEL
+steel	iron/pearlite/carbon/cementite/ferrite/iron_carbide/fe/atomic_number_26/alpha_iron	L04 [meronyms - substance]	STEEL	IRON
+table	wood/metal/plastic	L04 [meronyms - substance]	TABLE	WOOD/METAL/PLASTIC
+wall	cement/bricks/stones/rocks/wood/cardboard/board/plank/clay/mud	L04 [meronyms - substance]	WALL	BRICK/STONE/ROCK/WOOD/CLAY
+water	oxygen/hydrogen/water/h2o/atomic_number_1/atomic_number_8/h/o	L04 [meronyms - substance]
+wig	hair	L04 [meronyms - substance]
+wine	grapes/grape	L04 [meronyms - substance]	WINE	GRAPE
+wire	metal	L04 [meronyms - substance]	WIRE	METAL
+yogurt	milk	L04 [meronyms - substance]
+backpack	daypack/kitbag/kit_bag	L03 [hyponyms - misc]
+bag	pouch/backpack/knapsack/packsack/rucksack/haversack/beanbag/bladder/pouch/carryall/holdall/tote/tote/drawstring/dust/vacuum/envelope/gasbag/gamebag/golf/gunnysack/gunny/burlap/ice/mailbag/postbag/nosebag/feedbag/pannier/plastic/purse/ragbag/rosin/sachet/sack/poke/paper/carrier/saddlebag/sandbag/schoolbag/shopping/sick_bag/sickbag/skin/sleeping/sweat/tea/toilet/sponge/tool/tucker-bag	L03 [hyponyms - misc]	BAG	NETBAG/POUCH/SACK
+bed	bunk/berth/built/built-in/bunk/cot/camp/couch/deathbed/double/four-poster/hammock/sack/marriage_bed/murphy/plank-bed/platform/sickbed/single_bed/sleigh/trundle/truckle/truckle/twin/water/semi-double/semidouble	L03 [hyponyms - misc]	BED	HAMMOCK	hmm...
+boat	ferry/ark/barge/flatboat/hoy/lighter/bumboat/canal_boat/narrow_boat/narrowboat/ferryboat/fireboat/gondola/guard_boat/gunboat/junk/longboat/lugger/mackinaw/mackinaw/mailboat/mail/packet/packet/motorboat/powerboat/pilot/police/punt/river_boat/scow/sea_boat/small_boat/steamboat/surfboat/tender_boat/pinnace/cutter_boat/tugboat/tug/towboat/tower_boat/motorboat/yacht/sail/row/canoe/kayak/paddle/paddle_boat	L03 [hyponyms - misc]	BOAT	FERRY/SAILBOAT/CANOE
+book	paperback/album/folio/hardback/hardcover/journal/novel/order/paper-back/softback/soft-cover/picture/sketchbook/sketch/notebook	L03 [hyponyms - misc]
+brush	toothbrush/bottlebrush/bristle/clothesbrush/hairbrush/nailbrush/paintbrush/sable/scrub/scrubbing/scrubber/shaving_brush	L03 [hyponyms - misc]	BRUSH	TOOTHBRUSH/PAINTBRUSH
+burger	hamburger/cheeseburger/50/50_burger/angus_burger/banquet_burger/barbecue_burger/bøfsandwich/utter_burge/buffalo_burger/california_burger/chili_burger/curry_burger/hamdog/salmon_burger/rice_burger/veggie_burger	L03 [hyponyms - misc]
+camera	camcorder/box_camera/box_kodak/candid_camera/digital_camera/flash_camera/motion-picture_camera/movie_camera/cine-camera/point-and-shoot_camera/point-and-shoot/polaroid_camera/polaroid_land_camera/polaroid/portrait_camera/reflex_camera/webcam/webcamera/sound_camera	L03 [hyponyms - misc]
+candy	lollipop/candy_bar/carob_bar/hard_candy/brandyball/patty/bonbon/brittle/toffee/toffy/butterscotch/candy_cane/candy_corn/caramel/cotton_candy/spun_sugar/candyfloss/dragee/fondant/fudge/gumdrop/honey_crisp/mint/mint_candy/horehound/jelly_bean/jelly_egg/kiss/candy_kiss/licorice/liquorice/life_saver/sucker/all-day_sucker/lozenge/marshmallow/marzipan/marchpane/nougat/nougat_bar/nut_bar/peanut_bar/popcorn_ball/praline/rock_candy/rock/sugar_candy/sugarplum/taffy/truffle/chocolate_truffle/turkish_delight/easter_egg	L03 [hyponyms - misc]
+car	limousine/convertible/ambulance/beach/wagon/station/estate/waggon/bus/jalopy/heap/cab/hack/taxi/taxicab/compact/coupe/cruiser/police/patrol/prowl/squad/electric/hardtop/hatchback/hot-rod/jeep/landrover/limo/loaner/minicar/minivan/model/pace/racer/race/racing/roadster/runabout/two-seater/sedan/saloon/sports/sport/sport/suv/stanley/steamer/stock/subcompact/touring/tourer/used/secondhand	L03 [hyponyms - misc]	CAR	TRUCK/BUS
+church	chapel/abbey/basilica/cathedral/duomo/kirk	L03 [hyponyms - misc]
+citrus	lemon/orange/lime/mandarin/tangerine/yuzu	L03 [hyponyms - misc]	CITRUS FRUIT	LEMON/ORANGE (FRUIT)/LIME (FRUIT)/MANDARINE	technically; MANDARINE refers to the tree, not the fruit in Concepticon
+cloud	thundercloud/cirrocumulus/cirrocumulus/cirrostratus/cirrus/contrail/condensation/trail/cumulonimbus/cumulonimbus/cumulus/nacreous/nebule/nimbus/rain/storm/stratus/mushroom/smoke	L03 [hyponyms - misc]	CLOUD	STORM CLOUDS
+collar	choker/ruff/ruffle/clerical/roman_collar/dog_collar/eton_collar/rabato_collar/rebato_collar/turtleneck/polo-neck/neckpiece	L03 [hyponyms - misc]
+color	white/black/blue/green/red/yello/orange/vermilion/amber/chartreuse/teal/violet/magenta/rose/azure/cyan/indigo/purple/brown	L03 [hyponyms - misc]	COLOR	WHITE/BLACK/BLUE/GREEN/RED/YELLOW/ORANGE (COLOR)/GREY/BROWN/PURPLE/COPPER (COLOR)/PINK/LIGHT BLUE/LIGHT GREEN/BEIGE/KHAKI/BRIGHT YELLOW/LILAC/MAGENTA/DARK GREEN/TURQUOISE
+computer	laptop/desktop/tablet/smartphone/supercomputer/iphone/ipad	L03 [hyponyms - misc]
+container	bag/handbag/pocketbook/purse/basket/handbasket/bin/bowl/pipe/bowl/box/bread-bin/breadbox/bunker/can/tin/canister/cannister/capsule/cargo/case/display/showcase/vitrine/cassette/cup/cylinder/dice/cup/box/dish/dispenser/drawer/dumpster/empty/envelope/glass/bag/bottle/mailer/manger/trough/measure/mold/mould/cast/package/parcel/pan/pod/pot/flowerpot/flask/receptacle/reliquary/saltcellar/savings/bank/coin/money/bank/scuttle/coal/scuttle/shaker/spoon/thimble/capsule/vessel/basket/bin/waste-paper/wastebasket/waste/file/can/pot/workbasket/workbox/workbag	L03 [hyponyms - misc]
+cookware	pot/baster/chafing/dish/cooker/sheet/tray/enamelware/grid/gridiron/griddle/pan/poacher/skimmer/steamer/turner	L03 [hyponyms - misc]
+cup	teacup/beaker/chalice/goblet/coffee_cup/dixie/paper_cup/grace/kylix/cylix/mustache_cup/moustache_cup/scyphus/grail	L03 [hyponyms - misc]
+cushion	pincushion/pillow/air/inflatable/gaddi/hassock/headrest/pillow/seat	L03 [hyponyms - misc]
+cutlery	knife/fork/spoon/tablefork/teaspoon/dessert_spoon/salad_fork/carving_fork	L03 [hyponyms - misc]
+dessert	cake/ambrosia/baked_alaska/blancmange/charlotte/compote/fruit_compote/dumpling/flan/frozen_dessert/junket/mold/mould/mousse/pavlova/peach_melba/pudding/pud/pudding/syllabub/sillabub/tiramisu/whip/zabaglione/sabayon/charlotte_russe/apple_dumpling/frozen_custard/soft_ice_cream/frozen_pudding/frozen_yogurt/ice-cream_cake/icebox_cake/ice-cream_cone/ice-cream_sundae/sundae/ice/frappe/ice_cream/icecream/ice_lolly/lolly/lollipop/popsicle/ice_milk/parfait/sherbert/sherbet/snowball/snowball/split/chocolate_mousse/trifle/brown_betty/chocolate_pudding/duff/plum_duff/flummery/nesselrode/nesselrode_pudding/pease_pudding/plum_pudding/christmas_pudding/roly-poly/roly-poly_pudding/steamed_pudding/suet_pudding/tapioca_pudding/vanilla_pudding/prune_whip/water_ice/sorbet/chocolate_ice_cream/neapolitan_ice_cream/peach_ice_cream/strawberry_ice_cream/tutti-frutti/vanilla_ice_cream/banana_split/tipsy_cake/spotted_dick/choc-ice	L03 [hyponyms - misc]
+dress	gown/caftan/kaftan/chemise/sack/shift/coatdress/cocktail_dress/sheath/dirndl/gown/jumper/pinafore/pinny/kirtle/morning/evening/muumuu/polonaise/sari/saree/shirtdress/strapless/sundress	L03 [hyponyms - misc]
+drum	tambourine/bass_drum/gran_casa/bongo/bongo_drum/snare_drum/snare/side_drum/tabor/tabour/tambour/tenor_drum/tom-tom/timbrel/djembe/doumbek/darbuka	L03 [hyponyms - misc]	DRUM	TAMBOURINE
+emotion	anger/choler/ire/anxiety/conditioned_emotional_response/cer/conditioned_emotion/emotional_state/spirit/fear/fearfulness/fright/fear/reverence/awe/veneration/hate/hatred/joy/joyousness/joyfulness/love/annoyance/chafe/vexation/bad_temper/ill_temper/dander/hackles/fury/rage/madness/huffiness/indignation/outrage/infuriation/enragement/umbrage/offense/offence/angst/anxiousness/disquiet/concern/care/fear/discomfiture/discomposure/disconcertion/disconcertment/edginess/uneasiness/inquietude/disquietude/insecurity/jitteriness/jumpiness/nervousness/restiveness/scruple/qualm/misgiving/sinking/sinking_feeling/worry/trouble/ecstasy/rapture/transport/exaltation/raptus/embarrassment/gratification/satisfaction/happiness/felicity/state/unhappiness/alarm/dismay/consternation/apprehension/apprehensiveness/dread/creeps/frisson/shiver/chill/quiver/shudder/thrill/tingle/horror/hysteria/intimidation/panic/terror/affright/scare/panic_attack/stage_fright/timidity/timidness/timorousness/abhorrence/abomination/detestation/execration/loathing/odium/despisal/despising/hostility/enmity/ill_will/malevolence/malignity/misanthropy/misogamy/misogyny/misogynism/misology/misoneism/misopedia/murderousness/elation/high_spirits/lightness/exhilaration/excitement/exuberance/exultation/jubilance/jubilancy/jubilation/agape/agape/agape_love/amorousness/enamoredness/ardor/ardour/benevolence/devotion/devotedness/filial_love/heartstrings/lovingness/caring/loyalty/puppy_love/calf_love/crush/infatuation/worship/adoration/aggravation/exasperation/displeasure/frustration/harassment/torment/pique/temper/irritation/fit/tantrum/scene/conniption/irascibility/short_temper/spleen/quick_temper/lividity/wrath/dudgeon/high_dudgeon/willies/comfort/quality_of_life/blessedness/beatitude/beatification/radiance/embitterment/sadness/sorrow/sorrowfulness/chill/pall/foreboding/premonition/presentiment/boding/gloom/gloominess/somberness/sombreness/suspense/trepidation/swivet/cold_feet/diffidence/self-doubt/self-distrust/shyness/aggression/aggressiveness/animosity/animus/bad_blood/antagonism/belligerence/belligerency/class_feeling/resentment/bitterness/gall/rancor/rancour/maleficence/malice/maliciousness/spite/spitefulness/venom/vindictiveness/vengefulness/misocainea/euphoria/euphory/bang/boot/charge/rush/flush/thrill/kick/intoxication/titillation/triumph/beneficence/warmheartedness/warmth/nirvana/enlightenment/mourning/bereavement/poignance/poignancy/presage/shadow/hesitance/hesitancy/unassertiveness/warpath/envy/enviousness/grudge/score/grievance/heartburning/sulkiness/huffishness/covetousness/jealousy/green-eyed_monster/penis_envy	L03 [hyponyms - misc]	FEELING (EMOTION)	ANGER/ANXIETY/FEAR (FRIGHT)/AWE/HATE (LOATHING)/JOY/LOVE (AFFECTION)/HAPPINESS/
+flask	thermos/ampulla/canteen/erlenmeyer_flask/hipflask/pocket_flask/round-bottom_flask/vacuum_flask/vacuum_bottle/dewar_flask/dewar/thermos_bottle/thermos_flask	L03 [hyponyms - misc]
+guitar	ukulele/bass/bass_guitar/acoustic_guitar/cittern/cithern/cither/citole/gittern/electric_guitar/hawaiian/steel/uke	L03 [hyponyms - misc]
+gun	rifle/air/airgun/antiaircraft/flak/flack/pom-pom/ack-ack/breechloader/cannon/firearm/piece/small-arm/gas/minute/quaker/set/spring/whaling	L03 [hyponyms - misc]	GUN	SHOTGUN/BLOWGUN/CANNON
+jewel	diamond/ruby/pearl/emerald/sapphire	L03 [hyponyms - misc]	JEWEL	DIAMOND/PEARL
+jewelry	bracelet/bead/bijou/bling/bling_bling/bangle/clip/cufflink/earring/jewel/gem/precious_stone/necklace/pin/ring/band/tie_clip/bugle/anklet/ankle_bracelet/armilla/pendant_earring/drop_earring/eardrop/crown_jewel/diamond/emerald/pearl/ruby/sapphire/solitaire/chain/chain/string/strand/choker/collar/dog_collar/neckband/brooch/broach/breastpin/scatter_pin/stickpin/tie_tack/tiepin/scarfpin/annulet/engagement_ring/mourning_ring/ringlet/signet_ring/seal_ring/wedding_ring/wedding_band/ice/sparkler/seed_pearl/sunburst	L03 [hyponyms - misc]
+mixer	blender/liquidizer/liquidiser/eggbeater/eggwhisk/electric/whisk	L03 [hyponyms - misc]
+month	january/february/march/april/may/june/july/august/september/october/november/december/jan/feb/mar/apr/jun/jul/aug/sep/oct/nov/dec	L03 [hyponyms - misc]	MONTH	JANUARY/FEBRUARY/MARCH/APRIL/MAY (MONTH)/JUNE/JULY/AUGUST/SEPTEMBER/OCTOBER/NOVEMBER/DECEMBER
+oven	broiler/dutch_oven/gas_oven/rotisserie/tandoor	L03 [hyponyms - misc]
+painting	watercolor/abstraction/cityscape/daub/distemper/finger-painting/icon/ikon/landscape/miniature/illumination/monochrome/mural/wall/nude/nude_painting/oil/pentimento/sand/seascape/waterscape/semi-abstraction/still_life/tanka/water-color/watercolour/water-colour/fresco/graffitti	L03 [hyponyms - misc]
+poem	haiku/abecedarius/alcaic/alcaic_verse/ballad/lay/ballade/blank_verse/elegy/lament/epic_poem/heroic_poem/epic/epos/free_verse/vers_libre/lyric/lyric_poem/rondeau/rondel/sonnet/tanka/terza_rima/verse/rhyme/versicle	L03 [hyponyms - misc]
+railway	monorail/cable/funicular/cog/rack/elevated/el/overhead/metro/tube/underground/subway/rail	L03 [hyponyms - misc]
+season	spring/harvest/haying/fall/autumn/springtime/summer/summertime/winter/wintertime/rainy/dry/growing/seedtime/sheepshearing/holiday/high/peak/off-season/preseason/baseball/basketball/exhibition/concert/fishing/football/hockey/hunting/social/theatrical/whitsun/whitsuntide/whitweek	L03 [hyponyms - misc]	SEASON	DRY SEASON/RAINY SEASON/HOT SEASON/MONSOON SEASON/SPRINGTIME/SUMMER/AUTUMN/WINTER
+seat	chair/bench/box/ottoman/pouf/pouffe/puff/hassock/sofa/couch/lounge/stool/toilet	L03 [hyponyms - misc]
+shelf	bookshelf/hob/mantel/mantelpiece/mantle/mantlepiece/chimneypiece/overmantel/berm	L03 [hyponyms - misc]
+shirt	polo/camise/dashiki/daishiki/dress/evening/hair/jersey/t-shirt/tee/kurta/sport/tank/work-shirt	L03 [hyponyms - misc]
+shoes	sneakers/anklet/baby_shoes/balmoral/blucher/bowling_shoes/brogan/brogue/clodhopper/work_shoes/calceus/chopine/platform_shoes/chukka/boots/cleats/congress_shoes/gaiters/flipper_shoes/fin_shoes/ghillie/gillie/gym_shoes/tennis_shoes/loafers/moccasins/mocassins/oxford_shoes/pump_shoes/running_shoes/sabot/wooden_shoes/sandals/slingbacks/sling_shoes/walker_shoes/walking_shoes/wedgie/wing_shoes/tip_shoes/stiletto/heeled	L03 [hyponyms - misc]	SHOE	BOOT/SANDALS/MOCCASIN
+sofa	divan/diwan/convertible_sofa/daybed/loveseat/settee/squab	L03 [hyponyms - misc]
+song	lullaby/religious_song/anthem/aria/ballad/lay/barcarole/barcarolle/ditty/dirge/coronach/lament/requiem/threnody/drinking_song/folk_song/folksong/folk_ballad/lied/love_song/love-song/cradlesong/berceuse/oldie/golden_oldie/partsong/prothalamion/prothalamium/roundelay/scolion/banquet_song/serenade/torch_song/work_song	L03 [hyponyms - misc]	SONG	FOLK SONG
+spice	pepper/allspice/ajwain/cumin/caraway_seed/cardamom/cassia/cayenne/celery_seeds/chile_pepper/chile/cinnamon/clove/coriander/dill/fennel/fenugreek/frankincense/galangal/garlic/ginger/horseradish/jalapeño/juniper/licorice/mace/mustard/nutmeg/onion/paprika/peppercorns/saffron/savory/sesame/anise/sumac/tabasco/tamarind/turmeric/five_spice_powder/ginger/powdered_ginger/chinese_anise/star_anise/star_aniseed	L03 [hyponyms - misc]
+sweater	turtleneck/cardigan/pullover/slipover/turtle/polo-neck	L03 [hyponyms - misc]
+tool	rake/abrader/abradant/bender/clincher/comb/cutting_implement/drill/eolith/fork/gang/garden_tool/lawn_tool/grapnel/grapple/grappler/grappling_hook/grappling_iron/hack/hand_tool/hoe/jack/jaws_of_life/neolith/paleolith/pestle/muller/pounder/plow/plough/power_tool/punch/puncher/ram/rounder/saw_set/shaping_tool/strickle/stylus/style/tamp/tamper/tamping_bar/tap/upset/swage	L03 [hyponyms - misc]	TOOL	NAIL (TOOL)/HARROW (TOOL)/SIEVE (TOOL)/FILE (TOOL)/PLANE (TOOL)/SCYTHE/RAZOR/BROOM/TONGS/AWL/HOE/ADZE/PITCHFORK/RAKE/SHEARS/AXE/SCREWDRIVER/BLADE/SPADE/HAMMER/SHOVEL/SAW/CHISEL/DRILL/PLIERS/COMB/PESTLE
+toy	doll/ball/balloon/cockhorse/dolly/dollhouse/house/frisbee/hobby/hobbyhorse/rocking/horse/hula-hoop/jack-in-the-box/jungle/gym/jumping/jack/kaleidoscope/kite/lego/meccano/shooter/pinata/pinwheel/playhouse/wendy/pogo/stick/popgun/rattle/sandbox/sandpile/sandpit/seesaw/teeter/teeter-totter/teetertotter/teeterboard/tilting/board/dandle/slide/playground/sliding/slingshot/sling/catapult/stick/horse/swing/teddy/bear/top/whirligig/teetotum/spinning/train/water_pistol/gun/squirt/squirter/yo-yo	L03 [hyponyms - misc]	TOY	TOP (TOY)/KITE (TOY)/BALLOON/DOLL
+trousers	jeans/bellbottom_trousers/bell-bottoms/bellbottom_pants/breeches/knee_breeches/knee_pants/knickerbockers/knickers/chino/churidars/cords/corduroys/flannel/gabardine/tweed/white/jean/blue_jean/denim/jodhpurs/jodhpur_breeches/riding_breeches/long_trousers/long_pants/pajama/pyjama/pantaloon/pedal_pusher/toreador_pants/salwar/shalwar/short_pants/shorts/trunks/slacks/stretch_pants/sweat_pants/sweatpants/trews/britches/buckskins/plus_fours/trunk_hose/levi's/levis/bermuda_shorts/jamaica_shorts/hot_pants/lederhosen	L03 [hyponyms - misc]
+weapon	gun/bow/bow/arrow/dart/knucks/knuckles/flamethrower/knife/missile/pike/projectile/slasher/sling/spear/lance/shaft/stun/baton/sword/blade/brand/steel/tomahawk/hatchet/fire	L03 [hyponyms - misc]	WEAPONS	GUN/BOW/CROSSBOW/BOOMERANG/BATTLE-AXE/SPEAR/SWORD/CLUB/CANNON/SLING
+weekday	monday/workday/working_day/work_day/feria/mon/tuesday/tues/wednesday/midweek/wed/thursday/th/friday/fri/saturday/sabbatum/sat	L03 [hyponyms - misc]
+allosaurus	dinosaur/reptile/bird/archosaur/archosaurian/archosaurian_reptile/	L01 [hypernyms - animals]
+anaconda	snake/reptile/boa/serpent/ophidian	L01 [hypernyms - animals]	ANACONDA (WATER BOA)	SNAKE
+ant	insect/invertebrate/creature/beast/hymenopteran/being/animal/organism/fauna/arthropod/hymenopterous_insect/animate_being/physical_hymenopteron/physical_entity/hymenopter/living_thing	L01 [hypernyms - animals]	ANT	INSECT
+beaver	rodent/vertebrate/creature/beast/animal/organism/fauna/placental/chordate/eutherian/mammal/mammalian/eutherian_mammal/gnawer/animate_being/living_thing/placental_mammal/craniate/	L01 [hypernyms - animals]	BEAVER	RODENT
+bee	insect/invertebrate/creature/beast/hymenopteran/being/animal/insect/organism/fauna/arthropod/hymenopterous_insect/animate_being/hymenopteron/hymenopter/living_thing	L01 [hypernyms - animals]	BEE	INSECT
+beetle	insect/invertebrate/creature/beast/being/animal/insect/organism/fauna/arthropod/animate_being/living_thing	L01 [hypernyms - animals]	BEETLE	INSECT
+buffalo	bovid/mammal/bison/cow/vertebrate/creature/ungulate/beast/being/animal/organism/fauna/placental/artiodactyl/ruminant/chordate/eutherian/mammalian/bovine/animate_being/eutherian_mammal/placental_mammal/craniate/physical_hoofed_mammal/physical_entity/even-toed_ungulate/artiodactyl_mammal/living_thing	L01 [hypernyms - animals]	BUFFALO	BOVINE
+butterfly	insect/creature/beast/lepidopteran/animal/organism/fauna/arthropod/lepidopterous_insect/lepidopteron/animate_being/living_thing	L01 [hypernyms - animals]	BUTTERFLY	INSECT
+cat	feline/beast/animal/organism/fauna/placental/carnivore/chordate/felid/eutherian/mammal/mammalian/eutherian_mammal/animate_being/placental_mammal/craniate/	L01 [hypernyms - animals]
+chicken	fowl/bird/vertebrate/poultry/creature/beast/being/animal/organism/fauna/poultry/chordate/domestic_fowl/animate_being/gallinaceous_bird/craniate/gallinacean/living_thing	L01 [hypernyms - animals]	CHICKEN	FOWL/BIRD
+chimpanzee	primate/vertebrate/creature/beast/being/animal/organism/fauna/placental/hominid/chordate/eutherian/mammal/ape/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/physical_physical_entity/living_thing	L01 [hypernyms - animals]	CHIMPANZEE	APE OR MONKEY/MONKEY
+chinchilla	rodent/vertebrate/creature/beast/animal/organism/fauna/placental/chordate/eutherian/mammal/mammalian/eutherian_mammal/gnawer/animate_being/living_thing/placental_mammal/craniate/	L01 [hypernyms - animals]
+cobra	snake/reptile/elapid/elapid_snake/serpent/ophidian	L01 [hypernyms - animals]
+cockroach	insect/invertebrate/creature/beast/dictyopterous_insect/being/animal/organism/fauna/arthropod/animate_being/physical_entity/living_thing	L01 [hypernyms - animals]	COCKROACH	INSECT
+cow	bovid/mammal/cattle/vertebrate/creature/ungulate/beast/being/animal/organism/fauna/placental/artiodactyl/ruminant/chordate/eutherian/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/physical_hoofed_mammal/physical_entity/even-toed_ungulate/artiodactyl_mammal/living_thing	L01 [hypernyms - animals]	COW	BOVINE/CATTLE
+coyote	canine/vertebrate/creature/beast/canid/being/animal/organism/fauna/placental/carnivore/chordate/eutherian/mammal/mammalian/animate_being/eutherian_mammal/locomote/placental_mammal/craniate/domesticated_animal/physical_entity/domestic_animal/living_thing	L01 [hypernyms - animals]	COYOTE	WOLF-LIKE ANIMAL
+deer	bovid/mammal/vertebrate/creature/ungulate/beast/being/animal/organism/fauna/placental/artiodactyl/ruminant/chordate/eutherian/mammalian/bovine/animate_being/eutherian_mammal/placental_mammal/craniate/physical_hoofed_mammal/physical_entity/even-toed_ungulate/artiodactyl_mammal/living_thing	L01 [hypernyms - animals]	DEER	LARGE WILD HERBIVORE
+dog	canine/vertebrate/creature/beast/canid/being/animal/organism/fauna/placental/carnivore/chordate/eutherian/mammal/mammalian/animate_being/eutherian_mammal/locomote/placental_mammal/craniate/domesticated_animal/physical_entity/domestic_animal/living_thing	L01 [hypernyms - animals]	DOG	WOLF-LIKE ANIMAL
+duck	fowl/bird/vertebrate/poultry/creature/beast/being/animal/organism/fauna/poultry/chordate/domestic_fowl/waterfowl/water_fowl/animate_being/anseriform_bird/craniate/living_thing	L01 [hypernyms - animals]	DUCK	FOWL/BIRD
+eagle	raptor/bird/vertebrate/creature/beast/being/animal/organism/fauna/chordate/animate_being/craniate/iving_thing/raptorial_bird/bird_of_prey/	L01 [hypernyms - animals]	EAGLE	BIRD
+falcon	raptor/bird/vertebrate/creature/beast/being/animal/organism/fauna/chordate/animate_being/craniate/living_thing/raptorial_bird/bird_of_prey/	L01 [hypernyms - animals]	FALCON	BIRD
+fox	canine/vertebrate/creature/beast/canid/being/animal/organism/fauna/placental/carnivore/chordate/eutherian/mammal/mammalian/animate_being/eutherian_mammal/locomote/placental_mammal/craniate/domesticated_animal/physical_entity/domestic_animal/living_thing	L01 [hypernyms - animals]
+gibbon	primate/vertebrate/creature/beast/being/animal/organism/fauna/placental/chordate/eutherian/mammal/ape/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/physical_physical_entity/living_thing	L01 [hypernyms - animals]	GIBBON	APE OR MONKEY/MONKEY
+goat	bovid/mammal/vertebrate/ungulate/beast/being/animal/organism/fauna/placental/artiodactyl/chordate/eutherian/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/hoofed_mammal/even-toed_ungulate/artiodactyl_mammal/living_thing	L01 [hypernyms - animals]	GOAT	CAPRINE (GOAT OR SHEEP)
+goose	fowl/bird/vertebrate/poultry/creature/beast/being/animal/organism/fauna/poultry/chordate/domestic_fowl/waterfowl/water_fowl/animate_being/anseriform_bird/craniate/living_thing	L01 [hypernyms - animals]	GOOSE	FOWL/BIRD
+gorilla	primate/vertebrate/creature/beast/being/animal/organism/fauna/placental/hominid/chordate/eutherian/mammal/ape/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/physical_physical_entity/living_thing	L01 [hypernyms - animals]	GORILLA	APE OR MONKEY/MONKEY
+hawk	raptor/bird/vertebrate/creature/beast/being/animal/organism/fauna/chordate/animate_being/craniate/living_thing/raptorial_bird/bird_of_prey/	L01 [hypernyms - animals]	HAWK	BIRD
+human	primate/vertebrate/creature/beast/being/animal/organism/fauna/placental/hominid/chordate/eutherian/mammal/ape/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/physical_physical_entity/living_thing	L01 [hypernyms - animals]
+jackal	canine/vertebrate/creature/beast/canid/being/animal/organism/fauna/placental/carnivore/chordate/eutherian/mammal/mammalian/animate_being/eutherian_mammal/locomote/placental_mammal/craniate/domesticated_animal/physical_entity/domestic_animal/living_thing	L01 [hypernyms - animals]	JACKAL	WOLF-LIKE ANIMAL
+jaguar	feline/cat/beast/animal/organism/fauna/placental/carnivore/chordate/felid/eutherian/mammal/mammalian/eutherian_mammal/animate_being/placental_mammal/craniate/big_cat	L01 [hypernyms - animals]
+leopard	feline/cat/beast/animal/organism/fauna/placental/carnivore/causal_agent/chordate/felid/eutherian/mammal/mammalian/eutherian_mammal/animate_being/placental_mammal/craniate/big_cat	L01 [hypernyms - animals]
+lion	feline/cat/beast/animal/organism/fauna/placental/carnivore/chordate/felid/eutherian/mammal/mammalian/eutherian_mammal/animate_being/placental_mammal/craniate/big_cat	L01 [hypernyms - animals]
+mamba	snake/reptile/elapid/elapid_snake/serpent/ophidian	L01 [hypernyms - animals]
+mouse	rodent/vertebrate/creature/beast/animal/organism/fauna/placental/chordate/eutherian/mammal/mammalian/eutherian_mammal/gnawer/animate_being/living_thing/placental_mammal/craniate/	L01 [hypernyms - animals]	MOUSE	MUROID (MOUSE OR RAT)/RODENT
+orangutan	primate/vertebrate/creature/beast/being/animal/organism/fauna/placental/hominid/chordate/eutherian/mammal/ape/mammalian/animate_being/eutherian_mammal/placental_mammal/craniate/physical_physical_entity/living_thing	L01 [hypernyms - animals]
+owl	raptor/bird/vertebrate/creature/beast/being/animal/organism/fauna/chordate/animate_being/craniate/living_thing/raptorial_bird/bird_of_prey/	L01 [hypernyms - animals]	OWL	BIRD
+pony	bovid/mammal/horse/vertebrate/creature/beast/animal/organism/fauna/placental/eutherian/mammal/equine/mammalian/equid/living_thing/odd-toed_ungulate/animate_being/eutherian_mammal/perissodactyl/placental_mammal/craniate/hoofed_mammal/physical_entity/perissodactyl_mammal/equus_caballus	L01 [hypernyms - animals]
+porcupine	rodent/vertebrate/creature/beast/animal/organism/fauna/placental/chordate/eutherian/mammal/mammalian/eutherian_mammal/gnawer/animate_being/living_thing/placental_mammal/craniate/	L01 [hypernyms - animals]	PORCUPINE	RODENT
+quail	fowl/bird/vertebrate/poultry/creature/beast/being/animal/organism/fauna/poultry/chordate/wild_fowl/wildfowl/animate_being/gallinaceous_bird/craniate/gallinacean/living_thing	L01 [hypernyms - animals]	QUAIL	FOWL/BIRD
+rattlesnake	snake/reptile/pit_viper/serpent/ophidian	L01 [hypernyms - animals]	RATTLESNAKE	SNAKE
+squirrel	rodent/vertebrate/creature/beast/animal/organism/fauna/placental/chordate/eutherian/mammal/mammalian/eutherian_mammal/gnawer/animate_being/living_thing/placental_mammal/craniate/	L01 [hypernyms - animals]	SQUIRREL	RODENT
+stegosaurus	dinosaur/reptile/armored_dinosaur/archosaur/archosaurian/archosaurian_reptile/	L01 [hypernyms - animals]
+tiger	feline/cat/beast/animal/organism/fauna/placental/carnivore/chordate/felid/eutherian/mammal/mammalian/eutherian_mammal/animate_being/placental_mammal/craniate/big_cat	L01 [hypernyms - animals]
+triceratops	dinosaur/reptile/ceratopsian/horned_dinosaur/archosaur/archosaurian/archosaurian_reptile/	L01 [hypernyms - animals]
+turkey	fowl/bird/vertebrate/poultry/creature/beast/being/animal/organism/fauna/poultry/chordate/domestic_fowl/animate_being/gallinaceous_bird/craniate/gallinacean/living_thing	L01 [hypernyms - animals]	TURKEY	FOWL/BIRD
+tyrannosaurus	dinosaur/reptile/theropod/theropod_dinosaur/bird-footed_dinosaur/archosaur/archosaurian/archosaurian_reptile/	L01 [hypernyms - animals]
+velociraptor	dinosaur/reptile/maniraptor/archosaur/archosaurian/archosaurian_reptile/	L01 [hypernyms - animals]
+viper	snake/reptile/snake/serpent/ophidian	L01 [hypernyms - animals]	VIPER	SNAKE
+vulture	raptor/bird/vertebrate/creature/beast/being/animal/organism/fauna/chordate/animate_being/craniate/living_thing/raptorial_bird/bird_of_prey/	L01 [hypernyms - animals]	VULTURE	BIRD
+wolf	canine/vertebrate/creature/beast/canid/being/animal/organism/fauna/placental/carnivore/chordate/eutherian/mammal/mammalian/animate_being/eutherian_mammal/locomote/placental_mammal/craniate/domesticated_animal/physical_entity/domestic_animal/living_thing	L01 [hypernyms - animals]	WOLF	WOLF-LIKE ANIMAL
+academia	college/university/institute	L06 [meronyms - part]
+apartment	bedroom/room/bathroom/kitchen/kitchenette/living_room/pantry/toilet/shower_room	L06 [meronyms - part]
+bird	feathers/plume/preen/croup/calamus/fowl/drumstick/syrinx/bill/rump/vane/barb/quill/shaft/pecker/pennon/feet/giblets/alula/talon/foot/pinion/wing/wishbone/nib/sac/giblet/furcula/bird/neb/feather/gland/oyster/thigh/plumage/web/hindquarters/beak/parson's_nose/wishing_bone/pope's_nose/spurious_wing/bastard_wing/croupe/air_sac/quill_feather/uropygium/bird's_foot/uropygial/second_joint/uropygial_gland/preen_gland/flight_feather/dark_meat	L06 [meronyms - part]	BIRD	FEATHER/BEAK/WING
+brush	bristle/hold/shank/grip/handgrip/handle/head/stem	L06 [meronyms - part]
+bus	seats/conductor/window/driver/roof	L06 [meronyms - part]
+byte	bit	L06 [meronyms - part]
+car	engine/armrest/headrest/grille/hinge/tailpipe/suspension/hood/horn/hooter/petrol/pintle/trunk/floorboard/bar/gas/buffer/door/stabilizer/seat/window/exhaust/tailfin/back/luggage/pedal/cowling/seatbelt/high/wing/gasoline/fin/cowl/silencer/gun/compartment/rear/radiator/accessory/sunroof/roof/lights/bumper/glove/bag/cushion/backrest/accelerator/fender/third/throttle/bonnet/air/gear/muffler/mirror/shock/reverse/anti-sway_bar/tail_fin/accelerator_pedal/car_seat/automobile_horn/anti-sway/automobile_engine/gasoline_engine/car_door/shock_absorber/luggage_compartment/glove_compartment/bumper_guard/exhaust_system/first_gear/high_gear/rear_window/sunshine-roof/third_gear/air_bag/doorlock/petrol_engine/automobile_trunk/auto_accessory/inlet_manifold/horn_button/running_board/stabilizer_bar/motor_horn/exhaust_manifold/exhaust_pipe/radiator_grille/low_gear/flexible_joint/head_restraint/hood_ornament/exhaust_valve/car_mirror/gas_pedal/seat_belt/reverse_gear/car_horn/car_window/suspension_system	L06 [meronyms - part]
+castle	donjon/tower/turret/gate/dungeon/moat/keep/great_hall	L06 [meronyms - part]
+cat	whiskers/coat/paw/paws/fur/eyes/back/claws/tail/teeth	L06 [meronyms - part]	CAT	PAW/FUR/CLAW/TOOTH
+chair	seat/armrest/headrest/armrests/rest/pad/back/leg/backrest/legs	L06 [meronyms - part]
+church	altar/choir/vestry/transept/apse/sanctuary/rood/screen/bema/nave/tower/sacristy/corner/chancel/amen/chapel/apsis/side/narthex/presbytery/side_chapel/lady_chapel/church_tower/rood_screen/amen_corner	L06 [meronyms - part]
+comb	teeth/shaft/grip/tooth/handle	L06 [meronyms - part]
+day	hour/forenoon/eventide/nanosecond/noonday/femtosecond/hr/minutes/microsecond/msec/time/midnight/sec/nighttime/min/morning/noon/evening/dark/picosecond/daytime/minute/daylight/s/high/even/quarter/morn/noontide/second/afternoon/twelve/millisecond/midday/midafternoon/attosecond/night/morning_time/high_noon/half-hour/twelve_noon/late-night_hour/early-morning_hour/lights-out/60_minutes/small_hours/30_minutes/15_minutes/quarter-hour	L06 [meronyms - part]
+deer	antler/antlers/withers/flag/scut	L06 [meronyms - part]
+dollar	cent	L06 [meronyms - part]
+door	hinge/keyhole/threshold/doorframe/bolt/deadbolt/doorjamb/tumbler/doorpost/doorstep/doorcase/case/lock/casing/doorsill	L06 [meronyms - part]	DOOR	DOORKNOB/DOORPOST/DOOR KNOCKER
+dress	sleeve/slide/plastron/zip/zipper/fastener/hemline/bodice/neckline/waistline/belt/slide_fastener/zip_fastener	L06 [meronyms - part]
+filename	extension/name	L06 [meronyms - part]
+flower	petal/leaf/anther/style/perianth/placenta/stamen/pistil/ovary/corolla/carpel/envelope/sepal/calyx/stigma/chlamys/petals/corona/perigonium/perigone/flower_petal/floral_leaf/floral_envelope/gynostegium	L06 [meronyms - part]
+gigabit	megabit/kbit/kb/kilobit/mb/mbit	L06 [meronyms - part]
+gramm	milligram/mg/grain/milligram/mcg/carat/microgram/ng/dg/decigram/nanogram/metric_grain/obolus	L06 [meronyms - part]
+guitar	string/deck/pegs/fret/strings/frets/peg/fingerboard	L06 [meronyms - part]	GUITAR	STRING
+gun	trigger/holder/safety/extractor/clip/magazine/barrel/hammer/viewfinder/gunsight/stock/cartridge/remover/chamber/ejector/cock/catch/finder/mechanism/gunstock/lock/action/muzzle/key/gunlock/cartridge_holder/gun_muzzle/gun-sight/action_mechanism/gun_chamber/gun_trigger/firing_mechanism/safety_lock/cartridge_extractor/firing_chamber/cartridge_ejector/view_finder/cartridge_clip/gun_barrel/safety_catch/cartridge_remover	L06 [meronyms - part]	GUN	COCK
+harbor	dock/facility/anchorage/landing/docking/dockage/anchorage_ground/docking_facility/landing_place/landing_stage	L06 [meronyms - part]
+jail	cell/cellblock/guard/police/prison_cell/jail_cell	L06 [meronyms - part]
+jewellery	bead/stone/wire/beads/gemstone/gem/metal/gold/silver/platina/bead/beads/jewel	L06 [meronyms - part]
+litre	millilitre/cc/ml/milliliter/cl/dl/deciliter/mil/cubic_centimetre/centiliter/decilitre/cubic_centimeter/centilitre/cubic_millimeter/cubic_millimetre	L06 [meronyms - part]
+movie	scene/subtitles/footage/credit/episode/shot/sequence/credits/caption	L06 [meronyms - part]
+orthography	hyphenation/punctuation/punctuation_mark/word_division/spelling	L06 [meronyms - part]
+piano	keyboard/clavier/loud/hammer/sounding/pedal/sustaining/soft/fingerboard/soundboard/action/board/key/fallboard/piano_action/action_mechanism/damper_block/fall-board/sounding_board/sustaining_pedal/loud_pedal/piano_damper/piano_keyboard/sound_hole/soft_pedal	L06 [meronyms - part]
+pie	crust/cheese/filling/fruit/apple/berries/glazing/pastry/icing	L06 [meronyms - part]
+poem	stanza/canto/prosody/rime/line/rhyme/verse/poetic_rhythm/rhythmic_pattern/verse_line/line_of_verse/line_of_poetry	L06 [meronyms - part]
+pub	bar/barroom/taproom/saloon/ginmill	L06 [meronyms - part]
+radio	receiver/tuner/radio/demodulator/transmitter/detector/receiving/set/amplifier/wireless/radio_transmitter/receiving_set/radio_receiver/radio_set	L06 [meronyms - part]
+railcar	suspension/cushion/shock/shock_absorber/suspension_system	L06 [meronyms - part]
+seafront	harbor/seaport/dock/haven/anchorage/landing/harbour/dockage/anchorage_ground/docking_facility/landing_place/landing_stage	L06 [meronyms - part]
+shilling	pence	L06 [meronyms - part]
+shirt	button/dickie/collar/dickey/sleeve/buttons/dicky/pocket/shirttail/shirtsleeve/shirtfront/shirt_button	L06 [meronyms - part]	SHIRT	SLEEVE/COLLAR/BUTTON/POCKET
+sonata	movement/psrt	L06 [meronyms - part]
+staircase	step/riser/landing/tread/stair/stairhead	L06 [meronyms - part]
+sword	blade/forte/hilt/peak/foible/point/pommel/haft/tip/knob/helve/knife_edge/cutting_edge	L06 [meronyms - part]	SWORD	BLADE/TIP (OF OBJECT)/POINT (POINTED END)
+table	tabletop/tableware/leg/legs	L06 [meronyms - part]
+teapot	spout/handle/knob/lid/body/belly/base/filter/tea_filter	L06 [meronyms - part]
+telephone	receiver/mouthpiece/dial/wire/screen/display/telephone_receiver	L06 [meronyms - part]
+tonne	kilogram/mg/gm/hg/grain/milligram/hundredweight/kilo/mcg/dag/carat/microgram/gramme/quintal/ng/gram/dg/g/kg/decigram/nanogram/myriagram/centner/metric_grain/myg/dekagram/decagram/metric_hundredweight/obolus/doppelzentner/hectogram/dkg	L06 [meronyms - part]
+torso	chest/arse/shoulder/bum/midriff/groin/deltoid/diaphragm/lat/pectoralis/behind/gluteus/middle/stomach/teres/thorax/tush/ab/rump/breastbone/buns/gladiolus/haunch/backside/buttocks/serratus/pectoral/stern/navel/paunch/seat/mediastinum/ass/axilla/back/belly/bottom/omphalos/fundament/acromion/derriere/hindgut/gut/gallbladder/saddle/cheek/waist/butt/bowel/keister/bellybutton/pectus/prat/loins/abdominal/rear/dorsum/posterior/venter/small/abdomen/umbilicus/armpit/waistline/sternum/scapula/glute/manubrium/fanny/side/midsection/pecs/hip/buttock/intestine/breast/can/tail/hindquarters/xiphoid_process/thoracic_vertebra/abdominal_wall/musculus_deltoideus/abdominal_cavity/arteria_circumflexa_scapulae/arteria_glutes/arteria_axillaris/axillary_fossa/arteria_colica/articulatio_humeri/shoulder_joint/gall_bladder/spare_tire/arteria_circumflexa_humeri/serratus_muscles/axillary_artery/gluteus_muscle/love_handle/latissimus_dorsi/pectoral_muscle/tooshie/abdominal_muscle/circumflex_humeral_artery/abdominal_aorta/vena_thoracica/musculus_pectoralis/hypochondrium/area_of_cardiac_dullness/glenoid_cavity/rib_cage/thoracic_aorta/omphalus/circumflex_scapular_artery/acromial_process/shoulder_bone/tail_end/rear_end/gluteal_muscle/inguen/shoulder_blade/rotator_cuff/corpus_sternum/dorsal_vertebra/teres_muscle/thoracic_cavity/axillary_cavity/chest_cavity/deltoid_muscle/belly_button/gluteal_artery/thoracic_vein/glenoid_fossa/nates/colic_artery/lumbar_vertebra/hind_end	L06 [meronyms - part]	TORSO	CHEST/BUTTOCKS/SHOULDER/BACK/STOMACH/BREASTBONE/NAVEL/BELLY/GUTS/INTESTINES/WAIST/ARMPIT/HIP/BREAST/RIB/SHOULDERBLADE
+tripod	leg/stand	L06 [meronyms - part]
+typewriter	keyboard/typewriter/carriage/tab/ribbon/shift/backspace/action/key/typewriter_carriage/backspace_key/action_mechanism/typewriter_keyboard/shift_key/space_bar/tab_key/typewriter_ribbon/backspacer	L06 [meronyms - part]
+window	pane/sash/windowpane/window/fastener/glass/frame/case/windowsill/mullion/jamb/lock/casing/sash_lock/window_glass/sash_fastener/pane_of_glass/window_lock/window_sash/window_frame	L06 [meronyms - part]
+womb	cervix/caul/placenta/oviduct/veil/myometrium/endometrium/uterine_artery/embryonic_membrane/uterine_cervix/uterine_cavity/fallopian_tube/uterine_tube/cervix_uteri/arteria_uterina	L06 [meronyms - part]	WOMB	PLACENTA
