@@ -1,0 +1,69 @@
+input_base_dir: data/graphs
+output_base_dir: output/
+eval: true
+
+graphs:
+  fullfams:
+    directed: false
+    to_undirected: false
+  affixfams:
+    directed: true
+    to_undirected: true
+  overlapfams:
+    directed: false
+    to_undirected: false
+
+models:
+  semantic-node2vec-sbert:
+    class: semantic-node2vec
+    train:
+      cbow: false
+      max_epochs: 1500
+      patience: 5
+      min_token_count: 1
+      encoder: sbert
+
+  semantic-node2vec-1:
+    class: semantic-node2vec
+    train:
+      cbow: false
+      max_epochs: 1500
+      patience: 5
+      min_token_count: 1
+
+  #semantic-node2vec-onehot-1:
+  #  class: semantic-node2vec
+  #  train:
+  #    cbow: false
+  #    max_epochs: 1500
+  #    patience: 5
+  #    min_token_count: 1
+  #    keep_one_hot: true
+
+  semantic-node2vec-2:
+    class: semantic-node2vec
+    train:
+      cbow: false
+      max_epochs: 1500
+      patience: 5
+      min_token_count: 2
+
+  #semantic-node2vec-onehot-2:
+  #  class: semantic-node2vec
+  #  train:
+  #    cbow: false
+  #    max_epochs: 1500
+  #    patience: 5
+  #    min_token_count: 2
+  #    keep_one_hot: true
+
+  #node2vec-sg:
+  #  class: node2vec
+  #  train:
+  #    cbow: false
+  #    max_epochs: 1500
+  #    patience: 5
+
+  #prone:
+  #  train:
+  #    embedding_size: 128

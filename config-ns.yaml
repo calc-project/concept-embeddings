@@ -14,32 +14,18 @@ graphs:
     to_undirected: false
 
 models:
-  semantic-node2vec:
-    train:
-      cbow: false
-      max_epochs: 1500
-      patience: 5
-
-  sdne:
-    train:
-      max_epochs: 10000
-      patience: 10
-      min_delta: 0.001
-
-  node2vec_cbow:
-    class: node2vec
-    train:
-      cbow: true
-      max_epochs: 3000
-      patience: 5
-
-  node2vec_sg:
+  node2vec_sg_ns:
     class: node2vec
     train:
       cbow: false
       max_epochs: 1500
       patience: 5
+      ns: true
 
-  prone:
+  node2vec_sg_nons:
+    class: node2vec
     train:
-      embedding_size: 128
+      cbow: false
+      max_epochs: 1500
+      patience: 5
+      ns: false

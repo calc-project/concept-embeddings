@@ -1,42 +1,108 @@
-from graphembeddings.models.trainer import Node2Vec, ProNE, SDNE
+import argparse
+from collections import defaultdict
+
+import yaml
 from pathlib import Path
+from tabulate import tabulate
+from pyconcepticon import Concepticon
+
+from graphembeddings.models.trainer import Node2Vec, ProNE, SDNE, SemanticNode2Vec
+from graphembeddings.utils.io import read_graph_data
+from graphembeddings.eval.eval import Evaluation
 
 
-GRAPH_DIR = Path(__file__).parent / "data" / "graphs"
-OUTPUT_BASE_DIR = Path(__file__).parent / "embeddings"
+MODEL_REGISTRY = {
+    "sdne": SDNE,
+    "node2vec": Node2Vec,
+    "prone": ProNE,
+    "semantic-node2vec": SemanticNode2Vec,
+}
 
-available_graphs = ["affixfams", "fullfams", "overlapfams"]
 
+def main(config_path):
+    with open(config_path) as f:
+        config = yaml.safe_load(f)
 
-for weighting in available_graphs:
-    if weighting == "affixfams":
-        directed = to_undirected = True
-    else:
-        directed = to_undirected = False
+    input_base = Path(config["input_base_dir"])
+    output_base = Path(config["output_base_dir"])
+    output_base.mkdir(parents=True, exist_ok=True)
 
-    DATA_FP = GRAPH_DIR / f"{weighting}.json"
-    OUTPUT_DIR = OUTPUT_BASE_DIR / weighting
+    eval = config["eval"]
+    if eval:
+        eval_metrics = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))
+        con = Concepticon()
 
-    # SDNE
-    sdne = SDNE.from_graph_file(DATA_FP, directed=directed, to_undirected=to_undirected)
-    sdne.train(max_epochs=10000, patience=10, min_delta=0.001)
-    sdne.save(OUTPUT_DIR / "sdne.json")
-    print("Done training SDNE.")
+    for graph_name, graph_cfg in config["graphs"].items():
+        graph_fp = Path(input_base) / f"{graph_name}.json"
+        _, _, concept_to_id = read_graph_data(graph_fp)
+        concepts = list(concept_to_id.keys())
+        if eval:
+            evaluation = Evaluation(concepts)
+            missing_concepts = [x.gloss for x in con.conceptsets.values() if x.gloss not in concepts]
+            inductive_evaluation = Evaluation(missing_concepts)
+            combined_evaluation = Evaluation(concepts + missing_concepts)
 
-    # Node2Vec (CBOW)
-    node2vec = Node2Vec.from_graph_file(DATA_FP, directed=directed, to_undirected=to_undirected)
-    node2vec.train(cbow=True, max_epochs=3000, patience=5, min_delta=0.001)
-    node2vec.save(OUTPUT_DIR / "n2v-cbow.json")
-    print("Done training Node2Vec (CBOW).")
+        for model_name, model_cfg in config["models"].items():
+            out_dir = Path(output_base) / graph_name
+            out_dir.mkdir(parents=True, exist_ok=True)
 
-    # Node2Vec (SkipGram)
-    node2vec = Node2Vec.from_graph_file(DATA_FP, directed=directed, to_undirected=to_undirected)
-    node2vec.train(cbow=False, max_epochs=1500, patience=5, min_delta=0.001)
-    node2vec.save(OUTPUT_DIR / "n2v-sg.json")
-    print("Done training Node2Vec (SkipGram).")
+            # Determine model class
+            model_key = model_cfg.get("class", model_name)
+            ModelClass = MODEL_REGISTRY[model_key]
 
-    # ProNE
-    prone = ProNE.from_graph_file(DATA_FP, directed=directed, to_undirected=to_undirected)
-    prone.train(embedding_size=128)
-    prone.save(OUTPUT_DIR / "prone.json")
-    print("Done training ProNE.")
+            print(f"Training {model_name} on {graph_name} ...")
+
+            model = ModelClass.from_graph_file(
+                graph_fp,
+                directed=graph_cfg.get("directed", False),
+                to_undirected=graph_cfg.get("to_undirected", False),
+            )
+
+            train_kwargs = model_cfg.get("train", {})
+            model.train(**train_kwargs)
+
+            model.save(out_dir / f"{model_name}.json")
+            print(f"Saved {model_name}")
+
+            if eval:
+                if type(model) is SemanticNode2Vec:
+                    inductive_embeddings = model.inductive_embeddings()
+                    combined_embeddings = model.embeddings | inductive_embeddings
+                    # transductive
+                    msl, semshift, eat = evaluation.eval_all(model.embeddings)
+                    eval_metrics["msl"][model_name][graph_name] = msl
+                    eval_metrics["semshift"][model_name][graph_name] = semshift
+                    eval_metrics["eat"][model_name][graph_name] = eat
+                    # inductive
+                    msl, semshift, eat = inductive_evaluation.eval_all(inductive_embeddings)
+                    eval_metrics["msl-inductive"][model_name][graph_name] = msl
+                    eval_metrics["semshift-inductive"][model_name][graph_name] = semshift
+                    eval_metrics["eat-inductive"][model_name][graph_name] = eat
+                    # combined
+                    msl, semshift, eat = combined_evaluation.eval_all(combined_embeddings)
+                    eval_metrics["msl-combined"][model_name][graph_name] = msl
+                    eval_metrics["semshift-combined"][model_name][graph_name] = semshift
+                    eval_metrics["eat-combined"][model_name][graph_name] = eat
+                else:
+                    # only transductive evaluation
+                    msl, semshift, eat = evaluation.eval_all(model.embeddings)
+                    eval_metrics["msl"][model_name][graph_name] = msl
+                    eval_metrics["semshift"][model_name][graph_name] = semshift
+                    eval_metrics["eat"][model_name][graph_name] = eat
+
+    if eval:
+        for eval_method, metrics in eval_metrics.items():
+            models = list(metrics.keys())
+            graphs = list(metrics[models[0]].keys())
+            table = []
+            for model in models:
+                row = [metrics[model][graph] for graph in graphs]
+                table.append(row)
+            print(tabulate(table, headers=graphs, showindex=models, tablefmt="fancy_grid", floatfmt=".4f"))
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config", required=True)
+    args = parser.parse_args()
+
+    main(args.config)

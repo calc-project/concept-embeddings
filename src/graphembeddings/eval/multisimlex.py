@@ -7,7 +7,7 @@ from tabulate import tabulate
 
 from graphembeddings.utils.io import read_embeddings, read_ft_embeddings
 
-from baselines import Baseline, get_all_graphs
+from graphembeddings.eval.baselines import Baseline, get_all_graphs
 
 
 MSL_DEFAULT_PATH = Path(__file__).parent.parent / "data" / "msl" / "multisimlex.csv"

@@ -1,0 +1,10 @@
+__pycache__
+.DS_Store
+norare-data
+BATS_3.0
+*.vec.gz
+clics4
+colex-coverage
+build
+.idea
+output

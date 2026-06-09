@@ -2,15 +2,18 @@ import torch
 import numpy as np
 import json
 import datetime
+import pickle
+import random
 from nodevectors import ProNE as ProNEEncoder
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 from pathlib import Path
 
-from graphembeddings.models.nn import SDNEEmbedder, SDNELoss, CBOW, SkipGram
+from graphembeddings.models.nn import SDNEEmbedder, SDNELoss, CBOW, SkipGram, NCELoss
 from graphembeddings.utils.io import read_graph_data
+from graphembeddings.utils.preprocess import BOWEncoder, SBertEncoder
 
-__all__ = ["SDNE", "Node2Vec", "ProNE"]
+__all__ = ["SDNE", "Node2Vec", "ProNE", "SemanticNode2Vec"]
 
 
 class GraphEmbeddingModel(object):
@@ -174,7 +177,9 @@ class Node2Vec(GraphEmbeddingModel):
         "min_delta": 0.00,
         "test_split": 0.2,
         "shuffle": True,
-        "lr": 1e-3
+        "lr": 1e-3,
+        "encodings": None,
+        "ns": False
     }
 
     def random_walks_from_node(self, node, n=5, walk_length=10, p=1, q=1):
@@ -214,7 +219,7 @@ class Node2Vec(GraphEmbeddingModel):
 
         return walks
 
-    def generate_training_data(self, walks, window_size=2, cbow=True):
+    def generate_training_data(self, walks, window_size=2, cbow=True, encodings=None, ns=False):
         """
         Generate training data from random walks.
 
@@ -244,10 +249,31 @@ class Node2Vec(GraphEmbeddingModel):
             X, Y = [], []
             for node, context in zip(target_nodes, context_bow):
                 for context_node in context:
-                    X.append(node)
+                    if encodings:
+                        X.append(encodings[node])
+                    else:
+                        X.append(node)
                     Y.append(context_node)
             X = torch.tensor(X)
+            if encodings:
+                X = X.to(torch.float32)
             Y = torch.tensor(Y)
+
+        if ns:
+            # need to convert indices to one-hot encodings with negative examples
+            y_nodes = Y.tolist()
+            Y = []
+            for node in y_nodes:
+                y_vec = self.num_nodes * [0]
+                y_vec[node] = 1
+                remaining_nodes = list(range(self.num_nodes))
+                remaining_nodes.remove(node)
+                # TODO refine sampling, k should be a free parameter as well
+                for negative_node in random.sample(remaining_nodes, 5):
+                    y_vec[negative_node] = -1
+                Y.append(y_vec)
+            Y = torch.tensor(Y, dtype=torch.float32)
+            print("hello i am here!")
 
         return X, Y
 
@@ -255,11 +281,15 @@ class Node2Vec(GraphEmbeddingModel):
         # read parameters
         training_params = kwargs
         cbow = training_params["cbow"]
+        encodings = training_params["encodings"]
+        bow_input_dim = len(encodings[0]) if encodings else None
+        ns = training_params["ns"]
 
         # generate training data from random walks
         walks = self.sample_random_walks(n=training_params["n"], walk_length=training_params["walk_length"],
                                          p=training_params["p"], q=training_params["q"])
-        X, Y = self.generate_training_data(walks, window_size=training_params["window_size"], cbow=cbow)
+        X, Y = self.generate_training_data(walks, window_size=training_params["window_size"], cbow=cbow,
+                                           encodings=encodings, ns=ns)
 
         # split train and test data randomly
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y,
@@ -268,10 +298,10 @@ class Node2Vec(GraphEmbeddingModel):
 
         # set up the model
         model = CBOW(self.num_nodes + 1, embed_dimension=training_params["embedding_size"]) if cbow \
-            else SkipGram(self.num_nodes, embed_dimension=training_params["embedding_size"])
+            else SkipGram(self.num_nodes, embed_dimension=training_params["embedding_size"], bow_input_dim=bow_input_dim)
 
         # loss function and optimizer
-        criterion = torch.nn.CrossEntropyLoss()
+        criterion = NCELoss() if ns else torch.nn.CrossEntropyLoss()
         optimizer = torch.optim.Adam(model.parameters(), lr=training_params["lr"])
 
         # callbacks for early stopping
@@ -281,7 +311,8 @@ class Node2Vec(GraphEmbeddingModel):
         wait = 0
 
         submodel_str = "CBOW" if cbow else "SkipGram"
-        for epoch in tqdm(range(training_params["max_epochs"]), desc=f"Training Node2Vec... ({submodel_str})"):
+        training_progress = tqdm(range(training_params["max_epochs"]), desc=f"Training Node2Vec... ({submodel_str})")
+        for epoch in training_progress:
             model.train()
 
             # forward pass
@@ -301,6 +332,8 @@ class Node2Vec(GraphEmbeddingModel):
             train_losses.append(float(loss))
             val_losses.append(float(val_loss))
 
+            training_progress.set_description(f"Training Node2Vec... ({submodel_str}) | Loss (train): {float(loss):.4f} | Loss (val): {float(val_loss):.4f}")
+
             # check for convergence
             if val_loss.item() - best_loss < -training_params["min_delta"]:
                 best_loss = val_loss.item()
@@ -311,8 +344,81 @@ class Node2Vec(GraphEmbeddingModel):
                     print(f"Training stopped after {epoch} epochs.")
                     break  # stop training
 
-        embeddings = list(model.parameters())[0]
-        self.embeddings = {self.id_to_concept[i]: embeddings[i].tolist() for i in self.id_to_concept}
+        if encodings:
+            self.embeddings = {c: model.embeddings(torch.tensor(encodings[i]).to(torch.float32)).tolist()
+                               for i, c in self.id_to_concept.items()}
+            self.embedding_weights = model.embeddings
+        else:
+            embeddings = list(model.parameters())[0]
+            self.embeddings = {self.id_to_concept[i]: embeddings[i].tolist() for i in self.id_to_concept}
 
         # record how many epochs the model was actually trained for
         self.training_params["epochs"] = epoch + 1
+
+class SemanticNode2Vec(GraphEmbeddingModel):
+    DEFAULT_PARAMS = {
+        "embedding_size": 128,
+        "cbow": True,
+        "n": 5,
+        "walk_length": 10,
+        "p": 1,
+        "q": 1,
+        "window_size": 2,
+        "max_epochs": 100,
+        "patience": None,
+        "min_delta": 0.00,
+        "test_split": 0.2,
+        "shuffle": True,
+        "lr": 1e-3,
+        "keep_one_hot": False,
+        "min_token_count": 2,
+        "encoder": "bow"
+    }
+
+    def _train(self, **kwargs):
+        min_token_count = self.training_params.pop("min_token_count")
+        keep_one_hot = self.training_params.pop("keep_one_hot")
+        print(kwargs["encoder"])
+
+        self.node2vec = Node2Vec(self.graph, self.id_to_concept, self.training_params["training_data"])
+        if kwargs["encoder"] == "bow":
+            self.encoder = BOWEncoder(list(self.id_to_concept.values()), min_token_count=min_token_count, keep_one_hot=keep_one_hot)
+        else:
+            self.encoder = SBertEncoder(list(self.id_to_concept.values()))
+        concept_to_id = {c: i for i, c in self.id_to_concept.items()}
+        encodings = self.encoder.generate_encoding_matrix(concept_to_id)
+
+        self.node2vec.train(**kwargs, encodings=encodings)
+        self.embeddings = self.node2vec.embeddings
+        if "encodings" in self.node2vec.training_params:
+            self.node2vec.training_params.pop("encodings")
+        self.training_params = self.node2vec.training_params
+
+    def save(self, fp):
+        """
+        :param fp: where to save the embeddings
+        """
+        super().save(fp)
+        if isinstance(fp, str):
+            fp = Path(fp)
+        pkl_path = Path(fp.parent / fp.stem).with_suffix(".pkl")
+        with open(pkl_path, "wb") as f:
+            pickle.dump(self, f)
+
+    def embed(self, concept):
+        if concept in self.embeddings:
+            return self.embeddings[concept]
+
+        input_vec = self.encoder.encode_concept(concept)
+        input_vec = torch.tensor(input_vec).to(torch.float32)
+
+        return self.node2vec.embedding_weights(input_vec).tolist()
+
+    def inductive_embeddings(self):
+        """
+        generates embeddings for all Concepticon concepts that are NOT in the graph the model was trained on.
+        :return: the inductively generated embeddings
+        """
+        missing_concepts = [x.gloss for x in self.encoder.con.conceptsets.values()
+                            if x.gloss not in self.encoder.concepts]
+        return {concept: self.embed(concept) for concept in missing_concepts}

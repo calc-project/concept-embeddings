@@ -123,16 +123,6 @@ def msl_similarity_matrix(words):
 
 
 if __name__ == "__main__":
-    # words = ['BOAR (MALE PIG)', 'SOW (FEMALE PIG)', 'BOY', 'GIRL', 'BROTHER', 'SISTER', 'BULL', 'COW', 'FATHER', 'MOTHER', 'GRANDFATHER', 'GRANDMOTHER', 'GRANDSON', 'GRANDDAUGHTER', 'GROOM', 'BRIDE', 'MALE DOG', 'FEMALE DOG', 'HUSBAND', 'WIFE', 'KING', 'QUEEN', 'MAN', 'WOMAN', 'NEPHEW', 'NIECE', 'RAM', 'EWE', 'ROOSTER', 'HEN', 'SON', 'DAUGHTER', 'STALLION', 'MARE', 'STEPFATHER', 'STEPMOTHER', 'UNCLE', 'AUNT']
-    words = ['BROTHER', 'SISTER', 'FATHER',
-             'MOTHER', 'GRANDFATHER', 'GRANDMOTHER', 'GRANDSON', 'GRANDDAUGHTER', 'HUSBAND', 'WIFE', 'MAN', 'WOMAN', 'NEPHEW', 'NIECE',
-             'SON', 'DAUGHTER', 'STEPFATHER', 'STEPMOTHER', 'UNCLE', 'AUNT']
-    embeddings = read_embeddings(Path(__file__).parent.parent.parent / "output" / "semantic-node2vec-sbert-full-affix.json")
-    words = embeddings.keys() & set(words)
-    tsne_plot(words, embeddings, perplexity=4)
-    pca_plot(words, embeddings)
-
-    """
     EMB_DIR = Path(__file__).parent.parent.parent / "embeddings"
     OUT_DIR = Path(__file__).parent.parent / "figures"
 
@@ -152,4 +142,3 @@ if __name__ == "__main__":
         embeddings = read_embeddings(dir_name / "prone.json")
         tsne_plot(words, embeddings, perplexity=4, title=mode, highlight=["BARK", "TREE"],
                   save_fp=OUT_DIR / f"{mode.replace("+", "-")}.pdf")
-    """

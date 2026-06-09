@@ -1,0 +1,20 @@
+/Users/arne/PycharmProjects/graphembeddings/embeddings/full-affix/prone.json
+E10 [male - female]: 185 / 272 (0.6801)
+L09 [antonyms - gradable]: 27 / 1258 (0.0215)
+L10 [antonyms - binary]: 52 / 614 (0.0847)
+L04 [meronyms - substance]: 89 / 426 (0.2089)
+L03 [hyponyms - misc]: 55 / 175 (0.3143)
+
+/Users/arne/PycharmProjects/graphembeddings/output/semantic-node2vec-sbert-full-affix.json
+E10 [male - female]: 218 / 272 (0.8015)
+L09 [antonyms - gradable]: 272 / 1258 (0.2162)
+L10 [antonyms - binary]: 136 / 614 (0.2215)
+L04 [meronyms - substance]: 46 / 426 (0.1080)
+L03 [hyponyms - misc]: 98 / 175 (0.5600)
+
+/Users/arne/PycharmProjects/graphembeddings/output/fullfams/semantic-node2vec-sbert.json
+E10 [male - female]: 214 / 272 (0.7868)
+L09 [antonyms - gradable]: 233 / 1258 (0.1852)
+L10 [antonyms - binary]: 124 / 614 (0.2020)
+L04 [meronyms - substance]: 41 / 426 (0.0962)
+L03 [hyponyms - misc]: 89 / 175 (0.5086)
