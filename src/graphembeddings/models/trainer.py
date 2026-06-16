@@ -13,7 +13,7 @@ from graphembeddings.models.nn import SDNEEmbedder, SDNELoss, CBOW, SkipGram, NC
 from graphembeddings.utils.io import read_graph_data
 from graphembeddings.utils.preprocess import BOWEncoder, SBertEncoder
 
-__all__ = ["SDNE", "Node2Vec", "ProNE", "SemanticNode2Vec"]
+__all__ = ["SDNE", "Node2Vec", "ProNE", "SemanticNode2Vec", "SBertBaseline"]
 
 
 class GraphEmbeddingModel(object):
@@ -24,8 +24,9 @@ class GraphEmbeddingModel(object):
     """
     Abstract class that defines the interface for graph embedding models.
     """
-    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fn: str):
+    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fn: str, concept_coverage=None):
         self.graph = graph  # as adjacency matrix
+        self.concept_coverage = concept_coverage
         self.id_to_concept = id_to_concept
         self.num_nodes = graph.shape[0]
         self.embeddings = None  # learned embeddings will be stored in this object
@@ -34,10 +35,10 @@ class GraphEmbeddingModel(object):
 
     @classmethod
     def from_graph_file(cls, fp, directed=False, to_undirected=False):
-        graph, id_to_concept, _ = read_graph_data(fp, directed=directed, to_undirected=to_undirected)
+        graph, id_to_concept, _, concept_coverage = read_graph_data(fp, directed=directed, to_undirected=to_undirected)
         if isinstance(fp, Path):
             fp = "/".join(fp.parts[-2:])
-        return cls(graph, id_to_concept, str(fp))
+        return cls(graph, id_to_concept, str(fp), concept_coverage=concept_coverage)
 
     def _get_training_params(self, **kwargs):
         """
@@ -266,14 +267,20 @@ class Node2Vec(GraphEmbeddingModel):
             for node in y_nodes:
                 y_vec = self.num_nodes * [0]
                 y_vec[node] = 1
-                remaining_nodes = list(range(self.num_nodes))
-                remaining_nodes.remove(node)
+                nodes = range(self.num_nodes)
                 # TODO refine sampling, k should be a free parameter as well
-                for negative_node in random.sample(remaining_nodes, 5):
-                    y_vec[negative_node] = -1
+                if self.concept_coverage:
+                    counts = self.concept_coverage.copy()
+                else:
+                    counts = self.num_nodes * [1]
+                counts[node] = 0  # prevent target concept from being sampled
+                for _ in range(5):
+                    distractor = random.sample(nodes, 1, counts=counts)[0]
+                    y_vec[distractor] = -1
+                    counts[distractor] = 0
                 Y.append(y_vec)
             Y = torch.tensor(Y, dtype=torch.float32)
-            print("hello i am here!")
+            print("negative sampling")
 
         return X, Y
 
@@ -372,7 +379,8 @@ class SemanticNode2Vec(GraphEmbeddingModel):
         "lr": 1e-3,
         "keep_one_hot": False,
         "min_token_count": 2,
-        "encoder": "bow"
+        "encoder": "bow",
+        "ns": False
     }
 
     def _train(self, **kwargs):
@@ -422,3 +430,26 @@ class SemanticNode2Vec(GraphEmbeddingModel):
         missing_concepts = [x.gloss for x in self.encoder.con.conceptsets.values()
                             if x.gloss not in self.encoder.concepts]
         return {concept: self.embed(concept) for concept in missing_concepts}
+
+
+class SBertBaseline(GraphEmbeddingModel):
+    def _train(self, **kwargs):
+        concepts = list(self.id_to_concept.values())
+        self.encoder = SBertEncoder(concepts)
+        self.embeddings = {c: self.encoder.encode_concept(c) for c in concepts}
+
+    def inductive_embeddings(self):
+        missing_concepts = [x.gloss for x in self.encoder.con.conceptsets.values()
+                            if x.gloss not in self.encoder.concepts]
+        return {c: self.encoder.encode_concept(c) for c in missing_concepts}
+
+    def save(self, fp):
+        """
+        :param fp: where to save the embeddings
+        """
+        super().save(fp)
+        if isinstance(fp, str):
+            fp = Path(fp)
+        pkl_path = Path(fp.parent / fp.stem).with_suffix(".pkl")
+        with open(pkl_path, "wb") as f:
+            pickle.dump(self, f)

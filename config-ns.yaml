@@ -3,6 +3,12 @@ output_base_dir: output/
 eval: true
 
 graphs:
+  clics4:
+    directed: false
+    to_undirected: false
+  clips:
+    directed: true
+    to_undirected: true
   fullfams:
     directed: false
     to_undirected: false
@@ -14,6 +20,47 @@ graphs:
     to_undirected: false
 
 models:
+  sbert-baseline:
+    class: sbert-baseline
+
+  semantic-node2vec-sbert:
+    class: semantic-node2vec
+    train:
+      cbow: false
+      max_epochs: 1500
+      patience: 5
+      min_token_count: 1
+      encoder: sbert
+      ns: true
+
+  semantic-node2vec-2:
+    class: semantic-node2vec
+    train:
+      cbow: false
+      max_epochs: 1500
+      patience: 5
+      min_token_count: 2
+      ns: true
+
+  semantic-node2vec-sbert-nons:
+    class: semantic-node2vec
+    train:
+      cbow: false
+      max_epochs: 1500
+      patience: 5
+      min_token_count: 1
+      encoder: sbert
+      ns: false
+
+  semantic-node2vec-2-nons:
+    class: semantic-node2vec
+    train:
+      cbow: false
+      max_epochs: 1500
+      patience: 5
+      min_token_count: 2
+      ns: false
+
   node2vec_sg_ns:
     class: node2vec
     train:

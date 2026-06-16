@@ -52,6 +52,7 @@ def read_graph_data(fp, directed=False, to_undirected=False):
     concept_to_id = data["concept_ids"]
     id_to_concept = {i: c for c, i in concept_to_id.items()}
     edgelist = data["edgelist"]
+    concept_coverage = data.get("concept_coverage")
 
     graph = np.zeros((len(concept_to_id), len(concept_to_id)))
     for i, j, w in edgelist:
@@ -62,7 +63,7 @@ def read_graph_data(fp, directed=False, to_undirected=False):
     if directed and to_undirected:
         graph = graph_to_undirected(graph)
 
-    return graph, id_to_concept, concept_to_id
+    return graph, id_to_concept, concept_to_id, concept_coverage
 
 
 def read_embeddings(fp, metadata=False):

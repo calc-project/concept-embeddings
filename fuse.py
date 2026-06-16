@@ -12,9 +12,10 @@ msl = read_msl_data("eval/data/msl/multisimlex.csv")
 
 BASE_DIR = Path(__file__).parent / "output"
 
-combinations = ["full-affix", "full-overlap", "full-affix-overlap"]
+combinations = ["clics4-clips"]
 # models = ["n2v-cbow", "n2v-sg", "prone", "sdne"]
-models = ["semantic-node2vec-sbert", "semantic-node2vec-2", "prone"]
+# models = ["semantic-node2vec-sbert", "semantic-node2vec-2", "prone"]
+models = ["node2vec_sg_ns", "node2vec_sg_ns_20", "node2vec_sg_nons"]
 
 for c in combinations:
     # create target directory
@@ -25,8 +26,9 @@ for c in combinations:
     #    pass
 
     for model in models:
-        data = [read_embeddings(BASE_DIR / f"{method}fams" / f"{model}.json", metadata=True) for method in c.split("-")]
+        # data = [read_embeddings(BASE_DIR / f"{method}fams" / f"{model}.json", metadata=True) for method in c.split("-")]
         # data = [read_embeddings(BASE_DIR / f"{model}-{method}-mixed-2.json", metadata=True) for method in c.split("-")]
+        data = [read_embeddings(BASE_DIR / method / f"{model}.json", metadata=True) for method in c.split("-")]
         embeddings = [x["embeddings"] for x in data]
         metadata = [x["parameters"] for x in data]
         fused_embeddings = fuse_embeddings(*embeddings)
@@ -35,7 +37,9 @@ for c in combinations:
         output_data = {"parameters": metadata, "embeddings": fused_embeddings}
 
         concepts = list(fused_embeddings.keys())
-        with open(BASE_DIR / f"{model}-{c}.json", "w") as f:
+        out_dir = Path(BASE_DIR / c)
+        out_dir.mkdir(parents=True, exist_ok=True)
+        with open(out_dir / f"{model}.json", "w") as f:
             json.dump(output_data, f)
 
         # set up SemShift
