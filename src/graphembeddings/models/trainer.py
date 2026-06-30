@@ -190,8 +190,13 @@ class Node2Vec(GraphEmbeddingModel):
         "shuffle": True,
         "lr": 1e-3,
         "encodings": None,
-        "ns": False
+        "ns": False,
+        "ns_exponent": 1,
     }
+
+    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fp: str, **kwargs):
+        super().__init__(graph, id_to_concept, graph_data_fp, **kwargs)
+        self.concept_coverage = kwargs.get("concept_coverage")
 
     def random_walks_from_node(self, node, n=5, walk_length=10, p=1, q=1):
         walks = []
@@ -230,7 +235,7 @@ class Node2Vec(GraphEmbeddingModel):
 
         return walks
 
-    def generate_training_data(self, walks, window_size=2, cbow=True, encodings=None, ns=False):
+    def generate_training_data(self, walks, window_size=2, cbow=True, encodings=None, ns=False, ns_exponent=1):
         """
         Generate training data from random walks.
 
@@ -239,6 +244,8 @@ class Node2Vec(GraphEmbeddingModel):
         :param cbow: if True, generate training data for a CBOW model; otherwise for a SkipGram model.
         :return: the training data
         """
+        print(f"{ns_exponent=}")
+
         target_nodes = []
         context_bow = []
 
@@ -280,7 +287,7 @@ class Node2Vec(GraphEmbeddingModel):
                 nodes = range(self.num_nodes)
                 # TODO refine sampling, k should be a free parameter as well
                 if self.concept_coverage:
-                    counts = self.concept_coverage.copy()
+                    counts = np.array(self.concept_coverage) ** ns_exponent
                 else:
                     counts = self.num_nodes * [1]
                 counts[node] = 0  # prevent target concept from being sampled
@@ -306,7 +313,7 @@ class Node2Vec(GraphEmbeddingModel):
         walks = self.sample_random_walks(n=training_params["n"], walk_length=training_params["walk_length"],
                                          p=training_params["p"], q=training_params["q"])
         X, Y = self.generate_training_data(walks, window_size=training_params["window_size"], cbow=cbow,
-                                           encodings=encodings, ns=ns)
+                                           encodings=encodings, ns=ns, ns_exponent=training_params["ns_exponent"])
 
         # split train and test data randomly
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y,
@@ -396,12 +403,9 @@ class SemanticNode2Vec(GraphEmbeddingModel):
         "keep_one_hot": False,
         "min_token_count": 2,
         "encoder": "bow",
-        "ns": False
+        "ns": False,
+        "ns_exponent": 1,
     }
-
-    def __init__(self, graph, id_to_concept, training_params, **kwargs):
-        super().__init__(graph, id_to_concept, training_params, **kwargs)
-        self.concept_coverage = kwargs.get("concept_coverage")
 
     def _train(self, **kwargs):
         min_token_count = self.training_params.pop("min_token_count")

@@ -23,7 +23,7 @@ models:
   sbert-baseline:
     class: sbert-baseline
 
-  semantic-node2vec-sbert:
+  semantic-node2vec-sbert-unigram-scaled:
     class: semantic-node2vec
     train:
       cbow: false
@@ -32,6 +32,28 @@ models:
       min_token_count: 1
       encoder: sbert
       ns: true
+      ns_exponent: 0.75
+
+  semantic-node2vec-sbert-unigram:
+    class: semantic-node2vec
+    train:
+      cbow: false
+      max_epochs: 1500
+      patience: 5
+      min_token_count: 1
+      encoder: sbert
+      ns: true
+
+  semantic-node2vec-sbert-uniform:
+    class: semantic-node2vec
+    train:
+      cbow: false
+      max_epochs: 1500
+      patience: 5
+      min_token_count: 1
+      encoder: sbert
+      ns: true
+      ns_exponent: 0
 
   semantic-node2vec-2:
     class: semantic-node2vec
