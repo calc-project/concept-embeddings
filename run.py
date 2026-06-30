@@ -50,7 +50,7 @@ def main(config_path):
             ModelClass = MODEL_REGISTRY[model_key]
             out_fp = Path(out_dir) / f"{model_name}.json"
 
-            if out_fp.exists():  # TODO implement force-retrain kw
+            if out_fp.exists() and not config["retrain"]:
                 embeddings = read_embeddings(out_fp)
                 print(f"Loaded {model_name} on {graph_name}.")
             else:

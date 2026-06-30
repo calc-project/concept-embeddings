@@ -15,6 +15,9 @@ from graphembeddings.utils.preprocess import BOWEncoder, SBertEncoder
 
 __all__ = ["SDNE", "Node2Vec", "ProNE", "SemanticNode2Vec", "SBertBaseline"]
 
+# Global device resolution: use CUDA if available, else fall back to CPU.
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 
 class GraphEmbeddingModel(object):
     DEFAULT_PARAMS = {
@@ -24,21 +27,22 @@ class GraphEmbeddingModel(object):
     """
     Abstract class that defines the interface for graph embedding models.
     """
-    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fn: str, concept_coverage=None):
+    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fn: str, **kwargs):
         self.graph = graph  # as adjacency matrix
-        self.concept_coverage = concept_coverage
         self.id_to_concept = id_to_concept
         self.num_nodes = graph.shape[0]
         self.embeddings = None  # learned embeddings will be stored in this object
         self.callbacks = None  # can track certain metrics along training, if required
         self.training_params = {"model": self.__class__.__name__, "training_data": graph_data_fn}
+        self.device = DEVICE  # device used for training/inference (CUDA if available)
 
     @classmethod
     def from_graph_file(cls, fp, directed=False, to_undirected=False):
         graph, id_to_concept, _, concept_coverage = read_graph_data(fp, directed=directed, to_undirected=to_undirected)
+        kwargs = {"concept_coverage": concept_coverage}
         if isinstance(fp, Path):
             fp = "/".join(fp.parts[-2:])
-        return cls(graph, id_to_concept, str(fp), concept_coverage=concept_coverage)
+        return cls(graph, id_to_concept, str(fp), **kwargs)
 
     def _get_training_params(self, **kwargs):
         """
@@ -52,6 +56,7 @@ class GraphEmbeddingModel(object):
         training_params = self._get_training_params(**kwargs)
         self.training_params.update(training_params)
         time_train_start = datetime.datetime.now()
+        print(f"Training on device: {self.device}")
         self._train(**training_params)
         # record the time when the training was finished; and how long it took
         time_train_end = datetime.datetime.now()
@@ -78,8 +83,8 @@ class ProNE(GraphEmbeddingModel):
         "embedding_size": 128,
     }
 
-    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fp: str):
-        super().__init__(graph, id_to_concept, graph_data_fp)
+    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fp: str, **kwargs):
+        super().__init__(graph, id_to_concept, graph_data_fp, **kwargs)
 
     def _train(self, **kwargs):
         embedding_size = kwargs.pop("embedding_size")
@@ -98,22 +103,22 @@ class SDNE(GraphEmbeddingModel):
         "weight_decay": 1e-5
     }
 
-    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fp: str):
-        super().__init__(graph, id_to_concept, graph_data_fp)
+    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fp: str, **kwargs):
+        super().__init__(graph, id_to_concept, graph_data_fp, **kwargs)
         # generate L matrix
         self.D = np.diag(self.graph.sum(axis=1))
         self.L = self.D - self.graph
 
-        # convert graph and L to torch tensors
-        self.graph = torch.tensor(self.graph, dtype=torch.float32)
-        self.L = torch.tensor(self.L, dtype=torch.float32)
+        # convert graph and L to torch tensors, placed on the active device
+        self.graph = torch.tensor(self.graph, dtype=torch.float32, device=self.device)
+        self.L = torch.tensor(self.L, dtype=torch.float32, device=self.device)
 
     def _train(self, **kwargs):
         # get training parameters
         training_params = kwargs
 
-        # set up model
-        model = SDNEEmbedder(num_nodes=self.num_nodes, hidden_sizes=training_params["hidden_sizes"])
+        # set up model and move it to the active device
+        model = SDNEEmbedder(num_nodes=self.num_nodes, hidden_sizes=training_params["hidden_sizes"]).to(self.device)
 
         # use custom loss function
         loss_function = SDNELoss(alpha=training_params["alpha"], beta=training_params["beta"])
@@ -151,8 +156,13 @@ class SDNE(GraphEmbeddingModel):
                     print(f"Training stopped after {epoch} epochs.")
                     break  # stop training
 
-        # store embeddings
-        self.embeddings = {self.id_to_concept[i]: model.embed(self.graph[i]).tolist() for i in range(self.num_nodes)}
+        # store embeddings (move back to CPU before converting to plain Python lists)
+        model.eval()
+        with torch.no_grad():
+            self.embeddings = {
+                self.id_to_concept[i]: model.embed(self.graph[i]).detach().cpu().tolist()
+                for i in range(self.num_nodes)
+            }
 
         # record how many epochs the model was actually trained for
         self.training_params["epochs"] = epoch + 1
@@ -244,8 +254,8 @@ class Node2Vec(GraphEmbeddingModel):
             for context in context_bow:
                 while len(context) < window_size * 2:
                     context.append(self.num_nodes)  # padding token = next available token ID (i.e. the number of nodes)
-            X = torch.tensor(context_bow)
-            Y = torch.tensor(target_nodes)
+            X = torch.tensor(context_bow, device=self.device)
+            Y = torch.tensor(target_nodes, device=self.device)
         else:
             X, Y = [], []
             for node, context in zip(target_nodes, context_bow):
@@ -255,10 +265,10 @@ class Node2Vec(GraphEmbeddingModel):
                     else:
                         X.append(node)
                     Y.append(context_node)
-            X = torch.tensor(X)
+            X = torch.tensor(X, device=self.device)
             if encodings:
                 X = X.to(torch.float32)
-            Y = torch.tensor(Y)
+            Y = torch.tensor(Y, device=self.device)
 
         if ns:
             # need to convert indices to one-hot encodings with negative examples
@@ -279,7 +289,7 @@ class Node2Vec(GraphEmbeddingModel):
                     y_vec[distractor] = -1
                     counts[distractor] = 0
                 Y.append(y_vec)
-            Y = torch.tensor(Y, dtype=torch.float32)
+            Y = torch.tensor(Y, dtype=torch.float32, device=self.device)
             print("negative sampling")
 
         return X, Y
@@ -303,9 +313,10 @@ class Node2Vec(GraphEmbeddingModel):
                                                             test_size=training_params["test_split"],
                                                             shuffle=training_params["shuffle"])
 
-        # set up the model
+        # set up the model and move it to the active device
         model = CBOW(self.num_nodes + 1, embed_dimension=training_params["embedding_size"]) if cbow \
             else SkipGram(self.num_nodes, embed_dimension=training_params["embedding_size"], bow_input_dim=bow_input_dim)
+        model = model.to(self.device)
 
         # loss function and optimizer
         criterion = NCELoss() if ns else torch.nn.CrossEntropyLoss()
@@ -351,13 +362,18 @@ class Node2Vec(GraphEmbeddingModel):
                     print(f"Training stopped after {epoch} epochs.")
                     break  # stop training
 
+        model.eval()
         if encodings:
-            self.embeddings = {c: model.embeddings(torch.tensor(encodings[i]).to(torch.float32)).tolist()
-                               for i, c in self.id_to_concept.items()}
+            with torch.no_grad():
+                self.embeddings = {
+                    c: model.embeddings(torch.tensor(encodings[i], device=self.device).to(torch.float32))
+                        .detach().cpu().tolist()
+                    for i, c in self.id_to_concept.items()
+                }
             self.embedding_weights = model.embeddings
         else:
             embeddings = list(model.parameters())[0]
-            self.embeddings = {self.id_to_concept[i]: embeddings[i].tolist() for i in self.id_to_concept}
+            self.embeddings = {self.id_to_concept[i]: embeddings[i].detach().cpu().tolist() for i in self.id_to_concept}
 
         # record how many epochs the model was actually trained for
         self.training_params["epochs"] = epoch + 1
@@ -383,12 +399,17 @@ class SemanticNode2Vec(GraphEmbeddingModel):
         "ns": False
     }
 
+    def __init__(self, graph, id_to_concept, training_params, **kwargs):
+        super().__init__(graph, id_to_concept, training_params, **kwargs)
+        self.concept_coverage = kwargs.get("concept_coverage")
+
     def _train(self, **kwargs):
         min_token_count = self.training_params.pop("min_token_count")
         keep_one_hot = self.training_params.pop("keep_one_hot")
         print(kwargs["encoder"])
 
         self.node2vec = Node2Vec(self.graph, self.id_to_concept, self.training_params["training_data"])
+        # the inner Node2Vec instance resolves its own device the same way (CUDA if available)
         if kwargs["encoder"] == "bow":
             self.encoder = BOWEncoder(list(self.id_to_concept.values()), min_token_count=min_token_count, keep_one_hot=keep_one_hot)
         else:
@@ -418,9 +439,10 @@ class SemanticNode2Vec(GraphEmbeddingModel):
             return self.embeddings[concept]
 
         input_vec = self.encoder.encode_concept(concept)
-        input_vec = torch.tensor(input_vec).to(torch.float32)
+        input_vec = torch.tensor(input_vec, device=self.node2vec.device).to(torch.float32)
 
-        return self.node2vec.embedding_weights(input_vec).tolist()
+        with torch.no_grad():
+            return self.node2vec.embedding_weights(input_vec).detach().cpu().tolist()
 
     def inductive_embeddings(self):
         """
