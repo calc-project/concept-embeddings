@@ -8,3 +8,5 @@ colex-coverage
 build
 .idea
 output
+concepticon-data/
+*.egg-info

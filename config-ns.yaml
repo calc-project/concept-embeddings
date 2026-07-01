@@ -1,6 +1,7 @@
 input_base_dir: data/graphs
 output_base_dir: output/
 eval: true
+retrain: false
 
 graphs:
   clics4:

@@ -4,7 +4,7 @@ import json
 import datetime
 import pickle
 import random
-from nodevectors import ProNE as ProNEEncoder
+# from nodevectors import ProNE as ProNEEncoder
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 from pathlib import Path
@@ -87,10 +87,11 @@ class ProNE(GraphEmbeddingModel):
         super().__init__(graph, id_to_concept, graph_data_fp, **kwargs)
 
     def _train(self, **kwargs):
-        embedding_size = kwargs.pop("embedding_size")
-        model = ProNEEncoder(n_components=embedding_size, **kwargs)
-        model.fit(self.graph)
-        self.embeddings = {self.id_to_concept[id]: emb.tolist() for id, emb in model.model.items()}
+        pass
+  #      embedding_size = kwargs.pop("embedding_size")
+  #      model = ProNEEncoder(n_components=embedding_size, **kwargs)
+  #      model.fit(self.graph)
+  #      self.embeddings = {self.id_to_concept[id]: emb.tolist() for id, emb in model.model.items()}
 
 
 class SDNE(GraphEmbeddingModel):
@@ -278,6 +279,7 @@ class Node2Vec(GraphEmbeddingModel):
             Y = torch.tensor(Y, device=self.device)
 
         if ns:
+            checked = False
             # need to convert indices to one-hot encodings with negative examples
             y_nodes = Y.tolist()
             Y = []
@@ -287,12 +289,15 @@ class Node2Vec(GraphEmbeddingModel):
                 nodes = range(self.num_nodes)
                 # TODO refine sampling, k should be a free parameter as well
                 if self.concept_coverage:
+                    if not checked:
+                        print("checkpoint")
+                        checked = True
                     counts = np.array(self.concept_coverage) ** ns_exponent
                 else:
-                    counts = self.num_nodes * [1]
+                    counts = np.ones(self.num_nodes)
                 counts[node] = 0  # prevent target concept from being sampled
                 for _ in range(5):
-                    distractor = random.sample(nodes, 1, counts=counts)[0]
+                    distractor = random.sample(nodes, 1, counts=counts.astype("int").tolist())[0]
                     y_vec[distractor] = -1
                     counts[distractor] = 0
                 Y.append(y_vec)
@@ -407,12 +412,16 @@ class SemanticNode2Vec(GraphEmbeddingModel):
         "ns_exponent": 1,
     }
 
+    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fn: str, **kwargs):
+        super().__init__(graph, id_to_concept, graph_data_fn, **kwargs)
+        self.concept_coverage = kwargs.get("concept_coverage")
+
     def _train(self, **kwargs):
         min_token_count = self.training_params.pop("min_token_count")
         keep_one_hot = self.training_params.pop("keep_one_hot")
         print(kwargs["encoder"])
 
-        self.node2vec = Node2Vec(self.graph, self.id_to_concept, self.training_params["training_data"])
+        self.node2vec = Node2Vec(self.graph, self.id_to_concept, self.training_params["training_data"], concept_coverage=self.concept_coverage)
         # the inner Node2Vec instance resolves its own device the same way (CUDA if available)
         if kwargs["encoder"] == "bow":
             self.encoder = BOWEncoder(list(self.id_to_concept.values()), min_token_count=min_token_count, keep_one_hot=keep_one_hot)
