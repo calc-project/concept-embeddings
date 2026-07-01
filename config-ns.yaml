@@ -4,21 +4,28 @@ eval: true
 retrain: false
 
 graphs:
+  #clics4-clips:
+  #  clics4:
+  #    directed: false
+  #    to_undirected: false
+  #  clips:
+  #    directed: true
+  #    to_undirected: true
   clics4:
     directed: false
     to_undirected: false
   clips:
     directed: true
     to_undirected: true
-  fullfams:
-    directed: false
-    to_undirected: false
-  affixfams:
-    directed: true
-    to_undirected: true
-  overlapfams:
-    directed: false
-    to_undirected: false
+  #fullfams:
+  #  directed: false
+  #  to_undirected: false
+  #affixfams:
+  #  directed: true
+  #  to_undirected: true
+  #overlapfams:
+  #  directed: false
+  #  to_undirected: false
 
 models:
   sbert-baseline:

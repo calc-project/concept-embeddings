@@ -37,7 +37,18 @@ def main(config_path):
         con = Concepticon()
 
     for graph_name, graph_cfg in config["graphs"].items():
-        graph_fp = Path(input_base) / f"{graph_name}.json"
+        multi_graph = False
+        graph_fp = graph_configs = None
+        # case 1 - single graph
+        if "directed" in graph_cfg:
+            graph_fp = Path(input_base) / f"{graph_name}.json"
+        else: # case 2 - multiple graphs
+            graph_configs = []
+            for name, cfg in graph_cfg.items():
+                graph_fp = Path(input_base) / f"{name}.json"
+                cfg["fp"] = graph_fp
+                graph_configs.append(cfg)
+            multi_graph = True
 
         for model_name, model_cfg in config["models"].items():
             train = False
@@ -50,18 +61,37 @@ def main(config_path):
             ModelClass = MODEL_REGISTRY[model_key]
             out_fp = Path(out_dir) / f"{model_name}.json"
 
-            if out_fp.exists() and not config["retrain"]:
+            if out_fp.exists() and not config.get("retrain", False):
                 embeddings = read_embeddings(out_fp)
                 print(f"Loaded {model_name} on {graph_name}.")
             else:
                 train = True
                 print(f"Training {model_name} on {graph_name} ...")
 
-                model = ModelClass.from_graph_file(
-                    graph_fp,
-                    directed=graph_cfg.get("directed", False),
-                    to_undirected=graph_cfg.get("to_undirected", False),
-                )
+                if not multi_graph:
+                    model = ModelClass.from_graph_file(
+                        graph_fp,
+                        directed=graph_cfg.get("directed", False),
+                        to_undirected=graph_cfg.get("to_undirected", False),
+                    )
+                else:
+                    if "node2vec" in model_key:
+                        model = ModelClass.from_graph_files(graph_configs)
+                    else:
+                        if eval:
+                            eval_metrics["msl"][model_name][graph_name] = 0
+                            eval_metrics["semshift"][model_name][graph_name] = 0
+                            eval_metrics["eat"][model_name][graph_name] = 0
+                            if model_key in SEMANTIC_MODELS:
+                                # inductive
+                                eval_metrics["msl-inductive"][model_name][graph_name] = 0
+                                eval_metrics["semshift-inductive"][model_name][graph_name] = 0
+                                eval_metrics["eat-inductive"][model_name][graph_name] = 0
+                                # combined
+                                eval_metrics["msl-combined"][model_name][graph_name] = 0
+                                eval_metrics["semshift-combined"][model_name][graph_name] = 0
+                                eval_metrics["eat-combined"][model_name][graph_name] = 0
+                        continue
 
                 train_kwargs = model_cfg.get("train", {})
                 model.train(**train_kwargs)
@@ -75,7 +105,7 @@ def main(config_path):
 
             if eval:
                 evaluation = Evaluation(concepts)
-                if model_key in SEMANTIC_MODELS:  # TODO adjust to loading trained embeddings
+                if model_key in SEMANTIC_MODELS:
                     if not train:
                         with open(out_dir / f"{model_name}.pkl", "rb") as f:
                             model = pickle.load(f)
