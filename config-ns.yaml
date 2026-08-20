@@ -1,108 +1,152 @@
 input_base_dir: data/graphs
 output_base_dir: output/
 eval: true
-retrain: false
+retrain: true
 
 graphs:
-  #clics4-clips:
-  #  clics4:
-  #    directed: false
-  #    to_undirected: false
-  #  clips:
-  #    directed: true
-  #    to_undirected: true
+  clics4-clips:
+    clics4:
+      directed: false
+      to_undirected: false
+    clips:
+      directed: true
+      to_undirected: true
   clics4:
     directed: false
     to_undirected: false
   clips:
     directed: true
     to_undirected: true
-  #fullfams:
-  #  directed: false
-  #  to_undirected: false
-  #affixfams:
-  #  directed: true
-  #  to_undirected: true
-  #overlapfams:
-  #  directed: false
-  #  to_undirected: false
+  babyclics-affix:
+    fullfams:
+      directed: false
+      to_undirected: false
+    affixfams:
+      directed: true
+      to_undirected: true
+  babyclics-full:
+    fullfams:
+      directed: false
+      to_undirected: false
+    affixfams:
+      directed: true
+      to_undirected: true
+    overlapfams:
+      directed: false
+      to_undirected: false
+  fullfams:
+    directed: false
+    to_undirected: false
+  affixfams:
+    directed: true
+    to_undirected: true
 
 models:
   sbert-baseline:
     class: sbert-baseline
 
-  semantic-node2vec-sbert-unigram-scaled:
-    class: semantic-node2vec
-    train:
-      cbow: false
-      max_epochs: 1500
-      patience: 5
-      min_token_count: 1
-      encoder: sbert
-      ns: true
-      ns_exponent: 0.75
+#  semantic-node2vec-sbert-unigram-scaled-2-3:
+#    class: semantic-node2vec
+#    train:
+#      cbow: false
+#      max_epochs: 5000
+#      patience: 5
+#      min_token_count: 1
+#      encoder: sbert
+#      ns: true
+#      ns_exponent: 0.75
+#      n: [2, 3]
 
-  semantic-node2vec-sbert-unigram:
-    class: semantic-node2vec
-    train:
-      cbow: false
-      max_epochs: 1500
-      patience: 5
-      min_token_count: 1
-      encoder: sbert
-      ns: true
+#  semantic-node2vec-sbert-unigram-scaled:
+#    class: semantic-node2vec
+#    train:
+#      cbow: false
+#      max_epochs: 5000
+#      patience: 5
+#      min_token_count: 1
+#      encoder: sbert
+#      ns: true
+#      ns_exponent: 0.75
+#      n: [2, 2]
 
-  semantic-node2vec-sbert-uniform:
-    class: semantic-node2vec
-    train:
-      cbow: false
-      max_epochs: 1500
-      patience: 5
-      min_token_count: 1
-      encoder: sbert
-      ns: true
-      ns_exponent: 0
+  #semantic-node2vec-sbert-uniform:
+  #  class: semantic-node2vec
+  #  train:
+  #    cbow: false
+  #    max_epochs: 1500
+  #    patience: 5
+  #    min_token_count: 1
+  #    encoder: sbert
+  #    ns: true
+  #    ns_exponent: 0
 
-  semantic-node2vec-2:
-    class: semantic-node2vec
-    train:
-      cbow: false
-      max_epochs: 1500
-      patience: 5
-      min_token_count: 2
-      ns: true
+  #semantic-node2vec-2:
+  #  class: semantic-node2vec
+  #  train:
+  #    cbow: false
+  #    max_epochs: 1500
+  #    patience: 5
+  #    min_token_count: 2
+  #    ns: true
+  #
 
-  semantic-node2vec-sbert-nons:
+  semantic-node2vec-sbert-nons-100:
     class: semantic-node2vec
     train:
       cbow: false
-      max_epochs: 1500
+      max_epochs: 5000
       patience: 5
-      min_token_count: 1
       encoder: sbert
       ns: false
+      n: 100
+      lr: 1e-5
+      batch_size: 8224
 
-  semantic-node2vec-2-nons:
+  semantic-node2vec-sbert-nons-5:
     class: semantic-node2vec
     train:
       cbow: false
-      max_epochs: 1500
+      max_epochs: 5000
       patience: 5
-      min_token_count: 2
+      encoder: sbert
       ns: false
+      n: 5
+      lr: 1e-5
+      batch_size: 8224
 
-  node2vec_sg_ns:
-    class: node2vec
+  semantic-node2vec-sbert-nons-50:
+    class: semantic-node2vec
     train:
       cbow: false
-      max_epochs: 1500
+      max_epochs: 5000
       patience: 5
-      ns: true
-
-  node2vec_sg_nons:
-    class: node2vec
-    train:
-      cbow: false
-      max_epochs: 1500
-      patience: 5
+      encoder: sbert
       ns: false
+      n: 50
+      lr: 1e-5
+      batch_size: 8224
+
+  #semantic-node2vec-2-nons:
+  #  class: semantic-node2vec
+  #  train:
+  #    cbow: false
+  #    max_epochs: 1500
+  #    patience: 5
+  #    min_token_count: 2
+  #    ns: false
+
+  #node2vec_sg_ns:
+  #  class: node2vec
+  #  train:
+  #    cbow: false
+  #    max_epochs: 1500
+  #    patience: 5
+  #    ns: true
+
+  #node2vec_sg_nons:
+  #  class: node2vec
+  #  train:
+  #    cbow: false
+  #    max_epochs: 1500
+  #    patience: 5
+  #    ns: false

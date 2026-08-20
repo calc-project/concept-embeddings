@@ -94,6 +94,8 @@ def main(config_path):
                         continue
 
                 train_kwargs = model_cfg.get("train", {})
+                if not multi_graph and isinstance(train_kwargs.get("n"), list):
+                    train_kwargs["n"] = sum(train_kwargs["n"])
                 model.train(**train_kwargs)
 
                 model.save(out_dir / f"{model_name}.json")

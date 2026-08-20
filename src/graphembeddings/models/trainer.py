@@ -4,9 +4,9 @@ import json
 import datetime
 import pickle
 import random
-from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 from pathlib import Path
+from torch.utils.data import DataLoader, Dataset, random_split
 
 from graphembeddings.models.nn import SDNEEmbedder, SDNELoss, CBOW, SkipGram, NCELoss
 from graphembeddings.utils.io import read_graph_data
@@ -100,7 +100,7 @@ class SDNE(GraphEmbeddingModel):
         loss_function = SDNELoss(alpha=training_params["alpha"], beta=training_params["beta"])
         optimizer = torch.optim.Adam(
             model.parameters(),
-            lr=training_params["lr"],
+            lr=float(training_params["lr"]),
             weight_decay=training_params["weight_decay"],
         )
         best_loss = np.inf
@@ -133,6 +133,18 @@ class SDNE(GraphEmbeddingModel):
         self.training_params["epochs"] = epoch + 1
 
 
+class NodeContextDataset(Dataset):
+    def __init__(self, X, Y):
+        self.X = torch.tensor(X, dtype=torch.float32)
+        self.Y = torch.tensor(Y)
+
+    def __len__(self):
+        return len(self.X)
+
+    def __getitem__(self, index):
+        return self.X[index], self.Y[index]
+
+
 class Node2Vec(GraphEmbeddingModel):
     DEFAULT_PARAMS = {
         "embedding_size": 128,
@@ -151,6 +163,7 @@ class Node2Vec(GraphEmbeddingModel):
         "encodings": None,
         "ns": False,
         "ns_exponent": 1,
+        "batch_size": 1028
     }
 
     def __init__(self, graph, id_to_concept: dict, graph_data_fp: str, **kwargs):
@@ -377,18 +390,18 @@ class Node2Vec(GraphEmbeddingModel):
             for context in context_bow:
                 while len(context) < window_size * 2:
                     context.append(self.num_nodes)
-            X = torch.tensor(context_bow, device=self.device)
-            Y = torch.tensor(target_nodes, device=self.device)
+            #X = torch.tensor(context_bow, device=self.device)
+            #Y = torch.tensor(target_nodes, device=self.device)
         else:
             X, Y = [], []
             for node, context in zip(target_nodes, context_bow):
                 for context_node in context:
                     X.append(encodings[node] if encodings else node)
                     Y.append(context_node)
-            X = torch.tensor(X, device=self.device)
-            if encodings:
-                X = X.to(torch.float32)
-            Y = torch.tensor(Y, device=self.device)
+            #X = torch.tensor(X, device=self.device)
+            #if encodings:
+            #    X = X.to(torch.float32)
+            #Y = torch.tensor(Y, device=self.device)
 
         if ns:
             # Derive a single pooled distribution from per-graph coverages by summing them.
@@ -400,7 +413,7 @@ class Node2Vec(GraphEmbeddingModel):
             else:
                 pooled_coverage = None
 
-            y_nodes = Y.tolist()
+            y_nodes = Y.copy()
             Y = []
             for node in y_nodes:
                 y_vec = [0] * self.num_nodes
@@ -418,9 +431,9 @@ class Node2Vec(GraphEmbeddingModel):
                     y_vec[distractor] = -1
                     counts[distractor] = 0
                 Y.append(y_vec)
-            Y = torch.tensor(Y, dtype=torch.float32, device=self.device)
+            # Y = torch.tensor(Y, dtype=torch.float32, device=self.device)
 
-        return X, Y
+        return NodeContextDataset(X, Y)
 
     # ------------------------------------------------------------------
     # Training loop
@@ -439,7 +452,7 @@ class Node2Vec(GraphEmbeddingModel):
             p=training_params["p"],
             q=training_params["q"],
         )
-        X, Y = self.generate_training_data(
+        dataset = self.generate_training_data(
             walks,
             window_size=training_params["window_size"],
             cbow=cbow,
@@ -447,10 +460,11 @@ class Node2Vec(GraphEmbeddingModel):
             ns=ns,
             ns_exponent=training_params["ns_exponent"],
         )
-
-        X_train, X_test, Y_train, Y_test = train_test_split(
-            X, Y, test_size=training_params["test_split"], shuffle=training_params["shuffle"]
-        )
+        test_split=training_params["test_split"]
+        train_set, test_set = random_split(dataset, [1-test_split, test_split])
+        print(f"batch_size: {training_params.get("batch_size", 1028)}")
+        train_dataloader = DataLoader(train_set, batch_size=training_params.get("batch_size", 1028), shuffle=True)
+        test_dataloader = DataLoader(test_set, batch_size=training_params.get("batch_size", 1028), shuffle=True)
 
         model = (
             CBOW(self.num_nodes + 1, embed_dimension=training_params["embedding_size"])
@@ -464,7 +478,7 @@ class Node2Vec(GraphEmbeddingModel):
         model = model.to(self.device)
 
         criterion = NCELoss() if ns else torch.nn.CrossEntropyLoss()
-        optimizer = torch.optim.Adam(model.parameters(), lr=training_params["lr"])
+        optimizer = torch.optim.Adam(model.parameters(), lr=float(training_params["lr"]))
 
         best_loss = np.inf
         wait = 0
@@ -475,14 +489,22 @@ class Node2Vec(GraphEmbeddingModel):
         )
         for epoch in training_progress:
             model.train()
-            pred = model(X_train)
-            loss = criterion(pred, Y_train)
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
+            epoch_loss = 0
+            for X_train, Y_train in train_dataloader:
+                X_train = X_train.to(self.device)
+                Y_train = Y_train.to(self.device)
+                pred = model(X_train)
+                loss = criterion(pred, Y_train)
+                epoch_loss += loss.item()
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
 
-            with torch.no_grad():
-                val_loss = criterion(model(X_test), Y_test)
+            for X_test, Y_test in test_dataloader:
+                X_test = X_test.to(self.device)
+                Y_test = Y_test.to(self.device)
+                with torch.no_grad():
+                    val_loss = criterion(model(X_test), Y_test)
 
             training_progress.set_description(
                 f"Training Node2Vec... ({submodel_str}) | "
@@ -539,6 +561,7 @@ class SemanticNode2Vec(GraphEmbeddingModel):
         "encoder": "bow",
         "ns": False,
         "ns_exponent": 1,
+        "batch_size": 1028
     }
 
     def __init__(self, graph, id_to_concept: dict, graph_data_fn: str, **kwargs):
