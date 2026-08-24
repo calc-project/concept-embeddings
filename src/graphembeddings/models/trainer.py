@@ -353,7 +353,7 @@ class Node2Vec(GraphEmbeddingModel):
         for graph, n_g in zip(self.graphs, n_per_graph):
             if n_g == 0:
                 continue
-            for i in range(self.num_nodes):
+            for i in tqdm(range(self.num_nodes), desc=f"Sampling random walks..."):
                 if graph[i].sum() == 0:
                     continue
                 walks.extend(

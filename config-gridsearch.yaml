@@ -1,0 +1,38 @@
+input_base_dir: data/graphs
+output_base_dir: output/gridsearch
+eval: false
+retrain: true
+
+graphs:
+  clics4-clips:
+    clics4:
+      directed: false
+      to_undirected: false
+    clips:
+      directed: true
+      to_undirected: true
+
+models:
+  semantic-node2vec:
+    class:
+      semantic-node2vec
+    train:
+      cbow: false
+      max_epochs: 5000
+      patience: 5
+      encoder: sbert
+      lr: 1e-5
+      batch_size: 8224
+      ns: false
+
+hyperparameters:
+  p: [0.5, 1, 2]
+  q: [0.5, 1, 2]
+  n:
+    - [0, 100]
+    - [25, 75]
+    - [33, 67]
+    - [50, 50]
+    - [67, 33]
+    - [75, 25]
+    - [100, 0]

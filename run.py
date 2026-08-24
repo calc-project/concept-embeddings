@@ -1,6 +1,8 @@
 import argparse
 import pickle
+import numpy as np
 from collections import defaultdict
+from itertools import product
 
 import yaml
 from pathlib import Path
@@ -21,6 +23,23 @@ MODEL_REGISTRY = {
 }
 
 SEMANTIC_MODELS = ["semantic-node2vec", "sbert-baseline"]
+
+
+def generate_hyperparameter_grid(**kwargs):
+    keys = kwargs.keys()
+    for instance in product(*kwargs.values()):
+        yield dict(zip(keys, instance))
+
+
+def update_model_name(base_name, hyperparams):
+    name = base_name
+    for key, value in hyperparams.items():
+        if isinstance(value, list):
+            value = value[0]
+        value = str(value).replace(" ", "").replace(".", "")
+        name += f"-{key}-{value}"
+
+    return name
 
 
 def main(config_path):
@@ -51,94 +70,103 @@ def main(config_path):
             multi_graph = True
 
         for model_name, model_cfg in config["models"].items():
-            train = False
+            hyperparam_definitions = config.get("hyperparameters", {})
+            for hyperparams in generate_hyperparameter_grid(**hyperparam_definitions):
+                local_model_name = model_name
+                train = False
 
-            out_dir = Path(output_base) / graph_name
-            out_dir.mkdir(parents=True, exist_ok=True)
+                out_dir = Path(output_base) / graph_name
+                out_dir.mkdir(parents=True, exist_ok=True)
 
-            # Determine model class
-            model_key = model_cfg.get("class", model_name)
-            ModelClass = MODEL_REGISTRY[model_key]
-            out_fp = Path(out_dir) / f"{model_name}.json"
+                # Determine model class
+                model_key = model_cfg.get("class", model_name)
+                ModelClass = MODEL_REGISTRY[model_key]
+                out_fp = Path(out_dir) / f"{model_name}.json"
 
-            if out_fp.exists() and not config.get("retrain", False):
-                embeddings = read_embeddings(out_fp)
-                print(f"Loaded {model_name} on {graph_name}.")
-            else:
-                train = True
-                print(f"Training {model_name} on {graph_name} ...")
-
-                if not multi_graph:
-                    model = ModelClass.from_graph_file(
-                        graph_fp,
-                        directed=graph_cfg.get("directed", False),
-                        to_undirected=graph_cfg.get("to_undirected", False),
-                    )
+                if out_fp.exists() and not config.get("retrain", False):
+                    embeddings = read_embeddings(out_fp)
+                    print(f"Loaded {model_name} on {graph_name}.")
                 else:
-                    if "node2vec" in model_key:
-                        model = ModelClass.from_graph_files(graph_configs)
+                    train = True
+                    if hyperparams:
+                        local_model_name = update_model_name(model_name, hyperparams)
+                        print(hyperparams)
+                    print(f"Training {local_model_name} on {graph_name} ...")
+
+                    if not multi_graph:
+                        model = ModelClass.from_graph_file(
+                            graph_fp,
+                            directed=graph_cfg.get("directed", False),
+                            to_undirected=graph_cfg.get("to_undirected", False),
+                        )
                     else:
-                        if eval:
-                            eval_metrics["msl"][model_name][graph_name] = 0
-                            eval_metrics["semshift"][model_name][graph_name] = 0
-                            eval_metrics["eat"][model_name][graph_name] = 0
-                            if model_key in SEMANTIC_MODELS:
-                                # inductive
-                                eval_metrics["msl-inductive"][model_name][graph_name] = 0
-                                eval_metrics["semshift-inductive"][model_name][graph_name] = 0
-                                eval_metrics["eat-inductive"][model_name][graph_name] = 0
-                                # combined
-                                eval_metrics["msl-combined"][model_name][graph_name] = 0
-                                eval_metrics["semshift-combined"][model_name][graph_name] = 0
-                                eval_metrics["eat-combined"][model_name][graph_name] = 0
-                        continue
+                        if "node2vec" in model_key:
+                            model = ModelClass.from_graph_files(graph_configs)
+                        else:
+                            if eval:
+                                eval_metrics["msl"][model_name][graph_name] = 0
+                                eval_metrics["semshift"][model_name][graph_name] = 0
+                                eval_metrics["eat"][model_name][graph_name] = 0
+                                if model_key in SEMANTIC_MODELS:
+                                    # inductive
+                                    eval_metrics["msl-inductive"][model_name][graph_name] = 0
+                                    eval_metrics["semshift-inductive"][model_name][graph_name] = 0
+                                    eval_metrics["eat-inductive"][model_name][graph_name] = 0
+                                    # combined
+                                    eval_metrics["msl-combined"][model_name][graph_name] = 0
+                                    eval_metrics["semshift-combined"][model_name][graph_name] = 0
+                                    eval_metrics["eat-combined"][model_name][graph_name] = 0
+                            continue
 
-                train_kwargs = model_cfg.get("train", {})
-                if not multi_graph and isinstance(train_kwargs.get("n"), list):
-                    train_kwargs["n"] = sum(train_kwargs["n"])
-                model.train(**train_kwargs)
+                    train_kwargs = model_cfg.get("train", {})
+                    train_kwargs.update(hyperparams)
+                    if train_kwargs.get("ns_exponent", 0) < 0:
+                        train_kwargs["ns"] = False
+                    if not multi_graph and isinstance(train_kwargs.get("n"), list):
+                        train_kwargs["n"] = sum(train_kwargs["n"])
+                    model.train(**train_kwargs)
+                    np.save(out_dir / f"{local_model_name}.npy", model.node2vec.embedding_weights[0].weight.detach().cpu().numpy(), allow_pickle=False)
+                    # model.save(out_dir / f"{model_name}.json")
+                    print(f"Saved {local_model_name}")
 
-                model.save(out_dir / f"{model_name}.json")
-                print(f"Saved {model_name}")
+                    embeddings = model.embeddings
 
-                embeddings = model.embeddings
+                concepts = list(embeddings.keys())
 
-            concepts = list(embeddings.keys())
+                if eval:
+                    evaluation = Evaluation(concepts)
+                    if model_key in SEMANTIC_MODELS:
+                        if not train:
+                            with open(out_dir / f"{model_name}.pkl", "rb") as f:
+                                model = pickle.load(f)
 
-            if eval:
-                evaluation = Evaluation(concepts)
-                if model_key in SEMANTIC_MODELS:
-                    if not train:
-                        with open(out_dir / f"{model_name}.pkl", "rb") as f:
-                            model = pickle.load(f)
+                        missing_concepts = [x.gloss for x in con.conceptsets.values() if x.gloss not in concepts]
+                        inductive_evaluation = Evaluation(missing_concepts)
+                        combined_evaluation = Evaluation(concepts + missing_concepts)
 
-                    missing_concepts = [x.gloss for x in con.conceptsets.values() if x.gloss not in concepts]
-                    inductive_evaluation = Evaluation(missing_concepts)
-                    combined_evaluation = Evaluation(concepts + missing_concepts)
-
-                    inductive_embeddings = model.inductive_embeddings()
-                    combined_embeddings = model.embeddings | inductive_embeddings
-                    # transductive
-                    msl, semshift, eat = evaluation.eval_all(model.embeddings)
-                    eval_metrics["msl"][model_name][graph_name] = msl
-                    eval_metrics["semshift"][model_name][graph_name] = semshift
-                    eval_metrics["eat"][model_name][graph_name] = eat
-                    # inductive
-                    msl, semshift, eat = inductive_evaluation.eval_all(inductive_embeddings)
-                    eval_metrics["msl-inductive"][model_name][graph_name] = msl
-                    eval_metrics["semshift-inductive"][model_name][graph_name] = semshift
-                    eval_metrics["eat-inductive"][model_name][graph_name] = eat
-                    # combined
-                    msl, semshift, eat = combined_evaluation.eval_all(combined_embeddings)
-                    eval_metrics["msl-combined"][model_name][graph_name] = msl
-                    eval_metrics["semshift-combined"][model_name][graph_name] = semshift
-                    eval_metrics["eat-combined"][model_name][graph_name] = eat
-                else:
-                    # only transductive evaluation
-                    msl, semshift, eat = evaluation.eval_all(embeddings)
-                    eval_metrics["msl"][model_name][graph_name] = msl
-                    eval_metrics["semshift"][model_name][graph_name] = semshift
-                    eval_metrics["eat"][model_name][graph_name] = eat
+                        inductive_embeddings = model.inductive_embeddings()
+                        combined_embeddings = model.embeddings | inductive_embeddings
+                        # transductive
+                        msl, semshift, eat = evaluation.eval_all(model.embeddings)
+                        eval_metrics["msl"][model_name][graph_name] = msl
+                        eval_metrics["semshift"][model_name][graph_name] = semshift
+                        eval_metrics["eat"][model_name][graph_name] = eat
+                        # inductive
+                        msl, semshift, eat = inductive_evaluation.eval_all(inductive_embeddings)
+                        eval_metrics["msl-inductive"][model_name][graph_name] = msl
+                        eval_metrics["semshift-inductive"][model_name][graph_name] = semshift
+                        eval_metrics["eat-inductive"][model_name][graph_name] = eat
+                        # combined
+                        msl, semshift, eat = combined_evaluation.eval_all(combined_embeddings)
+                        eval_metrics["msl-combined"][model_name][graph_name] = msl
+                        eval_metrics["semshift-combined"][model_name][graph_name] = semshift
+                        eval_metrics["eat-combined"][model_name][graph_name] = eat
+                    else:
+                        # only transductive evaluation
+                        msl, semshift, eat = evaluation.eval_all(embeddings)
+                        eval_metrics["msl"][model_name][graph_name] = msl
+                        eval_metrics["semshift"][model_name][graph_name] = semshift
+                        eval_metrics["eat"][model_name][graph_name] = eat
 
     if eval:
         for eval_method, metrics in eval_metrics.items():
