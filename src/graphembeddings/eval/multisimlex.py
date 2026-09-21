@@ -1,13 +1,13 @@
 import csv
 import numpy as np
-import networkx as nx
+# import networkx as nx
 from pathlib import Path
 from scipy.stats import spearmanr, pearsonr
 from tabulate import tabulate
 
 from graphembeddings.utils.io import read_embeddings, read_ft_embeddings
 
-from graphembeddings.eval.baselines import Baseline, get_all_graphs
+# from graphembeddings.eval.baselines import Baseline, get_all_graphs
 
 
 MSL_DEFAULT_PATH = Path(__file__).parent.parent / "data" / "msl" / "multisimlex.csv"
@@ -66,7 +66,7 @@ def msl_correlation_baseline(similarity_ratings, graph, concept_to_id, correlati
     """
     Baseline correlation, inferring similarites directly from the graph via shortest paths.
     :return:
-    """
+
     # invert weights of the edges
     graph = np.divide(1, graph, where=graph > 0)
     if directed:
@@ -95,10 +95,12 @@ def msl_correlation_baseline(similarity_ratings, graph, concept_to_id, correlati
     else:
         raise ValueError(f"Correlation measure {correlation_measure} not recognized. Available options: \"spearman\", \"pearson\".")
 
-    return corr.statistic
+    return corr.statistic """
 
 
 if __name__ == "__main__":
+    pass
+    """
     baseline_models = ["shortest path", "cosine sim", "ppmi", "random walks"]
     models = ["n2v-cbow", "n2v-sg", "sdne", "prone"]
     headers = ["full", "affix", "overlap", "full+affix", "full+overlap", "full+affix+overlap"]
@@ -174,3 +176,4 @@ if __name__ == "__main__":
     ft_langs.append("mean")
     print("\n## FastText")
     print(tabulate(ft_table, headers=["all", "filtered"], showindex=ft_langs, tablefmt="github", floatfmt=".4f"))
+    """

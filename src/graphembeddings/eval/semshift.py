@@ -7,7 +7,7 @@ from tabulate import tabulate
 from graphembeddings.utils.io import read_embeddings, read_ft_embeddings, read_graph_data
 from graphembeddings.utils.postprocess import fuse_embeddings, cosine_similarity
 
-from graphembeddings.eval.baselines import Baseline, get_all_graphs
+# from graphembeddings.eval.baselines import Baseline, get_all_graphs
 
 
 GRAPH_EMBEDDINGS_DIR = Path(__file__).parent.parent.parent / "embeddings"
@@ -112,6 +112,7 @@ def fit_logistic_regression(X, y):
 
 
 if __name__ == "__main__":
+    """
     baseline_models = ["shortest path", "cosine sim", "ppmi", "random walks"]
     models = ["n2v-cbow", "n2v-sg", "sdne", "prone"]
     headers = ["full", "affix", "overlap", "full+affix", "full+overlap", "full+affix+overlap"]
@@ -200,3 +201,4 @@ if __name__ == "__main__":
     ft_table[0].append(ft_mean_acc)
     ft_langs.append("mean")
     print(tabulate(ft_table, headers=ft_langs, tablefmt="github", floatfmt=".4f"))
+    """

@@ -8,6 +8,7 @@ from pyconcepticon import Concepticon
 from adjustText import adjust_text
 
 from graphembeddings.utils.io import read_embeddings
+from conceptembeddings.pretrained import ConceptEmbeddings
 
 from multisimlex import read_msl_data
 
@@ -69,8 +70,8 @@ def tsne_plot(concepts, embeddings, perplexity=2, save_fp=None, title="TSNE", hi
     tsne = TSNE(n_components=2, perplexity=perplexity)
     res = tsne.fit_transform(matrix)
     if highlight:
-        suffix = save_fp.suffix
-        fp = Path(str(save_fp).replace(suffix, f"-hl{suffix}"))
+        suffix = save_fp.suffix if save_fp else None
+        fp = Path(str(save_fp).replace(suffix, f"-hl{suffix}")) if save_fp else None
         generic_plot(concepts, res, title, save_fp=fp, highlight=highlight)
     generic_plot(concepts, res, title, save_fp=save_fp)
 
@@ -124,13 +125,18 @@ def msl_similarity_matrix(words):
 
 if __name__ == "__main__":
     # words = ['BOAR (MALE PIG)', 'SOW (FEMALE PIG)', 'BOY', 'GIRL', 'BROTHER', 'SISTER', 'BULL', 'COW', 'FATHER', 'MOTHER', 'GRANDFATHER', 'GRANDMOTHER', 'GRANDSON', 'GRANDDAUGHTER', 'GROOM', 'BRIDE', 'MALE DOG', 'FEMALE DOG', 'HUSBAND', 'WIFE', 'KING', 'QUEEN', 'MAN', 'WOMAN', 'NEPHEW', 'NIECE', 'RAM', 'EWE', 'ROOSTER', 'HEN', 'SON', 'DAUGHTER', 'STALLION', 'MARE', 'STEPFATHER', 'STEPMOTHER', 'UNCLE', 'AUNT']
-    words = ['BROTHER', 'SISTER', 'FATHER',
-             'MOTHER', 'GRANDFATHER', 'GRANDMOTHER', 'GRANDSON', 'GRANDDAUGHTER', 'HUSBAND', 'WIFE', 'MAN', 'WOMAN', 'NEPHEW', 'NIECE',
-             'SON', 'DAUGHTER', 'STEPFATHER', 'STEPMOTHER', 'UNCLE', 'AUNT']
-    embeddings = read_embeddings(Path(__file__).parent.parent.parent / "output" / "semantic-node2vec-sbert-full-affix.json")
-    words = embeddings.keys() & set(words)
-    tsne_plot(words, embeddings, perplexity=4)
-    pca_plot(words, embeddings)
+    #words = ['BROTHER', 'SISTER', 'FATHER',
+    #         'MOTHER', 'GRANDFATHER', 'GRANDMOTHER', 'GRANDSON', 'GRANDDAUGHTER', 'HUSBAND', 'WIFE', 'MAN', 'WOMAN', 'NEPHEW', 'NIECE',
+    #         'SON', 'DAUGHTER', 'STEPFATHER', 'STEPMOTHER', 'UNCLE', 'AUNT']
+    words = {c.concepticon_gloss for c in Concepticon().conceptlists["Holman-2008-40"].concepts.values()}
+    # embeddings = read_embeddings(Path(__file__).parent.parent.parent / "output" / "semantic-node2vec-sbert-full-affix.json")
+    embedder = ConceptEmbeddings(Path(__file__).parent.parent.parent / "weights.npy")
+    embeddings = embedder.generate_embeddings(words)
+    test_word = "ORC"
+    embeddings[test_word] = embedder.embed_definition("A fictional, aggressive humanoid creature common in fantasy literature and games.")
+    words.add(test_word)
+    tsne_plot(words, embeddings, perplexity=5, highlight=[test_word])
+    # pca_plot(words, embeddings)
 
     """
     EMB_DIR = Path(__file__).parent.parent.parent / "embeddings"

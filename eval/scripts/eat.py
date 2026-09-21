@@ -52,7 +52,8 @@ if __name__ == "__main__":
 
     # load concepts from the full colexification graph; they are a subset of the concept spaces of all other models
     graphs, concept_ids = get_all_graphs()
-    shared_concepts = list(concept_ids["full+affix+overlap"].keys())
+    # shared_concepts = list(concept_ids["full+affix+overlap"].keys())
+    shared_concepts = list(read_embeddings(GRAPH_EMBEDDINGS_DIR / "full-affix-overlap" / "prone.json").keys())
 
     # load edges from EAT
     edges, weights = load_eat_edges()

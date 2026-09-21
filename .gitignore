@@ -10,3 +10,5 @@ build
 output
 concepticon-data/
 *.egg-info
+swow/
+datsemshift/
