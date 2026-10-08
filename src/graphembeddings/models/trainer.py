@@ -8,11 +8,11 @@ from tqdm import tqdm
 from pathlib import Path
 from torch.utils.data import DataLoader, Dataset, random_split
 
-from graphembeddings.models.nn import SDNEEmbedder, SDNELoss, CBOW, SkipGram, NCELoss
+from graphembeddings.models.nn import CBOW, SkipGram, NCELoss
 from graphembeddings.utils.io import read_graph_data
 from graphembeddings.utils.preprocess import BOWEncoder, SBertEncoder
 
-__all__ = ["SDNE", "Node2Vec", "ProNE", "SemanticNode2Vec", "SBertBaseline"]
+__all__ = ["Node2Vec", "SemanticNode2Vec", "SBertBaseline"]
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -63,74 +63,6 @@ class GraphEmbeddingModel(object):
         data = {"parameters": self.training_params, "embeddings": self.embeddings}
         with open(fp, "w") as f:
             json.dump(data, f)
-
-
-class ProNE(GraphEmbeddingModel):
-    DEFAULT_PARAMS = {"embedding_size": 128}
-
-    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fp: str, **kwargs):
-        super().__init__(graph, id_to_concept, graph_data_fp, **kwargs)
-
-    def _train(self, **kwargs):
-        pass
-
-
-class SDNE(GraphEmbeddingModel):
-    DEFAULT_PARAMS = {
-        "hidden_sizes": (256, 128),
-        "alpha": 0.2,
-        "beta": 10,
-        "max_epochs": 1000,
-        "lr": 1e-3,
-        "weight_decay": 1e-5,
-    }
-
-    def __init__(self, graph: np.ndarray, id_to_concept: dict, graph_data_fp: str, **kwargs):
-        super().__init__(graph, id_to_concept, graph_data_fp, **kwargs)
-        self.D = np.diag(self.graph.sum(axis=1))
-        self.L = self.D - self.graph
-        self.graph = torch.tensor(self.graph, dtype=torch.float32, device=self.device)
-        self.L = torch.tensor(self.L, dtype=torch.float32, device=self.device)
-
-    def _train(self, **kwargs):
-        training_params = kwargs
-        model = SDNEEmbedder(
-            num_nodes=self.num_nodes, hidden_sizes=training_params["hidden_sizes"]
-        ).to(self.device)
-        loss_function = SDNELoss(alpha=training_params["alpha"], beta=training_params["beta"])
-        optimizer = torch.optim.Adam(
-            model.parameters(),
-            lr=float(training_params["lr"]),
-            weight_decay=training_params["weight_decay"],
-        )
-        best_loss = np.inf
-        wait = 0
-        patience = 0
-
-        for epoch in tqdm(range(training_params["max_epochs"]), desc="Training SDNE..."):
-            model.train()
-            reconstructed, embedding = model(self.graph)
-            loss = loss_function(self.graph, reconstructed, embedding, self.L)
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-
-            if loss.item() < best_loss:
-                best_loss = loss.item()
-                wait = 0
-            else:
-                wait += 1
-                if patience and wait > patience:
-                    print(f"Training stopped after {epoch} epochs.")
-                    break
-
-        model.eval()
-        with torch.no_grad():
-            self.embeddings = {
-                self.id_to_concept[i]: model.embed(self.graph[i]).detach().cpu().tolist()
-                for i in range(self.num_nodes)
-            }
-        self.training_params["epochs"] = epoch + 1
 
 
 class NodeContextDataset(Dataset):
@@ -374,8 +306,6 @@ class Node2Vec(GraphEmbeddingModel):
                    distribution, since NS operates over the pooled walk vocabulary rather
                    than any individual graph.
         """
-        print(f"{ns_exponent=}")
-
         target_nodes, context_bow = [], []
 
         for walk in walks:

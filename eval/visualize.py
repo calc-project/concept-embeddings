@@ -7,7 +7,6 @@ from pathlib import Path
 from pyconcepticon import Concepticon
 from adjustText import adjust_text
 
-from graphembeddings.utils.io import read_embeddings
 from conceptembeddings.pretrained import ConceptEmbeddings
 
 
@@ -38,8 +37,6 @@ def generic_plot(concepts, res, title, save_fp=None, highlight=None):
         plt.scatter(*np.swapaxes(res, 0, 1), s=15, c=colors)
     else:
         plt.scatter(*np.swapaxes(res, 0, 1), s=15)
-    # for concept, coordinates in zip(concepts, res):
-    #    plt.annotate(concept, coordinates)
     plt.title(title)
     if highlight:
         labels = [plt.text(x, y, concept, ha="center", va="center", size=9, color="r" if concept in highlight else "k")
@@ -80,89 +77,14 @@ def tsne_plot(concepts, embeddings, perplexity=2, save_fp=None, title="TSNE", hi
     generic_plot(concepts, res, title, save_fp=save_fp)
 
 
-def common_concepts(conceptlist1, conceptlist2):
-    con = Concepticon()
-
-    if conceptlist1 not in con.conceptlists:
-        raise KeyError(f"No such concept list in Concepticon: {conceptlist1}")
-
-    if conceptlist2 not in con.conceptlists:
-        raise KeyError(f"No such concept list in Concepticon: {conceptlist2}")
-
-    return ({x.concepticon_gloss for x in con.conceptlists[conceptlist1].concepts.values()} &
-            {x.concepticon_gloss for x in con.conceptlists[conceptlist2].concepts.values()})
-
-
-"""
-def msl_similarity_matrix(words):
-    msl = read_msl_data()
-
-    concept_to_id = {}
-    id_to_concept = {}
-
-    for c1, c2 in msl.keys():
-        if c1 not in concept_to_id:
-            i = len(concept_to_id)
-            concept_to_id[c1] = i
-            id_to_concept[i] = c1
-        if c2 not in concept_to_id:
-            i = len(concept_to_id)
-            concept_to_id[c2] = i
-            id_to_concept[i] = c2
-
-    # set up similarity matrix for Multi-SimLex
-    matrix = np.zeros((len(concept_to_id), len(concept_to_id)))
-    for (c1, c2), score in msl.items():
-        id1, id2 = concept_to_id[c1], concept_to_id[c2]
-        matrix[id1, id2] = matrix[id2, id1] = score
-
-    # create a dictionary mapping concepts to rows in similarity matrix
-    row_dict = {}
-    selected_words = []
-    for i, word in enumerate(words):
-        row = matrix[i]
-        if not all(row == 0):
-            row_dict[word] = matrix[i]
-            selected_words.append(word)
-
-    return row_dict, selected_words
-"""
-
-
 if __name__ == "__main__":
-    OUT_DIR = Path(__file__).parent.parent / "figures"
-    # words = ['BOAR (MALE PIG)', 'SOW (FEMALE PIG)', 'BOY', 'GIRL', 'BROTHER', 'SISTER', 'BULL', 'COW', 'FATHER', 'MOTHER', 'GRANDFATHER', 'GRANDMOTHER', 'GRANDSON', 'GRANDDAUGHTER', 'GROOM', 'BRIDE', 'MALE DOG', 'FEMALE DOG', 'HUSBAND', 'WIFE', 'KING', 'QUEEN', 'MAN', 'WOMAN', 'NEPHEW', 'NIECE', 'RAM', 'EWE', 'ROOSTER', 'HEN', 'SON', 'DAUGHTER', 'STALLION', 'MARE', 'STEPFATHER', 'STEPMOTHER', 'UNCLE', 'AUNT']
-    #words = ['BROTHER', 'SISTER', 'FATHER',
-    #         'MOTHER', 'GRANDFATHER', 'GRANDMOTHER', 'GRANDSON', 'GRANDDAUGHTER', 'HUSBAND', 'WIFE', 'MAN', 'WOMAN', 'NEPHEW', 'NIECE',
-    #         'SON', 'DAUGHTER', 'STEPFATHER', 'STEPMOTHER', 'UNCLE', 'AUNT']
+    OUT_DIR = Path(__file__).parent / "figures"
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
     words = {c.concepticon_gloss for c in Concepticon().conceptlists["Holman-2008-40"].concepts.values()}
-    # embeddings = read_embeddings(Path(__file__).parent.parent.parent / "output" / "semantic-node2vec-sbert-full-affix.json")
-    embedder = ConceptEmbeddings(Path(__file__).parent.parent.parent / "weights.npy")
+    embedder = ConceptEmbeddings()
     embeddings = embedder.generate_embeddings(words)
     test_word = "ORC"
     embeddings[test_word] = embedder.embed_definition("A fictional, aggressive humanoid creature common in fantasy literature and games.")
     words.add(test_word)
     tsne_plot(words, embeddings, perplexity=5, highlight=[test_word], save_fp=OUT_DIR / "orc-tsne.pdf", title="")
     pca_plot(words, embeddings, highlight=[test_word], save_fp=OUT_DIR / "orc-pca.pdf", title="")
-
-    """
-    OUT_DIR = Path(__file__).parent.parent / "figures"
-    EMB_DIR = Path(__file__).parent.parent.parent / "embeddings"
-
-    # retrieve concepts from Swadesh-100 list that are present in all three colexification networks
-    words = {c.concepticon_gloss for c in Concepticon().conceptlists["Swadesh-1964-100"].concepts.values()}
-    words = words & set(read_embeddings(EMB_DIR / "full-affix-overlap" / "prone.json").keys())
-
-    row_dict, selected_words = msl_similarity_matrix(words)
-    tsne_plot(selected_words, row_dict, perplexity=4, title="Multi-SimLex", save_fp=OUT_DIR / "msl.pdf")
-
-    for mode in ["full", "affix", "overlap", "full+affix", "full+overlap", "full+affix+overlap"]:
-        if "+" not in mode:
-            dir_name = EMB_DIR / f"{mode}fams"
-        else:
-            dir_name = EMB_DIR / mode.replace("+", "-")
-
-        embeddings = read_embeddings(dir_name / "prone.json")
-        tsne_plot(words, embeddings, perplexity=4, title=mode, highlight=["BARK", "TREE"],
-                  save_fp=OUT_DIR / f"{mode.replace("+", "-")}.pdf")
-    """

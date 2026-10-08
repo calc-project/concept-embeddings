@@ -1,50 +1,27 @@
 input_base_dir: data/graphs
 output_base_dir: output/
-eval: true
+eval: false
 retrain: true
 
 graphs:
-  fullfams:
-    directed: false
-    to_undirected: false
-  affixfams:
-    directed: true
-    to_undirected: true
-  overlapfams:
-    directed: false
-    to_undirected: false
+  clics4-clips:
+    clics4:
+      directed: false
+      to_undirected: false
+    clips:
+      directed: true
+      to_undirected: true
 
 models:
-  semantic-node2vec:
+  final:
+    class:
+      semantic-node2vec
     train:
       cbow: false
-      # max_epochs: 1500
-      max_epochs: 10
+      max_epochs: 5000
       patience: 5
-
-  sdne:
-    train:
-      # max_epochs: 10000
-      max_epochs: 100
-      patience: 10
-      min_delta: 0.001
-
-  node2vec_cbow:
-    class: node2vec
-    train:
-      cbow: true
-      # max_epochs: 3000
-      max_epochs: 10
-      patience: 5
-
-  node2vec_sg:
-    class: node2vec
-    train:
-      cbow: false
-      # max_epochs: 1500
-      max_epochs: 10
-      patience: 5
-
-  prone:
-    train:
-      embedding_size: 128
+      encoder: sbert
+      lr: 1e-5
+      batch_size: 8224
+      ns: false
+      n: [33, 67]

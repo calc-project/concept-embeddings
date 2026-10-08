@@ -74,7 +74,6 @@ class BOWEncoder(object):
         return matrix
 
 
-# encoder.generate_encoding_matrix(concept_to_id)
 class SBertEncoder(object):
     def __init__(self, concepts, lm_name="all-mpnet-base-v2", con: Concepticon = None):
         self.concepts = concepts

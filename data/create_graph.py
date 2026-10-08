@@ -1,17 +1,14 @@
 import argparse
 import json
-import csv
 from pathlib import Path
 from collections import defaultdict
 from pyconcepticon import Concepticon
 
 
-BABYCLICS = "babyclics"
-
 ALL_COLUMNS = ["FullFams", "OverlapFams", "AffixFams"]
 
 
-def read_babyclics(col):
+def read_ids_colex(col):
     # define attribute key: affix colexifications (directed) are stored in 'target_concepts',
     # undirected colexifications are stored in 'linked_concepts'
     attr_key = "target_concepts" if col == "AffixFams" else "linked_concepts"
@@ -64,10 +61,10 @@ def main(col):
         raise ValueError(f'No column "{col}" in dataset')
 
     # here the actual main block begins
-    print(f'Extracting graph from "babyclics", weighted by "{col}"...')
+    print(f'Extracting graph from IDS, weighted by "{col}"...')
 
     # extract the data
-    concept_ids, edgelist = read_babyclics(col)
+    concept_ids, edgelist = read_ids_colex(col)
 
     extracted_data = {"concept_ids": concept_ids, "edgelist": edgelist}
 

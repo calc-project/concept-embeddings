@@ -4,6 +4,7 @@ norare-data
 BATS_3.0
 *.vec.gz
 clics4
+clips
 colex-coverage
 build
 .idea
@@ -12,3 +13,4 @@ concepticon-data/
 *.egg-info
 swow/
 datsemshift/
+figures

@@ -14,8 +14,12 @@ class ConceptEmbeddings(object):
         self.weights = self._load_weights(weights_fp)
 
     def _load_weights(self, weights_fn):
-        with open(weights_fn, "rb") as f:
-            weights = np.load(f).transpose()
+        if weights_fn.suffix == ".txt":
+            with open(weights_fn, "r") as f:
+                weights = np.loadtxt(f).transpose()
+        else:
+            with open(weights_fn, "rb") as f:
+                weights = np.load(f).transpose()
         return weights
 
     def __call__(self, concept):

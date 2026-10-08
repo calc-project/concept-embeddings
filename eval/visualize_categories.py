@@ -10,7 +10,7 @@ from pathlib import Path
 from graphembeddings.utils.io import read_graph_data
 
 
-GRAPH_DIR = Path(__file__).parent.parent.parent / "data" / "graphs"
+GRAPH_DIR = Path(__file__).parent.parent / "data" / "graphs"
 _, _, clics_concepts, _ = read_graph_data(GRAPH_DIR / "clics4.json")
 _, _, clips_concepts, _ = read_graph_data(GRAPH_DIR / "clips.json")
 
@@ -20,7 +20,7 @@ transductive_concepts = set(clics_concepts) | set(clips_concepts)
 concepts = []
 categories = []
 
-with open("Dunabeitia-2025-MultiPic.tsv") as f:
+with open(Path(__file__).parent / "data/categories/Dunabeitia-2025-MultiPic.tsv") as f:
     reader = csv.DictReader(f, delimiter="\t")
     for row in reader:
         if row["CONCEPTICON_GLOSS"] and row["CATEGORY_CONSENSUS"]:
@@ -96,4 +96,7 @@ def widen_for_legend(fig, ax, leg, pad=0.2):
 
 widen_for_legend(fig, ax, leg)
 # plt.show()
-plt.savefig("categories.pdf")
+
+OUT_DIR = Path(__file__).parent / "figures"
+OUT_DIR.mkdir(parents=True, exist_ok=True)
+plt.savefig(OUT_DIR / "categories.pdf")
