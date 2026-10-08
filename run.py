@@ -3,6 +3,7 @@ import numpy as np
 import yaml
 from itertools import product
 from pathlib import Path
+from pyconcepticon import Concepticon
 
 from graphembeddings.models.trainer import Node2Vec, SemanticNode2Vec, SBertBaseline
 
@@ -40,6 +41,15 @@ def main(config_path):
     input_base = Path(config["input_base_dir"])
     output_base = Path(config["output_base_dir"])
     output_base.mkdir(parents=True, exist_ok=True)
+
+    concepticon = None
+    if "concepticon_repo" in config:
+        try:
+            concepticon = Concepticon(config["concepticon_repo"])
+            concepticon.check()
+        except FileNotFoundError:
+            print(f"WARNING: No valid Concepticon data repo under {config["concepticon_repo"]}.")
+            print("Maybe you need to clone it first from https://github.com/concepticon/concepticon-data")
 
     for graph_name, graph_cfg in config["graphs"].items():
         multi_graph = False
@@ -94,6 +104,8 @@ def main(config_path):
                         train_kwargs["ns"] = False
                     if not multi_graph and isinstance(train_kwargs.get("n"), list):
                         train_kwargs["n"] = sum(train_kwargs["n"])
+                    if concepticon:
+                        train_kwargs["con"] = concepticon
                     model.train(**train_kwargs)
                     np.savetxt(out_dir / f"{local_model_name}.txt", model.node2vec.embedding_weights[0].weight.detach().cpu().numpy(), allow_pickle=False)
                     print(f"Saved {local_model_name}")

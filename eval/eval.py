@@ -3,18 +3,18 @@ from pyconcepticon import Concepticon
 from tabulate import tabulate
 
 from conceptembeddings.pretrained import ConceptEmbeddings
+from conceptembeddings.preprocess import SBertEncoder
 from graphembeddings.eval.eval import Evaluation
-from graphembeddings.utils.preprocess import SBertEncoder
 from graphembeddings.utils.io import read_graph_data, read_embeddings
 
 
-BASE_DIR = Path(__file__).parent.parent.parent
+BASE_DIR = Path(__file__).parent.parent
 
 # set up concepticon and inductive models
-con = Concepticon()
+con = Concepticon(BASE_DIR / "concepticon-data")
 all_concepts = [x.gloss for x in con.conceptsets.values()]
-model = ConceptEmbeddings()
-sbert_baseline = SBertEncoder(all_concepts)
+model = ConceptEmbeddings(concepticon=con)
+sbert_baseline = SBertEncoder(all_concepts, con=con)
 
 # load IDS concepts
 _, _, ids_concepts, _ = read_graph_data(BASE_DIR / "data/graphs/fullfams.json")

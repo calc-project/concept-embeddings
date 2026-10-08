@@ -1,16 +1,15 @@
 import numpy as np
-from graphembeddings.utils.preprocess import SBertEncoder
+from conceptembeddings.preprocess import SBertEncoder
 from pyconcepticon import Concepticon
 from pathlib import Path
 
-CONCEPTICON = Concepticon()
-CONCEPTS = [x.gloss for x in CONCEPTICON.conceptsets.values()]
-
 
 class ConceptEmbeddings(object):
-    def __init__(self, weights_fn=None, encoder=None):
+    def __init__(self, weights_fn=None, encoder=None, concepticon=None):
         weights_fp = Path(weights_fn) if weights_fn else Path(__file__).parent / "weights.npy"
-        self.encoder = encoder or SBertEncoder(CONCEPTS, con=CONCEPTICON)
+        self.concepticon = concepticon or Concepticon()
+        concepts = [x.gloss for x in self.concepticon.conceptsets.values()]
+        self.encoder = encoder or SBertEncoder(concepts, con=self.concepticon)
         self.weights = self._load_weights(weights_fp)
 
     def _load_weights(self, weights_fn):

@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader, Dataset, random_split
 
 from graphembeddings.models.nn import CBOW, SkipGram, NCELoss
 from graphembeddings.utils.io import read_graph_data
-from graphembeddings.utils.preprocess import SBertEncoder
+from conceptembeddings.preprocess import SBertEncoder
 
 __all__ = ["Node2Vec", "SemanticNode2Vec", "SBertBaseline"]
 
@@ -491,7 +491,8 @@ class SemanticNode2Vec(GraphEmbeddingModel):
         "encoder": "bow",
         "ns": False,
         "ns_exponent": 1,
-        "batch_size": 1028
+        "batch_size": 1028,
+        "con": None
     }
 
     def __init__(self, graph, id_to_concept: dict, graph_data_fn: str, **kwargs):
@@ -545,10 +546,6 @@ class SemanticNode2Vec(GraphEmbeddingModel):
         )
 
     def _train(self, **kwargs):
-        min_token_count = self.training_params.pop("min_token_count")
-        keep_one_hot = self.training_params.pop("keep_one_hot")
-        print(kwargs["encoder"])
-
         self.node2vec = Node2Vec(
             self.graphs,
             self.id_to_concept,
@@ -556,7 +553,7 @@ class SemanticNode2Vec(GraphEmbeddingModel):
             concept_coverages=self.concept_coverages,
         )
 
-        self.encoder = SBertEncoder(list(self.id_to_concept.values()))
+        self.encoder = SBertEncoder(list(self.id_to_concept.values()), con=kwargs.get("con", None))
 
         concept_to_id = {c: i for i, c in self.id_to_concept.items()}
         encodings = self.encoder.generate_encoding_matrix(concept_to_id)
@@ -592,9 +589,13 @@ class SemanticNode2Vec(GraphEmbeddingModel):
 
 
 class SBertBaseline(GraphEmbeddingModel):
+    DEFAULT_PARAMS = {
+        "con": None
+    }
+
     def _train(self, **kwargs):
         concepts = list(self.id_to_concept.values())
-        self.encoder = SBertEncoder(concepts)
+        self.encoder = SBertEncoder(concepts, con=kwargs.get("con", None))
         self.embeddings = {c: self.encoder.encode_concept(c) for c in concepts}
 
     def inductive_embeddings(self):

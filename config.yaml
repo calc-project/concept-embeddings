@@ -1,7 +1,7 @@
 input_base_dir: data/graphs
 output_base_dir: output/
-eval: false
 retrain: true
+concepticon_repo: concepticon-data
 
 graphs:
   clics4-clips:
