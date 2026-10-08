@@ -1,23 +1,8 @@
 # README
 
-This repository contains all the code and reference points to all the data necessary for reproducing our study:
-
-> Rubehn, A. and List, J.-M. (2025). Partial Colexifications Improve Concept Embeddings. In *Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics, Volume 1: Long Papers*, Vienna, Austria. Association for Computational Linguistics.
-
-If you use our work, please make sure to cite the paper accordingly.
-
-## Repository Structure
-
-* `data` contains the colexification networks as JSON files, as well as a Python script for retrieving these data using `pyconcepticon`.
-* `embeddings` contains all the trained embeddings in a verbose JSON format that also stores relevant information about the training procedure.
-* `eval` contains all evaluation scripts and references to the evaluation data.
-* `src/graphembeddings` contains all the source code for training different graph embedding models.
-
-## Workflow
-
 To replicate the full workflow of our study, follow these steps:
 
-### 1. Install dependencies
+## 1. Install dependencies
 
 Build the source code and install all necessary dependencies by running:
 
@@ -25,26 +10,38 @@ Build the source code and install all necessary dependencies by running:
 pip install -e .[eval]
 ```
 
-If you are only interested in training graph embedding models, it is sufficient to run:
+If you are only interested in training the concept embeddings, it is sufficient to run:
 
 ```
 pip install -e .
 ```
 
-**Warning: Due to dependency issues, this project can currently not be run in Python >=3.13!**
+## 2. Clone Concepticon data
 
-### 2. Extract the graph data
+The training procedure assumes that you have a copy of the Concepticon data at the root of this repository. Clone the data first by running:
 
-The files in `data/graphs` were created using the `data/create_graph.py` script, accessing the CLLD Concepticon via its Python API `pyconcepticon`. Simply running the Python script will create the JSON files. Note that you might have to download the [Concepticon data](https://github.com/concepticon/concepticon-data) manually -- in this case, you will need to pass the data filepath explicitly (l.20 in the Python script).
+```
+git clone --depth 1 --branch v3.4.0 https://github.com/concepticon/concepticon-data
+```
 
-### 3. Train the models
+## 3. Extract the graph data (optional)
 
-`run.py` is the master script that trains all graph embedding models discussed in the study.
+The files in `data/graphs` were created using the scripts `data/create_graph.py` (colexifications from IDS) and `data/create_graph_clics.py (CLICS4, CLIPS), accessing the CLLD Concepticon via its Python API `pyconcepticon`. Simply running the Python script will create the JSON files.
 
-### 4. Fuse embeddings
+### 4. Train the model
 
-`fuse.py` fuses embeddings to combine information from different colexification graphs.
+Train the model by running:
+
+```
+python run.py --config config.yaml
+```
+
+Hyperparameters are set as described in the study; you can adjust them by modifying `config.yaml`.
 
 ### 5. Evaluation
 
-`eval` contains all materials required for the evaluation and visualization discussed in the paper. For the scripts to work, some external data must be downloaded first. For this, see the [README](/eval/README.md) contained directly within the directory.
+`eval` contains all materials required for the evaluation and visualization discussed in the paper. Some scripts rely on data from NoRaRe which must be downloaded first. For this, run:
+
+```
+cd eval/data/norare && make
+```
