@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader, Dataset, random_split
 
 from graphembeddings.models.nn import CBOW, SkipGram, NCELoss
 from graphembeddings.utils.io import read_graph_data
-from graphembeddings.utils.preprocess import BOWEncoder, SBertEncoder
+from graphembeddings.utils.preprocess import SBertEncoder
 
 __all__ = ["Node2Vec", "SemanticNode2Vec", "SBertBaseline"]
 
@@ -556,14 +556,7 @@ class SemanticNode2Vec(GraphEmbeddingModel):
             concept_coverages=self.concept_coverages,
         )
 
-        if kwargs["encoder"] == "bow":
-            self.encoder = BOWEncoder(
-                list(self.id_to_concept.values()),
-                min_token_count=min_token_count,
-                keep_one_hot=keep_one_hot,
-            )
-        else:
-            self.encoder = SBertEncoder(list(self.id_to_concept.values()))
+        self.encoder = SBertEncoder(list(self.id_to_concept.values()))
 
         concept_to_id = {c: i for i, c in self.id_to_concept.items()}
         encodings = self.encoder.generate_encoding_matrix(concept_to_id)
