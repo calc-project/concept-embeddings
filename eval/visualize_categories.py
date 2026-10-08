@@ -1,7 +1,7 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import cm
+# from matplotlib import cm
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from collections import Counter
@@ -39,7 +39,7 @@ categories = filtered_categories
 concepts = filtered_concepts
 
 unique_categories = sorted(set(categories))
-cmap = cm.get_cmap("nipy_spectral")
+cmap = plt.get_cmap("nipy_spectral")
 # spread the categories evenly over the colormap
 category_colors = {
     c: cmap(i / max(len(unique_categories) - 1, 1))
