@@ -35,8 +35,8 @@ unseen_concepts = [c for c in all_concepts if c not in clics_clips_concepts]
 ###############################################################
 
 transductive_eval = Evaluation(ids_concepts)
-prone_embeddings = read_embeddings(BASE_DIR / "transductive-embeddings/full-affix/prone.json")
-node2vec_embeddings = read_embeddings(BASE_DIR / "transductive-embeddings/full-affix/n2v-sg.json")
+prone_embeddings = read_embeddings(BASE_DIR / "eval/data/transductive-embeddings/full-affix/prone.json")
+node2vec_embeddings = read_embeddings(BASE_DIR / "eval/data/transductive-embeddings/full-affix/n2v-sg.json")
 semantic_node2vec_embeddings = model.generate_embeddings(ids_concepts)
 baseline_embeddings = {c: sbert_baseline.encode_concept(c) for c in ids_concepts}
 table = [list(transductive_eval.eval_all(emb)) for emb in
