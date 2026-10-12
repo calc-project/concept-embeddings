@@ -1,13 +1,13 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
-# from matplotlib import cm
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from collections import Counter
-from conceptembeddings.pretrained import ConceptEmbeddings
 from pathlib import Path
-from graphembeddings.utils.io import read_graph_data
+
+from conceptembeddings.pretrained import ConceptEmbeddings
+from conceptembeddings.utils.io import read_graph_data
 
 
 GRAPH_DIR = Path(__file__).parent.parent / "data" / "graphs"

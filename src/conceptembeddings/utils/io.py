@@ -2,7 +2,7 @@ import numpy as np
 import json
 import csv
 
-from graphembeddings.utils.graphutils import graph_to_undirected
+from conceptembeddings.utils.graphutils import graph_to_undirected
 
 
 def read_network_file(edgelist_file):

@@ -4,8 +4,8 @@ from tabulate import tabulate
 
 from conceptembeddings.pretrained import ConceptEmbeddings
 from conceptembeddings.preprocess import SBertEncoder
-from graphembeddings.eval.eval import Evaluation
-from graphembeddings.utils.io import read_graph_data, read_embeddings
+from conceptembeddings.train.eval import Evaluation
+from conceptembeddings.utils.io import read_graph_data, read_embeddings
 
 
 BASE_DIR = Path(__file__).parent.parent

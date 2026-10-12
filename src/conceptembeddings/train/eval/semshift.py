@@ -3,7 +3,7 @@ import random
 from pathlib import Path
 from sklearn.linear_model import LogisticRegression
 
-from graphembeddings.utils.io import read_embeddings, read_ft_embeddings
+from conceptembeddings.utils.io import read_embeddings, read_ft_embeddings
 
 
 GRAPH_EMBEDDINGS_DIR = Path(__file__).parent.parent.parent / "embeddings"

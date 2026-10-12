@@ -8,8 +8,8 @@ from tqdm import tqdm
 from pathlib import Path
 from torch.utils.data import DataLoader, Dataset, random_split
 
-from graphembeddings.models.nn import CBOW, SkipGram, NCELoss
-from graphembeddings.utils.io import read_graph_data
+from conceptembeddings.train.models.nn import CBOW, SkipGram, NCELoss
+from conceptembeddings.utils.io import read_graph_data
 from conceptembeddings.preprocess import SBertEncoder
 
 __all__ = ["Node2Vec", "SemanticNode2Vec", "SBertBaseline"]
@@ -392,7 +392,6 @@ class Node2Vec(GraphEmbeddingModel):
         )
         test_split=training_params["test_split"]
         train_set, test_set = random_split(dataset, [1-test_split, test_split])
-        print(f"batch_size: {training_params.get("batch_size", 1028)}")
         train_dataloader = DataLoader(train_set, batch_size=training_params.get("batch_size", 1028), shuffle=True)
         test_dataloader = DataLoader(test_set, batch_size=training_params.get("batch_size", 1028), shuffle=True)
 

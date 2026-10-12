@@ -5,7 +5,7 @@ from itertools import product
 from pathlib import Path
 from pyconcepticon import Concepticon
 
-from graphembeddings.models.trainer import Node2Vec, SemanticNode2Vec, SBertBaseline
+from conceptembeddings.train.models import Node2Vec, SemanticNode2Vec, SBertBaseline
 
 
 MODEL_REGISTRY = {
