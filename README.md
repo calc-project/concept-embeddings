@@ -26,7 +26,7 @@ git clone --depth 1 --branch v3.4.0 https://github.com/concepticon/concepticon-d
 
 ## 3. Extract the graph data (optional)
 
-The files in `data/graphs` were created using the scripts `data/create_graph.py` (colexifications from IDS) and `data/create_graph_clics.py (CLICS4, CLIPS), accessing the CLLD Concepticon via its Python API `pyconcepticon`. Simply running the Python script will create the JSON files.
+The files in `data/graphs` were created using the scripts `data/create_graph.py` (colexifications from IDS) and `data/create_graph_clics.py` (CLICS4, CLIPS), accessing the CLLD Concepticon via its Python API `pyconcepticon`. Simply running the Python script will create the JSON files.
 
 ### 4. Train the model
 
