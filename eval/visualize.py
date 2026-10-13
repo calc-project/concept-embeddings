@@ -7,7 +7,7 @@ from pathlib import Path
 from pyconcepticon import Concepticon
 from adjustText import adjust_text
 
-from conceptembeddings.pretrained import ConceptEmbeddings
+from conceptembeddings import ConceptEmbeddings
 
 
 def create_distance_matrix(concepts, embeddings, logging=False):

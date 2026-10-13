@@ -3,24 +3,12 @@ import random
 from pathlib import Path
 from sklearn.linear_model import LogisticRegression
 
-from conceptembeddings.utils.io import read_embeddings, read_ft_embeddings
-
-
-GRAPH_EMBEDDINGS_DIR = Path(__file__).parent.parent.parent / "embeddings"
-FT_EMBEDDINGS_DIR = Path(__file__).parent.parent / "data" / "fasttext"
 
 SHIFTS_DEFAULT_FP = Path(__file__).parent.parent / "data" / "semshift" / "shift_summary.tsv"
 
 
 def cosine_similarity(emb1, emb2):
     return np.dot(emb1, emb2) / (np.linalg.norm(emb1) * np.linalg.norm(emb2))
-
-
-def load_embeddings(fp, fasttext=False):
-    if fasttext:
-        return read_ft_embeddings(fp)
-    else:
-        return read_embeddings(fp)
 
 
 def load_shifts(fp=SHIFTS_DEFAULT_FP, embeddings=None):
@@ -75,27 +63,6 @@ def generate_training_data(true_shifts, random_shifts, embeddings):
         if np.isnan(sim):
             continue
         X.append(sim)
-        y.append(0)
-
-    X = np.array(X).reshape(-1, 1)
-    y = np.array(y)
-
-    return X, y
-
-
-def generate_baseline_training_data(true_shifts, random_shifts, similarity_function):
-    X, y = [], []
-
-    for (true, random) in zip(true_shifts, random_shifts):
-        true_sim = similarity_function(*true)
-        random_sim = similarity_function(*random)
-
-        if true_sim is np.nan or random_sim is np.nan:
-            continue
-
-        X.append(true_sim)
-        y.append(1)
-        X.append(random_sim)
         y.append(0)
 
     X = np.array(X).reshape(-1, 1)

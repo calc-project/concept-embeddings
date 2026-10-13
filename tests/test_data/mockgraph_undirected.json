@@ -1,0 +1,29 @@
+{
+  "concept_ids": {
+    "CONTEMPTIBLE": 0,
+    "BAR": 1,
+    "DUST": 2
+  },
+  "concept_coverage": [
+    3,
+    5,
+    2
+  ],
+  "edgelist": [
+    [
+      0,
+      1,
+      3
+    ],
+    [
+      0,
+      2,
+      1
+    ],
+    [
+      1,
+      2,
+      4
+    ]
+  ]
+}

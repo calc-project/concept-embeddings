@@ -1,5 +1,4 @@
 import argparse
-import numpy as np
 import yaml
 from itertools import product
 from pathlib import Path
@@ -107,7 +106,7 @@ def main(config_path):
                     if concepticon:
                         train_kwargs["con"] = concepticon
                     model.train(**train_kwargs)
-                    np.savetxt(out_dir / f"{local_model_name}.txt", model.node2vec.embedding_weights[0].weight.detach().cpu().numpy(), allow_pickle=False)
+                    model.save(out_dir / local_model_name)
                     print(f"Saved {local_model_name}")
 
 

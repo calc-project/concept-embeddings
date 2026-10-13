@@ -7,7 +7,8 @@ class SBertEncoder(object):
         self.concepts = concepts
         self.con = con or Concepticon()
         self.con_definitions = {c.gloss: c.definition for c in self.con.conceptsets.values()}
-        self.model = SentenceTransformer(lm_name).requires_grad_(False)
+        self.model_name = lm_name
+        self.model = SentenceTransformer(self.model_name).requires_grad_(False)
         self.encodings = {}
 
     def encode(self, definition):

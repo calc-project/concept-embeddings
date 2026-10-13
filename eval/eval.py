@@ -2,7 +2,7 @@ from pathlib import Path
 from pyconcepticon import Concepticon
 from tabulate import tabulate
 
-from conceptembeddings.pretrained import ConceptEmbeddings
+from conceptembeddings import ConceptEmbeddings
 from conceptembeddings.preprocess import SBertEncoder
 from conceptembeddings.utils.io import read_graph_data, read_embeddings
 

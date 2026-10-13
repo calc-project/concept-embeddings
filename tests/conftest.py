@@ -4,8 +4,13 @@ from pyconcepticon import Concepticon
 
 
 @pytest.fixture
-def mockcepticon():
-    mockcepticon_path = Path(__file__).parent / "test_data" / "mockcepticon"
+def test_data():
+    return Path(__file__).parent / "test_data"
+
+
+@pytest.fixture
+def mockcepticon(test_data):
+    mockcepticon_path = test_data / "mockcepticon"
     return Concepticon(mockcepticon_path)
 
 
@@ -17,3 +22,14 @@ def mock_concept(mockcepticon):
 @pytest.fixture
 def mock_definition(mockcepticon):
     return list(mockcepticon.conceptsets.values())[0].definition
+
+
+@pytest.fixture
+def mock_model_dir():
+    return Path(__file__).parent / "test_data" / "custommodel"
+
+
+@pytest.fixture()
+def mock_concepts():
+    return {"CONTEMPTIBLE": 0, "DUST": 1}
+

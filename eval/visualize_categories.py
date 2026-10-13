@@ -6,7 +6,7 @@ from sklearn.manifold import TSNE
 from collections import Counter
 from pathlib import Path
 
-from conceptembeddings.pretrained import ConceptEmbeddings
+from conceptembeddings import ConceptEmbeddings
 from conceptembeddings.utils.io import read_graph_data
 
 

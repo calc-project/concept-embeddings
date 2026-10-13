@@ -564,12 +564,13 @@ class SemanticNode2Vec(GraphEmbeddingModel):
         self.training_params = self.node2vec.training_params
 
     def save(self, fp):
-        super().save(fp)
         if isinstance(fp, str):
             fp = Path(fp)
-        pkl_path = Path(fp.parent / fp.stem).with_suffix(".pkl")
-        with open(pkl_path, "wb") as f:
-            pickle.dump(self, f)
+        fp.mkdir(parents=True, exist_ok=True)
+        with open(fp / "weights.txt", "w") as f:
+            np.savetxt(f, self.node2vec.embedding_weights[0].weight.detach().cpu().numpy())
+        with open(fp / "encoder.txt", "w") as f:
+            f.write(self.encoder.model_name)
 
     def embed(self, concept):
         if concept in self.embeddings:
