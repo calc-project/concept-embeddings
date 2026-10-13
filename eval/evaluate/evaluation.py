@@ -1,10 +1,10 @@
 from pathlib import Path
-from conceptembeddings.train.eval.multisimlex import msl_correlation, read_msl_data
-from conceptembeddings.train.eval.semshift import load_shifts, sample_random_shifts, generate_training_data, fit_logistic_regression
-from conceptembeddings.train.eval.eat import load_eat_edges
+from evaluate.multisimlex import msl_correlation, read_msl_data
+from evaluate.semshift import load_shifts, sample_random_shifts, generate_training_data, fit_logistic_regression
+from evaluate.eat import load_eat_edges
 
 
-DEFAULT_EVAL_DATA_DIR = Path(__file__).parent.parent.parent.parent.parent / "eval" / "data"
+DEFAULT_EVAL_DATA_DIR = Path(__file__).parent.parent.parent / "eval" / "data"
 
 class Evaluation:
     def __init__(self, concepts, eval_data_dir=None):
