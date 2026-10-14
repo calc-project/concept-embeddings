@@ -1,11 +1,12 @@
-import torch
-import numpy as np
 import json
 import datetime
 import pickle
 import random
-from tqdm import tqdm
 from pathlib import Path
+
+import torch
+import numpy as np
+from tqdm import tqdm
 from torch.utils.data import DataLoader, Dataset, random_split
 
 from conceptembeddings.train.models.nn import CBOW, SkipGram, NCELoss
@@ -17,7 +18,7 @@ __all__ = ["Node2Vec", "SemanticNode2Vec", "SBertBaseline"]
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-class GraphEmbeddingModel(object):
+class GraphEmbeddingModel:
     DEFAULT_PARAMS = {
         "embedding_size": 128,
     }

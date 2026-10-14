@@ -1,11 +1,12 @@
-import numpy as np
-from conceptembeddings.preprocess import SBertEncoder
-from pyconcepticon import Concepticon
 from pathlib import Path
 from importlib import resources
 
+import numpy as np
+from conceptembeddings.preprocess import SBertEncoder
+from pyconcepticon import Concepticon
 
-class ConceptEmbeddings(object):
+
+class ConceptEmbeddings:
     def __init__(self, weights_dir=None, concepticon=None):
         self.concepticon = concepticon or Concepticon()
         self.weights_dir = Path(weights_dir) if weights_dir else None
