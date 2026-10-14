@@ -1,5 +1,6 @@
-import numpy as np
 import json
+
+import numpy as np
 
 from conceptembeddings.utils.graphutils import graph_to_undirected
 

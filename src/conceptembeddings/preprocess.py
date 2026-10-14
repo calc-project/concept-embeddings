@@ -1,9 +1,11 @@
+from typing import Optional
+
 from pyconcepticon import Concepticon
 from sentence_transformers import SentenceTransformer
 
 
-class SBertEncoder(object):
-    def __init__(self, concepts, lm_name="all-mpnet-base-v2", con: Concepticon = None):
+class SBertEncoder:
+    def __init__(self, concepts, lm_name="all-mpnet-base-v2", con: Optional[Concepticon] = None):
         self.concepts = concepts
         self.con = con or Concepticon()
         self.con_definitions = {c.gloss: c.definition for c in self.con.conceptsets.values()}
