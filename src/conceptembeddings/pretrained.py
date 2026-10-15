@@ -7,6 +7,9 @@ from pyconcepticon import Concepticon
 
 
 class ConceptEmbeddings:
+    """
+    Wrapper class for embedding concepts using pretrained weights.
+    """
     def __init__(self, weights_dir=None, concepticon=None):
         self.concepticon = concepticon or Concepticon()
         self.weights_dir = Path(weights_dir) if weights_dir else None
@@ -38,10 +41,25 @@ class ConceptEmbeddings:
         return weights, encoder
 
     def __call__(self, concept):
+        """
+        Retrieve the embedding for the given concept. The concept must be defined in the used version of Concepticon.
+        :param concept: A concept gloss defined in Concepticon.
+        :return: the embedding for the given concept.
+        """
         return np.matmul(self.encoder.encode_concept(concept), self.weights)
 
     def generate_embeddings(self, concepts):
+        """
+        Generate embeddings for the given concepts. All concepts must be defined in the used version of Concepticon.
+        :param concepts: An iterable of concept glosses defined in Concepticon.
+        :return: a dict with the concepts as keys and the embedding as numpy arrays.
+        """
         return {c: self(c) for c in concepts}
 
     def embed_definition(self, definition):
+        """
+        Generates a concept embedding based on the provided definition.
+        :param definition: A short definition of the concept.
+        :return: the embedding for the given definition.
+        """
         return np.matmul(self.encoder.encode(definition), self.weights)
